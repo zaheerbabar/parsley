@@ -10,8 +10,10 @@ $viewData = $userHandler->login();
 
 ?>
 
-<?php Components\Page::setPageTitle('Login'); ?>
+<?php Components\Page::setTitle('Login'); ?>
+<?php Components\Page::setIndex('login'); ?>
 <?php Components\Page::includes('header'); ?>
+<?php Components\Page::includes('top'); ?>
 
 <div>
     <h2>Login</h2>
@@ -33,4 +35,5 @@ $viewData = $userHandler->login();
 
 </div>
 
+<?php Components\Page::includes('bottom'); ?>
 <?php Components\Page::includes('footer'); ?>

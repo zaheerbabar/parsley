@@ -10,8 +10,10 @@ $viewData = $userHandler->register();
 
 ?>
 
-<?php Components\Page::setPageTitle('Register'); ?>
+<?php Components\Page::setTitle('Register'); ?>
+<?php Components\Page::setIndex('register'); ?>
 <?php Components\Page::includes('header'); ?>
+<?php Components\Page::includes('top'); ?>
 
 <div>
     <h2>Register</h2>
@@ -39,4 +41,5 @@ $viewData = $userHandler->register();
 
 </div>
 
+<?php Components\Page::includes('bottom'); ?>
 <?php Components\Page::includes('footer'); ?>

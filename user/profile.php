@@ -11,8 +11,10 @@ $viewData = $profileHandler->view();
 
 ?>
 
-<?php Components\Page::setPageTitle('Profile'); ?>
+<?php Components\Page::setTitle('Profile'); ?>
+<?php Components\Page::setIndex('profile'); ?>
 <?php Components\Page::includes('header'); ?>
+<?php Components\Page::includes('top'); ?>
 
 <div>
     <h2>Profile</h2>
@@ -39,4 +41,5 @@ $viewData = $profileHandler->view();
 
 </div>
 
+<?php Components\Page::includes('bottom'); ?>
 <?php Components\Page::includes('footer'); ?>

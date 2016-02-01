@@ -1,0 +1,187 @@
+body {
+    color: #333;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    font-size: 2.2em;
+}
+
+thead th {
+    background: #f4f4f4;
+    border-bottom: .1em solid #e9e9e9 !important;
+}
+
+.table {
+    margin-top: 15px;
+}
+
+.navbar-static {
+    background-color: #3686be;
+    color: #fff;
+    margin-bottom: 5px;
+    border-radius: 0;
+}
+
+.navbar-static .navbar-brand {
+    color: #fff;
+    font-size: 1.4em;
+    font-weight: 300;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+.navbar-static .navbar-toggle {
+    border: 1px solid #fff;
+    padding: 4px 10px;
+}
+
+.navbar-static .navbar-toggle .glyphicon {
+    font-size: 1.2em;
+    top: 3px;
+}
+
+.navbar-static .navbar-toggle:focus, 
+.navbar-static .navbar-toggle:hover {
+    background-color: #3078ab;
+}
+
+.navbar-static .navbar-nav > li > a {
+    color: #fff;
+    font-size: .9em;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+}
+
+.navbar-static .navbar-nav > .active > a, 
+.navbar-static .navbar-nav > .active > a:focus, 
+.navbar-static .navbar-nav > .active > a:hover, 
+.navbar-static .navbar-nav > .open > a, 
+.navbar-static .navbar-nav > .open > a:focus, 
+.navbar-static .navbar-nav > .open > a:hover {
+    background-color: #3078ab;
+}
+
+.navbar-static .navbar-nav > li > a:focus, 
+.navbar-static .navbar-nav > li > a:hover {
+    color: #fff;
+    background-color: #3686be;
+    text-decoration: underline;
+}
+
+.dropdown .glyphicon-menu-down {
+    font-size: 1.3em;
+    font-weight: 200;
+    top: 3px;
+    left: 1px;
+}
+
+.dropdown .setting-dropdown .glyphicon-cog {
+    font-size: 1.8em;
+    font-weight: 100;
+    top: 6px;
+    margin-right: 4px;
+}
+
+.navbar-nav > li > .dropdown-menu {
+    border: .05em solid #656565;
+    border-radius: .4em;
+}
+
+.dropdown-menu > li > a {
+    color: #fff;
+    font-size: .9em;
+    padding: 5px 20px;
+    text-transform: uppercase;
+}
+
+.dropdown-menu > li > a:hover, 
+.dropdown-menu > li > a:focus {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+
+@media (min-width: 768px) {
+    .navbar-static .navbar-brand {
+        padding-top: 18px;
+        padding-bottom: 18px;
+    }
+    
+    .navbar-static .main-navbar-nav {
+        margin-left: 30px;
+    }
+    
+    .navbar-static .navbar-nav > li > a {
+        padding-top: 18px;
+        padding-bottom: 18px;
+    }
+    
+    .dropdown .setting-dropdown {
+        padding: 15px 8px 15px 8px !important;
+    }
+    
+    .dropdown .setting-dropdown .glyphicon-cog {
+        top: 4px;
+        margin-right: 0;
+    }
+    
+    .dropdown-menu > li > a {
+        color: #454545;
+    }
+    
+    .dropdown-menu > li > a:hover, 
+    .dropdown-menu > li > a:focus {
+        color: #454545;
+    }
+
+}
+@media (min-width: 992px) {
+
+}
+@media (min-width: 1200px) {
+
+}
+
+
+
+
+
+
+.page-action {
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
+
+.page-action .search-form .form-control {
+    height: 38px;
+    border: 1px solid #757575;
+    border-right: 0 none;
+}
+
+.page-action .search-form .form-control:focus {
+    border: 1px solid #555;
+    border-right: 0 none;
+}
+
+.page-action .search-form .btn {
+    background-color: transparent;
+    color: #555;
+    border: 1px solid #757575;
+    border-left: 0 none;
+    padding: 5px 8px 5px 2px;
+}
+
+.page-action .search-form .glyphicon-search {
+    font-size: 1.5em;
+}
+
+.page-action .action-btn .btn {
+    background-color: #437b3c;
+    border: 1px solid #437b3c;
+    padding: 8px 14px;
+}
+
+
+

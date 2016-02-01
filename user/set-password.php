@@ -10,8 +10,10 @@ $viewData = $userHandler->setPassword();
 
 ?>
 
-<?php Components\Page::setPageTitle('Set Password'); ?>
+<?php Components\Page::setTitle('Set Password'); ?>
+<?php Components\Page::setIndex('set_password'); ?>
 <?php Components\Page::includes('header'); ?>
+<?php Components\Page::includes('top'); ?>
 
 <div>
     <h2>Change Password</h2>
@@ -32,4 +34,5 @@ $viewData = $userHandler->setPassword();
 
 </div>
 
+<?php Components\Page::includes('bottom'); ?>
 <?php Components\Page::includes('footer'); ?>

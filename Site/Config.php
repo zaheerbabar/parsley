@@ -2,7 +2,7 @@
 define('DEBUG', true);
 
 define('SITE_TITLE', 'Parsley');
-define('BASE_URL', 'http://localhost:48567/');
+define('BASE_URL', 'http://localhost:8080');
 define('LOGIN_URL', BASE_URL.'user/login.php');
 define('UPLOAD_URL', BASE_URL.'uploads/');
 define('IMAGE_URL', UPLOAD_URL.'images/');
@@ -58,7 +58,7 @@ else {
     error_reporting(0);
 
     define('DB_HOST', 'localhost');
-    define('DB_NAME', 'starter');
+    define('DB_NAME', 'parsley');
     define('DB_USER', 'root');
     define('DB_PASSWORD', 'root');
 }

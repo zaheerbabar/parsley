@@ -7,7 +7,9 @@ use Site\Components as Components;
 ?>
 
 <?php Components\Page::setPageTitle('Forbidden'); ?>
+<?php Components\Page::setIndex('forbidden'); ?>
 <?php Components\Page::includes('header'); ?>
+<?php Components\Page::includes('top'); ?>
 
 <div>
     <h1>Forbidden</h1>
@@ -15,4 +17,5 @@ use Site\Components as Components;
     <p>The requested resource is forbidden.</p>
 </div>
 
+<?php Components\Page::includes('bottom'); ?>
 <?php Components\Page::includes('footer'); ?>

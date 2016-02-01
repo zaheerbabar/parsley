@@ -7,7 +7,9 @@ use Site\Components as Components;
 ?>
 
 <?php Components\Page::setPageTitle('Server Error'); ?>
+<?php Components\Page::setIndex('server_error'); ?>
 <?php Components\Page::includes('header'); ?>
+<?php Components\Page::includes('top'); ?>
 
 <div>
     <h1>Server Error</h1>
@@ -15,4 +17,5 @@ use Site\Components as Components;
     <p>Internal server error occured.</p>
 </div>
 
+<?php Components\Page::includes('bottom'); ?>
 <?php Components\Page::includes('footer'); ?>
