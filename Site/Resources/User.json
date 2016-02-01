@@ -1,0 +1,12 @@
+{
+    "name": "john doe",
+    "key1": "value 1",
+    "error-invalid": "Email or Password is not valid.",
+    "error-email": "Email is not valid.",
+    "error-pass": "Password is not valid.",
+    "error-old-pass": "Old Password is not valid.",
+    "error-new-pass": "New Password is not valid.",
+    "error-first-name": "First name is required.",
+    "error-last-name": "Last name is required.",
+    "error-phone": "Phone is required."
+}

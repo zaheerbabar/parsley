@@ -1,0 +1,25 @@
+/* UI library styles - ONLY FOR THIS DOCUMENT */
+h2.guide{font-size:1.375em;padding:.25em;margin:1.5em 0 .5em;background:#c5e4fa;font-family:Arial, sans-serif;}
+#inline-container strong{display:block}
+#font-styles li{padding-bottom:.5em}
+.colour-table th,.colour-table td{height:2em;width:15%;border:.05em solid #333;padding:0 2.5%;}
+.colour-table th{border-color:#fff;border-right:none;border-left:none;text-align:left;}
+/* UI library styles - ABOVE STYLES ONLY FOR THIS DOCUMENT - REMOVE OTHERWISE */
+
+
+#primary1{background:#fff}
+#primary2{background:#555} 
+#primary3{background:#3686be}
+#primary4{background:#f4f4f4}
+#secondary1{background:#7dc374}
+#secondary2{background:#3c6187}
+#secondary3{background:#c4e2f4}
+#secondary4{background:#eb5a5a}
+
+#font1{font-family:"HelveticaNeue-Light";}
+#font2{font-family:"Helvetica Neue Light";}
+#font3{font-family:"Helvetica Neue";}
+#font4{font-family:Helvetica;}
+#font5{font-family:Arial;}
+#font6{font-family:"Lucida Grande";}
+#font7{font-family:sans-serif;}
