@@ -13,7 +13,9 @@ use Site\Helpers as Helpers;
     </div>
     <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav main-navbar-nav">
-            <li class="<?=Helpers\Selection::isIndex('patterns')?>"><a href="/user/patterns.php">Patterns</a></li>
+            <li class="<?=Helpers\Selection::isIndex('patterns')?>">
+                <a href="/workflow/patterns.php">Patterns</a>
+            </li>
             <li><a href="#">Pages</a></li>
             <li><a href="#">Activity</a></li>
             <li><a href="#">Reports</a></li>
@@ -27,15 +29,16 @@ use Site\Helpers as Helpers;
                     <li><a href="#">New Service CRM</a></li>
                     <li><a href="#">Sports Testing System</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">View All</a></li>
+                    <li><a href="/project/projects.php">View All</a></li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle setting-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon glyphicon-cog"></span><span class="hidden-md hidden-lg hidden-sm">Manage</span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Account</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="/workflow/templates.php">Workflow</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/user/profile.php">Profile</a></li>
+                    <li><a href="/user/logout.php">Logout</a></li>
                 </ul>
             </li>
             
