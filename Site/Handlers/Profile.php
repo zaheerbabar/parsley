@@ -16,8 +16,8 @@ class Profile extends Handler
     public function view() {
         Components\Auth::redirectUnAuth();
 
-        $profileModel = new Model\Profile();
-        $profile = $profileModel->getByUserID(Components\Auth::getAuthUserData('id'));
+        $model = new Model\Profile();
+        $profile = $model->getByUserID(Components\Auth::getAuthUserData('id'));
 
         if (empty($profile)) {
             Components\Path::redirectNotFound();

@@ -8,6 +8,7 @@ use Site\Handlers as Handlers;
 $userHandler = new Handlers\User();
 $viewData = $userHandler->register();
 
+$tokenField = Helpers\Protection::showPublicTokenField();
 ?>
 
 <?php Components\Page::setTitle('Register'); ?>
@@ -23,7 +24,7 @@ $viewData = $userHandler->register();
     </div>
 
     <form action="" method="post">
-        <?=Helpers\Protection::showPublicTokenField()?>
+        <?=$tokenField?>
 
         <input type="email" name="email" placeholder="Email" /> <br/>
         <input type="password" name="pass" placeholder="Password" /> <br/><br/>

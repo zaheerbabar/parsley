@@ -12,6 +12,50 @@ class User extends Handler
         parent::__construct();
         $this->loadResource();
     }
+    
+    public function viewAll() {
+        //Components\Auth::redirectUnAuth();
+        
+        $model = new Model\User();
+        $profileModel = new Model\Profile();
+
+        $result = $model->getAll($this->currentPage($_GET));
+        $total = $model->totalCount();
+        
+        if (empty($result)) {
+            $this->_setMessage('warning', 'error-no-record', 
+                Objects\MessageType::WARNING);
+                
+            return $this->_responseHTML();
+        }
+        
+        $users = [];
+
+        foreach($result as $user) {
+            $obj = new \stdClass();
+            
+            $obj->id = $user->getID();
+            $obj->email = $user->getEmail();
+            $obj->creation_date = $user->getCreationDate();
+            $obj->roles = $model->getRoles($user->getID());
+            
+            $profile = $profileModel->getByUserID($user->getID());
+            
+            $obj->name = $profile->getFirstName();
+            
+            $users[] = $obj;
+        }
+
+        $viewData = new \stdClass();
+        
+        $viewData->result = $users;
+        $viewData->page = $this->requestedPage($_GET);
+        $viewData->total = $total;
+        $viewData->pages = $this->totalPages($total);
+        $viewData->limit = PAGE_SIZE;
+        
+        return $this->_responseHTML($viewData);
+    }
 
     public function login() {
         Components\Auth::redirectAuth();
@@ -25,9 +69,9 @@ class User extends Handler
             $user->setEmail($_POST['email']);
             $user->setPassword($_POST['pass']);
             
-            $userModel = new Model\User();
+            $model = new Model\User();
             
-            if (($_user = $userModel->login($user)) != false) {
+            if (($_user = $model->login($user)) != false) {
                 Components\Auth::setAuth($_user);
 
                 Components\Path::redirect('/index.php');
@@ -62,9 +106,9 @@ class User extends Handler
             $oldPassword = trim($_POST['old-pass']);
             $user->setPassword($_POST['new-pass']);
 
-            $userModel = new Model\User();
+            $model = new Model\User();
             
-            if (($userModel->changePassword($oldPassword, $user)) != false) {
+            if (($model->changePassword($oldPassword, $user)) != false) {
                 Components\Path::redirect('/index.php');
             }
             
@@ -86,9 +130,9 @@ class User extends Handler
             $user = new Objects\User();
             $user->setEmail($_POST['email']);
 
-            $userModel = new Model\User();
+            $model = new Model\User();
             
-            if (($userModel->resetPassword($user))) {
+            if (($model->resetPassword($user))) {
                 Components\Path::redirect('/index.php');
             }
         }
@@ -108,9 +152,9 @@ class User extends Handler
             $user->setPassword($_POST['new-pass']);
             $user->setToken($_GET['reset-token']);
 
-            $userModel = new Model\User();
+            $model = new Model\User();
             
-            if (($userModel->setPassword($user))) {
+            if (($model->setPassword($user))) {
                 Components\Path::redirect('/index.php');
             }
         }
@@ -130,16 +174,16 @@ class User extends Handler
             $user->setEmail($_POST['email']);
             $user->setPassword($_POST['pass']);
             
-            $userModel = new Model\User();
+            $model = new Model\User();
 
-            if ($userModel->isEmailExists($user)) {
+            if ($model->isEmailExists($user)) {
                 $this->_setMessage('email', 'Email already exists.', 
                     Objects\MessageType::ERROR);
 
                 return $this->_responseHTML();
             }
 
-            $userId = $userModel->register($user);
+            $userId = $model->register($user);
 
             if ($userId > 0) {
                 $profile = new Objects\Profile();

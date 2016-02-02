@@ -18,12 +18,12 @@ use Site\Components as Components;
     </div>
     
     <div class="col-sm-7">
-        <div class="page-action">
-            
-            <div class="col-sm-8 search-form">
-                <form action="" method="post">
-                    <div class="input-group pull-right">
-                        <input type="text" class="form-control" placeholder="Search for...">
+        <div class="page-action clearfix">
+ 
+            <div class="navbar-right">
+                <form class="navbar-form search-form" role="search">
+                    <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -31,11 +31,10 @@ use Site\Components as Components;
                         </span>
                     </div>
                 </form>
-            </div>
             
-            <div class="col-sm-4 action-btn">
-                <a href="#" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-plus"></i> Add Pattern</a>
+                <a href="#" class="btn action-btn"><i class="glyphicon glyphicon-plus"></i> Add Pattern</a>
             </div>
+ 
         </div>
     </div>
     
@@ -46,24 +45,78 @@ use Site\Components as Components;
                     <th>Title</th>
                     <th>Code</th>
                     <th>Category</th>
-                    <th>Action</th>
+                    <th class="align-center">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Lightbox</td>
+                    <td><a href="#">Lightbox</a></td>
                     <td>Value 1</td>
                     <td>Front-end</td>
-                    <td></td>
+                    <td class="align-center">
+                        <a class="btn btn-xs btn-info" href="#">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a class="btn btn-xs btn-warning" href="#">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                        <a class="btn btn-xs btn-danger" href="#">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </td>
                 </tr>
+                
                 <tr>
-                    <td>Lightbox</td>
-                    <td>Value 2</td>
+                    <td><a href="#">Lightbox</a></td>
+                    <td>Value 1</td>
                     <td>Front-end</td>
-                    <td></td>
+                    <td class="align-center">
+                        <a class="btn btn-xs btn-info" href="#">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a class="btn btn-xs btn-warning" href="#">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                        <a class="btn btn-xs btn-danger" href="#">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td><a href="#">Lightbox</a></td>
+                    <td>Value 1</td>
+                    <td>Front-end</td>
+                    <td class="align-center">
+                        <a class="btn btn-xs btn-info" href="#">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        <a class="btn btn-xs btn-warning" href="#">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                        <a class="btn btn-xs btn-danger" href="#">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </td>
                 </tr>
             </tbody>
         </table>
+        
+        <nav class="paging-container clearfix">
+            <ul class="pagination pull-right">
+                <li class="disabled">
+                    <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span> Prev</a>
+                </li>
+                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                    <a href="#" aria-label="Next">Next <span aria-hidden="true">&raquo;</span></a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 

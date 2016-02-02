@@ -1,3 +1,4 @@
 {
-    "error-request": "Invalid request. Please re-load the page and try again."
+    "error-request": "Invalid request. Please re-load the page and try again.",
+    "error-no-record": "No data record available."
 }

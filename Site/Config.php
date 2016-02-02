@@ -2,7 +2,7 @@
 define('DEBUG', true);
 
 define('SITE_TITLE', 'Parsley');
-define('BASE_URL', 'http://localhost:8080');
+define('BASE_URL', 'http://localhost:8080/');
 define('LOGIN_URL', BASE_URL.'user/login.php');
 define('UPLOAD_URL', BASE_URL.'uploads/');
 define('IMAGE_URL', UPLOAD_URL.'images/');
@@ -19,6 +19,8 @@ define('SITE_DIR', rtrim(__DIR__, DS));
 define('UPLOAD_DIR', sprintf('%suploads', ROOT_DIR.DS));
 define('IMAGE_DIR', sprintf('%simages', UPLOAD_DIR.DS));
 define('THUMB_DIR', sprintf('%sthumbs', IMAGE_DIR.DS));
+
+define('PAGE_SIZE', 2);
 
 define('IMAGE_WIDTH', 600);
 define('IMAGE_HEIGHT', 600);

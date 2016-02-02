@@ -8,6 +8,8 @@ use Site\Handlers as Handlers;
 $userHandler = new Handlers\User();
 $viewData = $userHandler->setPassword();
 
+$tokenField = Helpers\Protection::showPublicTokenField();
+
 ?>
 
 <?php Components\Page::setTitle('Set Password'); ?>
@@ -23,7 +25,7 @@ $viewData = $userHandler->setPassword();
     </div>
 
     <form action="" method="post">
-        <?=Helpers\Protection::showPublicTokenField()?>
+        <?=$tokenField?>
         <input type="password" name="new-pass" placeholder="New Password" /> <br/><br/>
         <input type="submit" value="Set Password">
     </form>

@@ -3,37 +3,37 @@ namespace Site\Library\Utilities;
 
 class DateTime
 {
-    public static function getFileDateTimeFormat($time = 'now') {
+    public static function fileDateTimeFormat($time = 'now') {
         $dateTime = new \DateTime($time);
         return $dateTime->format('Ymd_His');
     }
 
-    public static function getDBDateFormat($time = 'now') {
+    public static function dbDateFormat($time = 'now') {
         $dateTime = new \DateTime($time);
         return $dateTime->format('Y-m-d');
     }
 
-    public static function getDBDateTimeFormat($time = 'now') {
+    public static function dbDateTimeFormat($time = 'now') {
         $dateTime = new \DateTime($time);
         return $dateTime->format('Y-m-d H:i:s');
     }
 
-    public static function getFullDateFormat($time = 'now') {
+    public static function fullDateFormat($time = 'now') {
         $dateTime = new \DateTime($time);
         return $dateTime->format('M d, Y');
     }
 
-    public static function getFullDateTimeFormat($time = 'now') {
+    public static function fullDateTimeFormat($time = 'now') {
         $dateTime = new \DateTime($time);
         return $dateTime->format('M d, Y H:i');
     }
 
-    public static function getShortDateFormat($time = 'now') {
+    public static function shortDateFormat($time = 'now') {
         $dateTime = new \DateTime($time);
         return $dateTime->format('d-m-Y');
     }
 
-    public static function getTotalDays($startDate, $endDate) {
+    public static function totalDays($startDate, $endDate) {
 	    $start = strtotime($startDate);
 	    $end = strtotime($endDate);
 	    $totalDays = ceil(abs($end - $start) / 86400) + 1;

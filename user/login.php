@@ -8,6 +8,8 @@ use Site\Handlers as Handlers;
 $userHandler = new Handlers\User();
 $viewData = $userHandler->login();
 
+$tokenField = Helpers\Protection::showPublicTokenField();
+
 ?>
 
 <?php Components\Page::setTitle('Login'); ?>
@@ -17,13 +19,9 @@ $viewData = $userHandler->login();
 
 <div>
     <h2>Login</h2>
-    
-    <div class="warning">
-        <?=Helpers\Message::showSingle($viewData->messages, 'warning')?>
-    </div>
 
     <form action="" method="post">
-        <?=Helpers\Protection::showPublicTokenField()?>
+        <?=$tokenField?>
         <input type="email" name="email" placeholder="Email" /> <br/>
         <input type="password" name="pass" placeholder="Password" /> <br/><br/>
         <input type="submit" value="Login">

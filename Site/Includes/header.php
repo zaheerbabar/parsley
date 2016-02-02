@@ -1,5 +1,6 @@
 <?php
 use Site\Components as Components;
+use Site\Helpers as Helpers;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +21,8 @@ use Site\Components as Components;
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <link href="/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+        <?=Helpers\Section::show('head')?>
 
         <link href="/assets/css/bootstrap-reset.css" rel="stylesheet">
         <link href="/assets/css/custom.css" rel="stylesheet">

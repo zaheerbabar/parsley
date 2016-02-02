@@ -6,26 +6,20 @@ use Site\Library\Utilities as Utilities;
 use Site\Handlers as Handlers;
 use Site\Helpers as Helpers;
 
-$handler = new Handlers\Project();
+$handler = new Handlers\User();
 $viewData = $handler->viewAll();
-
-$markup = <<<HTML
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.1/css/bootstrap-datepicker3.min.css" rel="stylesheet">
-HTML;
-
-Helpers\Section::add('head', $markup);
 
 ?>
 
-<?php Components\Page::setTitle('Projects'); ?>
-<?php Components\Page::setIndex('projects'); ?>
+<?php Components\Page::setTitle('Users'); ?>
+<?php Components\Page::setIndex('users'); ?>
 <?php Components\Page::includes('header'); ?>
 <?php Components\Page::includes('top'); ?>
 
 <div class="row clearfix">
     
     <div class="col-sm-5">
-        <h1>Projects</h1>
+        <h1>Users</h1>
     </div>
     
     <div class="col-sm-7">
@@ -43,7 +37,7 @@ Helpers\Section::add('head', $markup);
                     </div>
                 </form>
             
-                <a href="#" class="btn action-btn"><i class="glyphicon glyphicon-plus"></i> New Project</a>
+                <a href="#" class="btn action-btn"><i class="glyphicon glyphicon-plus"></i> New User</a>
             </div>
  
         </div>
@@ -65,17 +59,19 @@ Helpers\Section::add('head', $markup);
         <table class="table">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Creation Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Signed Up</th>
                     <th class="align-center">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($viewData->data->result as $obj) : ?>
                 <tr>
-                    <td><a href="/project/view.php"><?=$obj->title?></a></td>
-                    <td><?=Helpers\Content::shortDesc($obj->description, 60)?></td>
+                    <td><a href="/project/view.php"><?=$obj->name?></a></td>
+                    <td><?=$obj->email?></td>
+                    <td><?=Helpers\Iteration::implode($obj->roles)?></td>
                     <td><?=Utilities\DateTime::fullDateFormat($obj->creation_date)?></td>
                     <td class="align-center">
                         <a class="btn btn-xs action-btn btn-info" href="#">
@@ -103,7 +99,6 @@ Helpers\Section::add('head', $markup);
 
 <?php 
 $markup = <<<HTML
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.1/js/bootstrap-datepicker.min.js"></script>
     <script src="/assets/plugins/simple-pagination/jquery.simple-pagination.js"></script>
     <script>
         $(function() {

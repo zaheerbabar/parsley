@@ -26,7 +26,7 @@ class File
 
     public static function genDateTimeName($ext = null) {
         $date = new DateTime();
-        $output = sprintf('%s-%s', DateTime::getFileDateTimeFormat(), Cryptography\Random::genString(6));
+        $output = sprintf('%s-%s', DateTime::fileDateTimeFormat(), Cryptography\Random::genString(6));
         return (empty($ext)) ? $output : sprintf('%s.$s', $output, $ext);
     }
 }

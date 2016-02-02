@@ -9,6 +9,8 @@ $profileHandler = new Handlers\Profile();
 
 $viewData = $profileHandler->view();
 
+$tokenField = Helpers\Protection::showPublicTokenField();
+
 ?>
 
 <?php Components\Page::setTitle('Profile'); ?>
@@ -24,7 +26,7 @@ $viewData = $profileHandler->view();
     </div>
 
     <form action="" method="post">
-        <?=Helpers\Protection::showPublicTokenField()?>
+        <?=$tokenField?>
 
         <input type="text" name="first-name" value="<?=$viewData->data->getFirstName()?>" /> <br/>
         <input type="text" name="last-name" value="<?=$viewData->data->getLastName()?>" /> <br/>

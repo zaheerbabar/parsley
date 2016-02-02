@@ -26,6 +26,25 @@ abstract class Handler
         $this->_resources = new Components\Resources(self::_GLOBAL_RES);
     }
     
+    public function requestedPage($request, $key = 'page') {
+        if (!empty($request[$key])) {
+            $page = (int)trim($request[$key]);
+            
+            return $page;
+        }
+        
+        return 1;
+    }
+    
+    public function currentPage($request, $key = 'page') {
+        $page = $this->requestedPage($request, $key);
+        return ($page - 1) * PAGE_SIZE;
+    }
+    
+    public function totalPages($totalCount) {
+        return ceil($totalCount / PAGE_SIZE);
+    }
+    
     public function loadResource($file = null, $lang = null) {
         if (empty($file)) {
             $class = explode('\\', get_class($this));

@@ -73,6 +73,34 @@ class User extends DAL
 
         return $this->_pdo->lastInsertId();
     }
+    
+    public function getAll($page = 1) {
+        $records = $this->_pdo->createQueryBuilder()
+            ->select('user_id', 'user_email', 'user_creation_date')
+            ->from('user')
+            ->setFirstResult($page)
+            ->setMaxResults(PAGE_SIZE)
+            ->execute()
+            ->fetchAll();
+            
+        $result = [];
+
+        foreach($records as $row) {
+            $result[] = $this->_objectMapper($row);
+        }
+        
+        return $result;
+    }
+    
+    public function totalCount() {
+        $count = $this->_pdo->createQueryBuilder()
+            ->select('user_id')
+            ->from('user')
+            ->execute()
+            ->rowCount();
+        
+        return $count;
+    }
 
     public function getRoles($userId) {
         $roles = $this->_pdo->createQueryBuilder()
@@ -204,8 +232,14 @@ class User extends DAL
         if (isset($data['user_password']))
             $obj->setPassword($data['user_password']);
 
-        if (isset($data['role']))
-            $obj->setPassword($data['user_password']);
+        if (isset($data['user_reset_token']))
+            $obj->setResetToken($data['user_reset_token']);
+            
+        if (isset($data['user_verification_token']))
+            $obj->setVerificationToken($data['user_verification_token']);
+            
+        if (isset($data['user_creation_date']))
+            $obj->setCreationDate($data['user_creation_date']);
 
         return $obj;
     }

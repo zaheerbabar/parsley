@@ -10,4 +10,8 @@ class Iteration extends Helper
     public static function createOptions($data, $attributes = []) {
         return parent::iterateAssociative($data, 'option', $attributes);
     }
+    
+    public static function implode($array, $glue = ', ') {
+        return implode($glue, $array);
+    }
 }

@@ -35,6 +35,8 @@ use Site\Helpers as Helpers;
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle setting-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon glyphicon-cog"></span><span class="hidden-md hidden-lg hidden-sm">Manage</span></a>
                 <ul class="dropdown-menu">
+                    <li><a href="/user/users.php">Manage Users</a></li>
+                    <li><a href="/project/projects.php">Projects</a></li>
                     <li><a href="/workflow/templates.php">Workflow</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="/user/profile.php">Profile</a></li>

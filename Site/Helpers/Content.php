@@ -5,9 +5,19 @@ use Site\Components as Components;
 
 class Content extends Helper
 {
-    public static function createShortDesc($data, $char, $ellipsis = true) {
-        $part = substr($data, 0, strpos($data, ' ', $char));
-        if (empty($part)) {
+    public static function shortDesc($data, $char, $ellipsis = true) {
+        $part = trim(substr($data, 0, strpos($data, ' ', $char)), '. ');
+        if (!empty($part)) {
+            if ($ellipsis) return sprintf('%s...', $part);
+            return $part;
+        }
+
+        return $data;
+    }
+    
+    public static function shortLenDesc($data, $len = 150, $ellipsis = true) {
+        $part = trim(substr($data, 0, $len), '. ');
+        if (!empty($part)) {
             if ($ellipsis) return sprintf('%s...', $part);
             return $part;
         }

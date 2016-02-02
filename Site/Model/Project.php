@@ -7,6 +7,39 @@ use Site\Library\Debug as Debug;
 
 class Project extends DAL
 {
+    public function getAll($page = 1) {
+        $records = $this->_pdo->createQueryBuilder()
+            ->select('project_id', 'project_title', 'project_description', 'project_creation_date')
+            ->from('project')
+            ->setFirstResult($page)
+            ->setMaxResults(PAGE_SIZE)
+            ->execute()
+            ->fetchAll();
+            
+        $result = [];
+
+        foreach($records as $row) {
+            $result[] = (object) [
+                'id' => $row['project_id'],
+                'title' => $row['project_title'],
+                'description' => $row['project_description'],
+                'creation_date' => $row['project_creation_date']
+            ];
+        }
+        
+        return $result;
+    }
+    
+    public function totalCount() {
+        $count = $this->_pdo->createQueryBuilder()
+            ->select('project_id')
+            ->from('project')
+            ->execute()
+            ->rowCount();
+        
+        return $count;
+    }
+    
     public function create($project, $users) {
         $values = [
             'project_title' => ':title',

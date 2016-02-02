@@ -8,6 +8,8 @@ use Site\Handlers as Handlers;
 $userHandler = new Handlers\User();
 $viewData = $userHandler->resetPassword();
 
+$tokenField = Helpers\Protection::showPublicTokenField();
+
 ?>
 
 <?php Components\Page::setTitle('Reset Password'); ?>
@@ -23,7 +25,7 @@ $viewData = $userHandler->resetPassword();
     </div>
 
     <form action="" method="post">
-        <?=Helpers\Protection::showPublicTokenField()?>
+        <?=$tokenField?>
         <input type="email" name="email" placeholder="Email" /> <br/><br/>
         <input type="submit" value="Reset">
     </form>
