@@ -21,6 +21,10 @@ class Profile
     public function getLastName() {
         return $this->lastName;
     }
+    
+    public function getFullName() {
+        return trim(sprintf('%s %s', $this->getFirstName(), $this->getLastName()));
+    }
 
     public function getPhone() {
         return $this->phone;

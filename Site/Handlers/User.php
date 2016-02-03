@@ -10,16 +10,16 @@ class User extends Handler
 {
     public function __construct() {
         parent::__construct();
-        $this->loadResource();
+        $this->_loadResource();
     }
     
     public function viewAll() {
-        //Components\Auth::redirectUnAuth();
+        Components\Auth::redirectUnAuth();
         
         $model = new Model\User();
         $profileModel = new Model\Profile();
 
-        $result = $model->getAll($this->currentPage($_GET));
+        $result = $model->getAll($this->_currentPage($_GET));
         $total = $model->totalCount();
         
         if (empty($result)) {
@@ -49,9 +49,9 @@ class User extends Handler
         $viewData = new \stdClass();
         
         $viewData->result = $users;
-        $viewData->page = $this->requestedPage($_GET);
+        $viewData->page = $this->_requestedPage($_GET);
         $viewData->total = $total;
-        $viewData->pages = $this->totalPages($total);
+        $viewData->pages = $this->_totalPages($total);
         $viewData->limit = PAGE_SIZE;
         
         return $this->_responseHTML($viewData);
@@ -61,7 +61,7 @@ class User extends Handler
         Components\Auth::redirectAuth();
 
         if ($_POST) {
-            if ($this->validateLogin() == false) {
+            if ($this->_validateLogin() == false) {
                 return $this->_responseHTML();
             }
 
@@ -87,7 +87,7 @@ class User extends Handler
     public function logout() {
         Components\Auth::redirectUnAuth();
 
-        if ($this->validateLogout()) {
+        if ($this->_validateLogout()) {
             Components\Auth::unAuth();
         }
         
@@ -98,7 +98,7 @@ class User extends Handler
         Components\Auth::redirectUnAuth();
 
         if ($_POST) {
-            if ($this->validateChangePassword() == false) {
+            if ($this->_validateChangePassword() == false) {
                 return $this->_responseHTML();
             }
 
@@ -123,7 +123,7 @@ class User extends Handler
         Components\Auth::redirectAuth();
 
         if ($_POST) {
-            if ($this->validateResetPassword() == false) {
+            if ($this->_validateResetPassword() == false) {
                 return $this->_responseHTML();
             }
 
@@ -144,7 +144,7 @@ class User extends Handler
         Components\Auth::redirectAuth();
 
         if ($_POST) {
-            if ($this->validateSetPassword() == false) {
+            if ($this->_validateSetPassword() == false) {
                 return $this->_responseHTML();
             }
 
@@ -166,7 +166,7 @@ class User extends Handler
         Components\Auth::redirectAuth();
 
         if ($_POST) {
-            if ($this->validateRegister() == false) {
+            if ($this->_validateRegister() == false) {
                 return $this->_responseHTML();
             }
 
@@ -209,7 +209,7 @@ class User extends Handler
 
     # Request Validations
 
-    private function validateRequest() {
+    private function _validateRequest() {
         if (Components\Token::validatePublicToken() == false) {
             $this->_setMessage('warning', 'error-request', 
                 Objects\MessageType::WARNING);
@@ -220,8 +220,8 @@ class User extends Handler
         return true;
     }
 
-    private function validateLogin() {
-        if (!$this->validateRequest()) return false;
+    private function _validateLogin() {
+        if (!$this->_validateRequest()) return false;
 
         $errors = [];
         
@@ -240,7 +240,7 @@ class User extends Handler
         return empty($errors) ? true : false;
     }
 
-    private function validateLogout() {
+    private function _validateLogout() {
         if (!Components\Token::validatePrivateToken()) return false;
 
         $errors = [];
@@ -250,8 +250,8 @@ class User extends Handler
         return empty($errors) ? true : false;
     }
 
-    private function validateRegister() {
-        if (!$this->validateRequest()) return false;
+    private function _validateRegister() {
+        if (!$this->_validateRequest()) return false;
 
         $errors = [];
 
@@ -289,8 +289,8 @@ class User extends Handler
         return empty($errors) ? true : false;
     }
 
-    private function validateChangePassword() {
-        if (!$this->validateRequest()) return false;
+    private function _validateChangePassword() {
+        if (!$this->_validateRequest()) return false;
 
         $errors = [];
 
@@ -313,8 +313,8 @@ class User extends Handler
         return empty($errors) ? true : false;
     }
 
-    private function validateResetPassword() {
-        if (!$this->validateRequest()) return false;
+    private function _validateResetPassword() {
+        if (!$this->_validateRequest()) return false;
 
         $errors = [];
 
@@ -332,8 +332,8 @@ class User extends Handler
         return empty($errors) ? true : false;
     }
 
-    private function validateSetPassword() {
-        if (!$this->validateRequest()) return false;
+    private function _validateSetPassword() {
+        if (!$this->_validateRequest()) return false;
 
         $errors = [];
 

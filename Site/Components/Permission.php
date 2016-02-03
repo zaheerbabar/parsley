@@ -5,6 +5,21 @@ use Site\Library\Utilities as Utilities;
 
 class Permission
 {
+    public static function inRoles($roles) {
+        if (Utilities\Session::isSessionSet(Auth::_AUTH)) {
+            $user = \unserialize(Utilities\Session::getSession(Auth::_AUTH));
+            
+            $roles = (is_array($roles)) ? $roles : [$roles];
+
+            foreach ($roles as $role) {
+                if (Utilities\Data::inArray($role, $user->roles))
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+    
     public static function hasPermissions($permissions) {
         $permissions = (is_array($permissions)) ? $permissions : [$permissions];
 
@@ -29,7 +44,6 @@ class Permission
         return null;
     }
 
-    public static function inRoles($roles) {
-        return Auth::isAuth($roles);
-    }
+
+    
 }

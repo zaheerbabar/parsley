@@ -20,7 +20,7 @@ define('UPLOAD_DIR', sprintf('%suploads', ROOT_DIR.DS));
 define('IMAGE_DIR', sprintf('%simages', UPLOAD_DIR.DS));
 define('THUMB_DIR', sprintf('%sthumbs', IMAGE_DIR.DS));
 
-define('PAGE_SIZE', 2);
+define('PAGE_SIZE', 6);
 
 define('IMAGE_WIDTH', 600);
 define('IMAGE_HEIGHT', 600);

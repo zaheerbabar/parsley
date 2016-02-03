@@ -48,11 +48,11 @@ class Profile extends DAL
             ->set('profile_first_name', ':first_name')
             ->set('profile_last_name', ':last_name')
             ->set('profile_phone', ':phone')
-            ->where('profile_id = :id')
+            ->where('user_id = :id')
             ->setParameter('first_name', $profile->getFirstName())
             ->setParameter('last_name', $profile->getLastName())
             ->setParameter('phone', $profile->getPhone())
-            ->setParameter('id', $profile->getID())
+            ->setParameter('id', $profile->getUserID())
             ->execute();
 
         return true;

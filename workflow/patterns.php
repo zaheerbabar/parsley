@@ -32,7 +32,7 @@ use Site\Components as Components;
                     </div>
                 </form>
             
-                <a href="#" class="btn action-btn"><i class="glyphicon glyphicon-plus"></i> Add Pattern</a>
+                <a href="#" class="btn action-btn"><i class="glyphicon glyphicon-plus"></i> New Pattern</a>
             </div>
  
         </div>
@@ -54,13 +54,13 @@ use Site\Components as Components;
                     <td>Value 1</td>
                     <td>Front-end</td>
                     <td class="align-center">
-                        <a class="btn btn-xs btn-info" href="#">
+                        <a class="btn btn-xs btn-info action-btn" href="#">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a class="btn btn-xs btn-warning" href="#">
+                        <a class="btn btn-xs btn-warning action-btn" href="#">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a class="btn btn-xs btn-danger" href="#">
+                        <a class="btn btn-xs btn-danger action-btn" href="#">
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     </td>
@@ -71,13 +71,13 @@ use Site\Components as Components;
                     <td>Value 1</td>
                     <td>Front-end</td>
                     <td class="align-center">
-                        <a class="btn btn-xs btn-info" href="#">
+                        <a class="btn btn-xs btn-info action-btn" href="#">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a class="btn btn-xs btn-warning" href="#">
+                        <a class="btn btn-xs btn-warning action-btn" href="#">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a class="btn btn-xs btn-danger" href="#">
+                        <a class="btn btn-xs btn-danger action-btn" href="#">
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     </td>
@@ -88,13 +88,13 @@ use Site\Components as Components;
                     <td>Value 1</td>
                     <td>Front-end</td>
                     <td class="align-center">
-                        <a class="btn btn-xs btn-info" href="#">
+                        <a class="btn btn-xs btn-info action-btn" href="#">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a class="btn btn-xs btn-warning" href="#">
+                        <a class="btn btn-xs btn-warning action-btn" href="#">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a class="btn btn-xs btn-danger" href="#">
+                        <a class="btn btn-xs btn-danger action-btn" href="#">
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     </td>
@@ -109,9 +109,6 @@ use Site\Components as Components;
                 </li>
                 <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
                 <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
                 <li>
                     <a href="#" aria-label="Next">Next <span aria-hidden="true">&raquo;</span></a>
                 </li>

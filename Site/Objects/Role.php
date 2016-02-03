@@ -7,5 +7,8 @@ final class Role extends Utilities\Enum
 {
     const SUPER_ADMIN = 'super_admin';
     const ADMIN = 'admin';
-    const MEMBER = 'member';
+    const MANAGER = 'manager';
+    const DESIGNER = 'designer';
+    const REVIEWER = 'reviewer';
+    const VIEWER = 'viewer';
 }

@@ -13,27 +13,39 @@ $user = Components\Auth::getAuthUserData();
 <?php Components\Page::includes('header'); ?>
 <?php Components\Page::includes('top'); ?>
 
-<div>
-    <h2>Hello!</h2>
+<div class="row clearfix">
+    
+    <div class="col-sm-12">
+        <h1>Parsley Patterns!</h1>
+        
+        <p>A pattern management tool and methodology which facilitates the delivery of consistent, best practice, world-class user interfaces.</p>
+    </div>
+    
+</div>
 
-    <p><strong>Welcome</strong> to the Parsley workflow management system. Features are under development so you can start by using options on the top right corner of the page.</p>
+<div class="row clearfix">
+    
+    <div class="alert alert-info col-sm-12" role="alert">
+        <p><strong>Welcome</strong> to the Parsley workflow management system. Features are under development so you can start by using options on the top right corner of the page.</p>
+    
+        <?php if (Components\Auth::isAuth()) : ?>
 
-    <?php if (Components\Auth::isAuth()) : ?>
+        <p>You're logged in as <?=$user->email?>. 
+            <a href="user/logout.php?_token=<?=Helpers\Protection::showPrivateToken()?>"><b>Logout</b></a>
+        </p>
+        
+        <?php else: ?>
 
-    <p>You're logged in as user. 
-        <a href="user/logout.php?_token=<?=Helpers\Protection::showPrivateToken()?>">Logout</a></p>
+            <p>You're not logged in.
+                <a href="user/login.php"><b>Login</b></a> or 
+                <a href="user/register.php"><b>Register</b> (Dev Test)</a>
+            </p>
 
-    <a href="user/profile.php">Profile</a> | 
-    <a href="user/change-password.php">Change Password</a>
-
-    <?php else: ?>
-
-        <p>You're not logged in. <a href="user/login.php">Login</a> or 
-            <a href="user/register.php">Register</a></p>
-
-    <?php endif; ?>
+        <?php endif; ?>
+    </div>
 
 </div>
+
 
 <?php Components\Page::includes('bottom'); ?>
 <?php Components\Page::includes('footer'); ?>

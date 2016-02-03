@@ -1,0 +1,7 @@
+{
+    "success-update": "Account has been updated successfully.",
+    "error-update": "There was an error updating your account.",
+    "error-name": "Last name is required.",
+    "error-phone": "Phone is required.",
+    "error-old-pass": "Old Password is not valid."
+}

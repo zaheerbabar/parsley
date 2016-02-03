@@ -60,7 +60,7 @@ class Auth
 
                 $roles = (is_array($roles)) ? $roles : [$roles];
 
-                foreach ($roles as $role) {    
+                foreach ($roles as $role) {
                     if (Utilities\Data::inArray($role, $user->roles) == false)
                         return false;
                 }

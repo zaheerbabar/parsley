@@ -127,6 +127,30 @@ h1 {
 }
 
 
+.panel .panel-heading {
+    background-color: transparent;
+    text-transform: none;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.form-control {
+    color: #333;
+    border: 1px solid #757575;
+}
+
+.form-control:focus {
+    border: 1px solid #555;
+}
+
+button.btn {
+    color: #333;
+    border: 1px solid #e9e9e9;
+}
+
+button.btn:hover {
+    color: #fff;
+    background-color: #3686be;
+}
 
 .page-action .search-form {
     display: inline;
@@ -136,12 +160,10 @@ h1 {
 
 .page-action .search-form .form-control {
     height: 38px;
-    border: 1px solid #757575;
     border-right: 0 none;
 }
 
 .page-action .search-form .form-control:focus {
-    border: 1px solid #555;
     border-right: 0 none;
 }
 
@@ -209,6 +231,41 @@ h1 {
 }
 
 
+.settings-panel .settings-group {
+    padding: 15px 0 15px 0;
+    margin: 0;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.settings-panel .settings-group h3 {
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.settings-panel .field-container {
+    margin-top: 15px;
+}
+
+.settings-panel .field-container .action {
+    margin-left: 5px;
+}
+
+.settings-panel .field-container .action .btn {
+    padding: 3px 6px;
+}
+
+.settings-panel .input-group .form-control {
+    margin-bottom: 8px;
+    border-radius: 4px !important;
+}
+
+.login-panel .input-group .form-control {
+    font-weight: 100;
+    margin-bottom: 8px;
+    border-radius: 4px !important;
+}
+
+
 
 @media (min-width: 768px) {
     .navbar-static .navbar-brand {
@@ -262,6 +319,10 @@ h1 {
     .paging-container .pagination a {
         margin-top: 0;
         margin-right: 3px;
+    }
+    
+    .login-panel .input-group .form-control {
+        width: 260px;
     }
 
 }
