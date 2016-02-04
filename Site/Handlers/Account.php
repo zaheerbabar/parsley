@@ -16,15 +16,8 @@ class Account extends Handler
     public function view() {
         Components\Auth::redirectUnAuth();
         
-        if ($_POST) {
-            if ($this->_update()) {
-                $this->_setMessage(Objects\MessageType::SUCCESS, 'success-update', 
-                    Objects\MessageType::SUCCESS);
-            }
-            else {
-                $this->_setMessage(Objects\MessageType::ERROR, 'error-update', 
-                    Objects\MessageType::ERROR);
-            }
+        if ($this->_isPostBack()) {
+            $this->_actionCall($this);
         }
 
         $model = new Model\Profile();
@@ -37,14 +30,10 @@ class Account extends Handler
         return $this->_responseHTML($profile);
     }
 
-
-    private function _update() {
-        if (empty($_POST['form'])) return false;
-        
-        switch(trim(strtolower($_POST['form']))) {
+    protected function _requestHandler($action) {
+        switch($action) {
             case 'profile':
                 return $this->_updateProfile();
-                break;
             case 'password':
                 return $this->_updatePassword();
         }
@@ -64,8 +53,15 @@ class Account extends Handler
         $model = new Model\Profile();
         
         if ($model->update($obj)) {
+            
+            $this->_setMessage(Objects\MessageType::SUCCESS, 'success-update', 
+                Objects\MessageType::SUCCESS);
+
             return true;
         }
+        
+        $this->_setMessage(Objects\MessageType::ERROR, 'error-update', 
+            Objects\MessageType::ERROR);
         
         return false;
     }
@@ -82,6 +78,9 @@ class Account extends Handler
         $model = new Model\User();
         
         if (($model->changePassword($oldPass, $obj)) != false) {
+            $this->_setMessage(Objects\MessageType::SUCCESS, 'success-update', 
+                Objects\MessageType::SUCCESS);
+            
             return true;
         }
         
@@ -93,19 +92,9 @@ class Account extends Handler
     
     
     # Request Validations
-
-    private function _validateRequest() {
-        if (Components\Token::validatePublicToken() == false) {
-            $this->_setMessage('warning', 'error-request', 
-                Objects\MessageType::WARNING);
-            return false;
-        }
-
-        return true;
-    }
     
     private function _validateUpdateProfile() {
-        if (!$this->_validateRequest()) return false;
+        if (!$this->_validatePublicRequest()) return false;
 
         $errors = [];
         
@@ -130,7 +119,7 @@ class Account extends Handler
     }
     
     private function _validateUpdatePassword() {
-        if (!$this->_validateRequest()) return false;
+        if (!$this->_validatePublicRequest()) return false;
 
         $errors = [];
         

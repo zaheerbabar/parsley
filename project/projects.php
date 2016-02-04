@@ -3,17 +3,22 @@ require_once realpath($_SERVER['DOCUMENT_ROOT'].'/Site/Library/Initialize.php');
 
 use Site\Components as Components;
 use Site\Library\Utilities as Utilities;
+use Site\Objects as Objects;
 use Site\Handlers as Handlers;
 use Site\Helpers as Helpers;
 
 $handler = new Handlers\Project();
 $viewData = $handler->viewAll();
 
+$token = Helpers\Protection::showPrivateToken();
+
 $markup = <<<HTML
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.1/css/bootstrap-datepicker3.min.css" rel="stylesheet">
 HTML;
 
 Helpers\Section::add('head', $markup);
+
+$confirmMessage = Helpers\Message::showSingle($viewData->messages, 'confirm-delete', null);
 
 ?>
 
@@ -51,10 +56,17 @@ Helpers\Section::add('head', $markup);
     
 </div>
 
-<?php if (isset($viewData->messages['warning'])) : ?>
+<?php if (isset($viewData->messages[Objects\MessageType::SUCCESS])) : ?>
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <?=Helpers\Message::showSingle($viewData->messages, Objects\MessageType::SUCCESS)?>
+</div>
+<?php endif; ?>
+
+<?php if (isset($viewData->messages[Objects\MessageType::WARNING])) : ?>
 <div class="alert alert-warning alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Oops!</strong> <?=Helpers\Message::showSingle($viewData->messages, 'warning')?>
+  <strong>Oops!</strong> <?=Helpers\Message::showSingle($viewData->messages, Objects\MessageType::WARNING)?>
 </div>
 <?php endif; ?>
 
@@ -74,7 +86,7 @@ Helpers\Section::add('head', $markup);
             <tbody>
                 <?php foreach ($viewData->data->result as $obj) : ?>
                 <tr>
-                    <td><a href="/project/view.php"><?=$obj->title?></a></td>
+                    <td><a href="#"><?=$obj->title?></a></td>
                     <td><?=Helpers\Content::shortDesc($obj->description, 60)?></td>
                     <td><?=Utilities\DateTime::fullDateFormat($obj->creation_date)?></td>
                     <td class="align-center">
@@ -84,8 +96,9 @@ Helpers\Section::add('head', $markup);
                         <a class="btn btn-xs action-btn btn-warning" href="#">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a class="btn btn-xs action-btn btn-danger" href="#">
-                            <span class="glyphicon glyphicon-remove"></span>
+                        <a class="btn btn-xs action-btn btn-danger" 
+                            href="?_action=delete1&id=<?=$obj->id?>&_token=<?=$token?>">
+                            <span class="glyphicon glyphicon-remove confirm-action"></span>
                         </a>
                     </td>
                 </tr>
@@ -107,12 +120,19 @@ $markup = <<<HTML
     <script src="/assets/plugins/simple-pagination/jquery.simple-pagination.js"></script>
     <script>
         $(function() {
+
+            $('.confirm-action').click(function() {
+                confirmAction('{$confirmMessage}');
+                
+                return false;
+            });
+            
             $('.paging-container').pagination({
                 items: {$viewData->data->total},
                 cssStyle: '',
                 listStyle: 'pagination',
                 itemsOnPage: {$viewData->data->limit},
-                hrefTextPrefix: '?page=',
+                hrefTextPrefix: '?_page=',
                 currentPage: {$viewData->data->page},
                 pages: {$viewData->data->pages}
             });

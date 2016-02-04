@@ -6,6 +6,8 @@ use Site\Components as Components;
 
 $user = Components\Auth::getAuthUserData();
 
+$token = Helpers\Protection::showPrivateToken();
+
 ?>
 
 <?php Components\Page::setTitle('Home'); ?>
@@ -31,7 +33,7 @@ $user = Components\Auth::getAuthUserData();
         <?php if (Components\Auth::isAuth()) : ?>
 
         <p>You're logged in as <?=$user->email?>. 
-            <a href="user/logout.php?_token=<?=Helpers\Protection::showPrivateToken()?>"><b>Logout</b></a>
+            <a href="user/logout.php?_token=<?=$token?>"><b>Logout</b></a>
         </p>
         
         <?php else: ?>

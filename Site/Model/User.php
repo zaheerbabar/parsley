@@ -74,10 +74,12 @@ class User extends DAL
         return $this->_pdo->lastInsertId();
     }
     
-    public function getAll($page = 1) {
+    public function getAll($page = 1, $currentUserId) {
         $records = $this->_pdo->createQueryBuilder()
             ->select('user_id', 'user_email', 'user_creation_date')
             ->from('user')
+            ->where('user_id != :id')
+            ->setParameter('id', $currentUserId)
             ->setFirstResult($page)
             ->setMaxResults(PAGE_SIZE)
             ->execute()
@@ -92,10 +94,12 @@ class User extends DAL
         return $result;
     }
     
-    public function totalCount() {
+    public function totalCount($currentUserId) {
         $count = $this->_pdo->createQueryBuilder()
             ->select('user_id')
             ->from('user')
+            ->where('user_id != :id')
+            ->setParameter('id', $currentUserId)
             ->execute()
             ->rowCount();
         

@@ -85,7 +85,7 @@ Helpers\Section::add('head', $markup);
                     </div>
                     
                     <div class="action pull-right">
-                        <button class="btn" type="submit" name="form" value="profile">Save</button>
+                        <button class="btn" type="submit" name="_action" value="profile">Save</button>
                         <a href="#">Cancel</a>
                     </div>
                 </form>
@@ -113,7 +113,7 @@ Helpers\Section::add('head', $markup);
                     </div>
                     
                     <div class="action pull-right">
-                        <button class="btn" type="submit" name="form" value="password">Save</button>
+                        <button class="btn" type="submit" name="_action" value="password">Save</button>
                         <a href="#">Cancel</a>
                     </div>
                     

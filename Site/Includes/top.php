@@ -2,6 +2,9 @@
 use Site\Components as Components;
 use Site\Helpers as Helpers;
 use Site\Objects as Objects;
+
+$token = Helpers\Protection::showPrivateToken();
+
 ?>
 <!-- Navbar -->
 <nav class="navbar navbar-static">
@@ -59,7 +62,7 @@ use Site\Objects as Objects;
                         
                         <?php if (Components\Auth::isAuth()) : ?>
                             <li><a href="/user/account.php">My Account</a></li>
-                            <li><a href="/user/logout.php?_token=<?=Helpers\Protection::showPrivateToken()?>">Logout</a></li>
+                            <li><a href="/user/logout.php?_token=<?=$token?>">Logout</a></li>
                         <?php else : ?>
                             <li><a href="/user/login.php">Login</a></li>
                         <?php endif; ?>

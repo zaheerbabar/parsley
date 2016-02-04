@@ -9,6 +9,8 @@ use Site\Helpers as Helpers;
 $handler = new Handlers\User();
 $viewData = $handler->viewAll();
 
+$confirmMessage = Helpers\Message::showSingle($viewData->messages, 'confirm-delete', null);
+
 ?>
 
 <?php Components\Page::setTitle('Users'); ?>
@@ -81,7 +83,7 @@ $viewData = $handler->viewAll();
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                         <a class="btn btn-xs action-btn btn-danger" href="#">
-                            <span class="glyphicon glyphicon-remove"></span>
+                            <span class="glyphicon glyphicon-remove confirm-action"></span>
                         </a>
                     </td>
                 </tr>
@@ -102,12 +104,16 @@ $markup = <<<HTML
     <script src="/assets/plugins/simple-pagination/jquery.simple-pagination.js"></script>
     <script>
         $(function() {
+            $('.table .confirm-action').click(function() {
+                return confirmAction('{$confirmMessage}');
+            });
+            
             $('.paging-container').pagination({
                 items: {$viewData->data->total},
                 cssStyle: '',
                 listStyle: 'pagination',
                 itemsOnPage: {$viewData->data->limit},
-                hrefTextPrefix: '?page=',
+                hrefTextPrefix: '?_page=',
                 currentPage: {$viewData->data->page},
                 pages: {$viewData->data->pages}
             });

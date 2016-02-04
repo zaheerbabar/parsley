@@ -69,7 +69,7 @@ class Project extends DAL
             ->where('project_id = :id')
             ->setParameter('title', $project['title'])
             ->setParameter('description', $project['description'])
-            ->setParameter('id', $project['id'])
+            ->setParameter('id', (int) $project['id'])
             ->execute();
 
         return true;
@@ -83,7 +83,7 @@ class Project extends DAL
                     'project_id' => ':project_id',
                     'user_id' => ':user_id'   
                 ])
-                ->setParameter('project_id', $projectId)
+                ->setParameter('project_id', (int) $projectId)
                 ->setParameter('user_id', $user)
                 ->execute();
         }
@@ -99,7 +99,7 @@ class Project extends DAL
                     'project_id' => ':project_id',
                     'user_id' => ':user_id'
                 ])
-                ->setParameter('project_id', $projectId)
+                ->setParameter('project_id', (int) $projectId)
                 ->setParameter('user_id', $user)
                 ->execute();
         }
@@ -112,8 +112,8 @@ class Project extends DAL
             ->delete('project_user')
             ->where('project_id = :project_id')
             ->andWhere('user_id = :user_id')
-            ->setParameter('project_id', $projectId)
-            ->setParameter('user_id', $userId)
+            ->setParameter('project_id', (int) $projectId)
+            ->setParameter('user_id', (int) $userId)
             ->execute();
         
         return true;
@@ -123,7 +123,7 @@ class Project extends DAL
         $this->_pdo->createQueryBuilder()
             ->delete('project')
             ->where('project_id = :project_id')
-            ->setParameter('project_id', $projectId)
+            ->setParameter('project_id', (int) $projectId)
             ->execute();
         
         return true;

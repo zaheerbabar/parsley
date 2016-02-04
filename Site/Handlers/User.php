@@ -16,15 +16,18 @@ class User extends Handler
     public function viewAll() {
         Components\Auth::redirectUnAuth();
         
+        $this->_loadMessages();
+        
         $model = new Model\User();
         $profileModel = new Model\Profile();
 
-        $result = $model->getAll($this->_currentPage($_GET));
-        $total = $model->totalCount();
+        $currentUserId = Components\Auth::getAuthUserData('id');
+
+        $result = $model->getAll($this->_currentPage($_GET), $currentUserId);
+        $total = $model->totalCount($currentUserId);
         
         if (empty($result)) {
-            $this->_setMessage('warning', 'error-no-record', 
-                Objects\MessageType::WARNING);
+            $this->_setMessage('warning', 'error-no-record', Objects\MessageType::WARNING);
                 
             return $this->_responseHTML();
         }
@@ -56,11 +59,15 @@ class User extends Handler
         
         return $this->_responseHTML($viewData);
     }
+    
+    private function _loadMessages() {
+        $this->_setMessage('confirm-delete', 'confirm-delete', Objects\MessageType::CONFIRM);
+    }
 
     public function login() {
         Components\Auth::redirectAuth();
 
-        if ($_POST) {
+        if ($this->_isPostBack()) {
             if ($this->_validateLogin() == false) {
                 return $this->_responseHTML();
             }
@@ -77,8 +84,7 @@ class User extends Handler
                 Components\Path::redirect('/index.php');
             }
 
-            $this->_setMessage('warning', 'error-invalid', 
-                Objects\MessageType::WARNING);
+            $this->_setMessage('warning', 'error-invalid', Objects\MessageType::WARNING);
         }
         
         return $this->_responseHTML();
@@ -97,7 +103,7 @@ class User extends Handler
     public function changePassword() {
         Components\Auth::redirectUnAuth();
 
-        if ($_POST) {
+        if ($this->_isPostBack()) {
             if ($this->_validateChangePassword() == false) {
                 return $this->_responseHTML();
             }
@@ -112,8 +118,7 @@ class User extends Handler
                 Components\Path::redirect('/index.php');
             }
             
-            $this->_setMessage('old-pass', 'error-old-pass', 
-                Objects\MessageType::ERROR);
+            $this->_setMessage('old-pass', 'error-old-pass', Objects\MessageType::ERROR);
         }
                 
         return $this->_responseHTML();
@@ -122,7 +127,7 @@ class User extends Handler
     public function resetPassword() {
         Components\Auth::redirectAuth();
 
-        if ($_POST) {
+        if ($this->_isPostBack()) {
             if ($this->_validateResetPassword() == false) {
                 return $this->_responseHTML();
             }
@@ -143,7 +148,7 @@ class User extends Handler
     public function setPassword() {
         Components\Auth::redirectAuth();
 
-        if ($_POST) {
+        if ($this->_isPostBack()) {
             if ($this->_validateSetPassword() == false) {
                 return $this->_responseHTML();
             }
@@ -165,7 +170,7 @@ class User extends Handler
     public function register() {
         Components\Auth::redirectAuth();
 
-        if ($_POST) {
+        if ($this->_isPostBack()) {
             if ($this->_validateRegister() == false) {
                 return $this->_responseHTML();
             }
@@ -209,19 +214,8 @@ class User extends Handler
 
     # Request Validations
 
-    private function _validateRequest() {
-        if (Components\Token::validatePublicToken() == false) {
-            $this->_setMessage('warning', 'error-request', 
-                Objects\MessageType::WARNING);
-
-            return false;
-        }
-
-        return true;
-    }
-
     private function _validateLogin() {
-        if (!$this->_validateRequest()) return false;
+        if (!$this->_validatePublicRequest()) return false;
 
         $errors = [];
         
@@ -241,7 +235,7 @@ class User extends Handler
     }
 
     private function _validateLogout() {
-        if (!Components\Token::validatePrivateToken()) return false;
+        if (!$this->_validatePrivateRequest()) return false;
 
         $errors = [];
 
@@ -251,7 +245,7 @@ class User extends Handler
     }
 
     private function _validateRegister() {
-        if (!$this->_validateRequest()) return false;
+        if (!$this->_validatePublicRequest()) return false;
 
         $errors = [];
 
@@ -290,7 +284,7 @@ class User extends Handler
     }
 
     private function _validateChangePassword() {
-        if (!$this->_validateRequest()) return false;
+        if (!$this->_validatePublicRequest()) return false;
 
         $errors = [];
 
@@ -314,7 +308,7 @@ class User extends Handler
     }
 
     private function _validateResetPassword() {
-        if (!$this->_validateRequest()) return false;
+        if (!$this->_validatePublicRequest()) return false;
 
         $errors = [];
 
@@ -333,7 +327,7 @@ class User extends Handler
     }
 
     private function _validateSetPassword() {
-        if (!$this->_validateRequest()) return false;
+        if (!$this->_validatePublicRequest()) return false;
 
         $errors = [];
 
