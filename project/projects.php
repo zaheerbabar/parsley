@@ -97,7 +97,7 @@ $confirmMessage = Helpers\Message::showSingle($viewData->messages, 'confirm-dele
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                         <a class="btn btn-xs action-btn btn-danger" 
-                            href="?_action=delete1&id=<?=$obj->id?>&_token=<?=$token?>">
+                            href="?_action=delete&id=<?=$obj->id?>&_token=<?=$token?>">
                             <span class="glyphicon glyphicon-remove confirm-action"></span>
                         </a>
                     </td>

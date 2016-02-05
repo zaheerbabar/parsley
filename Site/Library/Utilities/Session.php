@@ -1,20 +1,6 @@
 <?php 
 namespace Site\Library\Utilities;
 
-\ini_set('session.use_only_cookies', 1);
-\ini_set('session.cookie_httponly', 1);
-\ini_set('session.use_trans_sid', 0);
-\ini_set('session.hash_function', 'sha256');
-\ini_set('session.hash_bits_per_character', 6);
-\ini_set('session.entropy_file', '/dev/urandom');
-\ini_set('session.entropy_file', 256);
-
-\ini_set('session.gc_maxlifetime', '65535');
-\ini_set("session.cookie_lifetime", strtotime('+24 hours'));
-
-\session_name('sid');
-\session_start();
-
 class Session
 {
     static public function setSession($key, $value) {

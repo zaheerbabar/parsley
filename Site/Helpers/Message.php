@@ -23,7 +23,7 @@ class Message extends Helper
     }
 
     public static function messageList($data, $attributes = []) {
-        return parent::iterate(array_column($data, 'value'), 'li', $attributes);
+        return parent::iterate(\array_column($data, 'value'), 'li', $attributes);
     }
 
 }

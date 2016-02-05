@@ -5,15 +5,6 @@ use Site\Library\Utilities as Utilities;
 
 class Resources
 {
-    //  header('Content-language: en');
-    // Accept-Language: en-US,en;q=0.5
-
-    // http://stackoverflow.com/questions/5423989/proper-use-of-php-headercontent-language
-
-    // http://scriptdigital.com/divers/phplocalization.html
-    // http://www.onlamp.com/pub/a/php/2002/11/28/php_i18n.html?page=1
-    // http://www.sitepoint.com/localizing-javascript-strings-php-mvc-framework/
-
     private $_resources;
 
     const _DIR = 'Resources';
