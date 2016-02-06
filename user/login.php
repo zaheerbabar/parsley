@@ -5,10 +5,10 @@ use Site\Components as Components;
 use Site\Helpers as Helpers;
 use Site\Handlers as Handlers;
 
-$userHandler = new Handlers\User();
+$userHandler = new Handlers\User\Account();
 $viewData = $userHandler->login();
 
-$tokenField = Helpers\Protection::showPublicTokenField();
+$tokenField = Helpers\Protection::viewPublicTokenField();
 
 
 $markup = <<<HTML
@@ -24,14 +24,14 @@ Helpers\Section::add('head', $markup);
 <?php Components\Page::includes('header'); ?>
 <?php Components\Page::includes('top'); ?>
 
-<div class="panel login-panel">
+<div class="panel user-panel">
     <div class="panel-heading">
         <h1>Login</h1>
     </div>
     
     <div class="panel-body">
         <div class="col-sm-4">
-            <form class="login" action="" method="post">
+            <form class="validate" action="" method="post">
                 <?=$tokenField?>
                 
                 <div class="input-group">
@@ -44,7 +44,13 @@ Helpers\Section::add('head', $markup);
                     <label>Password</label><br>
                     <input class="form-control validate[required,minSize[6],maxSize[60]]" 
                         type="password" name="pass" placeholder="Password">
+                        
+                    <div>
+                        <a href="/user/reset-password.php">Forgot your password?</a>
+                    </div>
                 </div>
+                
+                <br>
 
                 <button class="btn" type="submit">Login</button>
             
@@ -53,7 +59,7 @@ Helpers\Section::add('head', $markup);
     </div>
     
     <ul>
-        <?=Helpers\Message::messageList($viewData->messages)?>
+        <?=Helpers\Message::viewList($viewData->messages)?>
     </ul>
 
 </div>
@@ -63,7 +69,11 @@ $markup = <<<HTML
     <script src="/assets/plugins/validation-engine/jquery.validationEngine-en.js"></script>
     <script src="/assets/plugins/validation-engine/jquery.validationEngine.js"></script>
     <script>
-        $(".login").validationEngine();
+        $('.validate').validationEngine('attach', {
+            validateNonVisibleFields: true,
+            updatePromptsPosition:true,
+            scrollOffset: 150
+        });
     </script>
 HTML;
 

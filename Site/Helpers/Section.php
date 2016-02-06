@@ -7,7 +7,7 @@ class Section extends Helper
 {
     private static $_sections = [];
     
-    public static function show($key) {
+    public static function view($key) {
         if (isset(self::$_sections[$key])) {
             return self::$_sections[$key];
         }

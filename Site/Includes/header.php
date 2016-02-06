@@ -22,10 +22,10 @@ use Site\Helpers as Helpers;
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <link href="/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
-        <?=Helpers\Section::show('head')?>
+        <?=Helpers\Section::view('head')?>
 
         <link href="/assets/css/bootstrap-reset.css" rel="stylesheet">
-        <link href="/assets/css/custom.css" rel="stylesheet">
+        <link href="/assets/css/custom.css?rev=1" rel="stylesheet">
        
 
         <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->

@@ -42,7 +42,7 @@ class Content extends Helper
 	    return strtolower(str_replace(' ', '-', $string));
     }
 
-    public static function showImage($image, $thumb = false, $attributes = []) {
+    public static function viewImage($image, $thumb = false, $attributes = []) {
         $_attr = parent::getAttributes($attributes);
         $link = Components\Path::imageLink($image, $thumb);
 

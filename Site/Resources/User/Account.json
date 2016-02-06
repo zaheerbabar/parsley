@@ -1,6 +1,8 @@
 {
+    "success-pass-reset": "You'll recieve an email shortly with the details to reset your password.",
     "error-invalid": "Email or Password is not valid.",
     "error-email": "Email is not valid.",
+    "error-email-exists": "Email address already exists.",
     "error-pass": "Password is not valid.",
     "error-old-pass": "Old Password is not valid.",
     "error-new-pass": "New Password is not valid.",

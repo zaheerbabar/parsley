@@ -3,7 +3,7 @@ namespace Site\Helpers;
 
 class Message extends Helper
 {
-    public static function showSingle($messages, $key, $outerTag = 'span', $attributes = []) {
+    public static function view($messages, $key, $outerTag = 'span', $attributes = []) {
         if (empty($key) == false && empty($messages[$key]['value']) == false) {
             if (empty($outerTag)) {
                 return $messages[$key]['value'];
@@ -22,7 +22,7 @@ class Message extends Helper
         return null;
     }
 
-    public static function messageList($data, $attributes = []) {
+    public static function viewList($data, $attributes = []) {
         return parent::iterate(\array_column($data, 'value'), 'li', $attributes);
     }
 

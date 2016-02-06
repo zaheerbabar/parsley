@@ -10,7 +10,7 @@ use Site\Helpers as Helpers;
 $handler = new Handlers\Project();
 $viewData = $handler->viewAll();
 
-$token = Helpers\Protection::showPrivateToken();
+$token = Helpers\Protection::viewPrivateToken();
 
 $markup = <<<HTML
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.1/css/bootstrap-datepicker3.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@ HTML;
 
 Helpers\Section::add('head', $markup);
 
-$confirmMessage = Helpers\Message::showSingle($viewData->messages, 'confirm-delete', null);
+$confirmMessage = Helpers\Message::view($viewData->messages, 'confirm-delete', null);
 
 ?>
 
@@ -59,14 +59,14 @@ $confirmMessage = Helpers\Message::showSingle($viewData->messages, 'confirm-dele
 <?php if (isset($viewData->messages[Objects\MessageType::SUCCESS])) : ?>
 <div class="alert alert-success alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <?=Helpers\Message::showSingle($viewData->messages, Objects\MessageType::SUCCESS)?>
+    <?=Helpers\Message::view($viewData->messages, Objects\MessageType::SUCCESS)?>
 </div>
 <?php endif; ?>
 
 <?php if (isset($viewData->messages[Objects\MessageType::WARNING])) : ?>
 <div class="alert alert-warning alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Oops!</strong> <?=Helpers\Message::showSingle($viewData->messages, Objects\MessageType::WARNING)?>
+  <strong>Oops!</strong> <?=Helpers\Message::view($viewData->messages, Objects\MessageType::WARNING)?>
 </div>
 <?php endif; ?>
 
@@ -97,7 +97,7 @@ $confirmMessage = Helpers\Message::showSingle($viewData->messages, 'confirm-dele
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                         <a class="btn btn-xs action-btn btn-danger" 
-                            href="?_action=delete&id=<?=$obj->id?>&_token=<?=$token?>">
+                            href="?_page=<?=$viewData->data->page?>&_action=delete&id=<?=$obj->id?>&_token=<?=$token?>">
                             <span class="glyphicon glyphicon-remove confirm-action"></span>
                         </a>
                     </td>
@@ -121,10 +121,8 @@ $markup = <<<HTML
     <script>
         $(function() {
 
-            $('.confirm-action').click(function() {
-                confirmAction('{$confirmMessage}');
-                
-                return false;
+            $('.table .confirm-action').click(function() {
+                return confirmAction('{$confirmMessage}');
             });
             
             $('.paging-container').pagination({

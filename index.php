@@ -6,7 +6,7 @@ use Site\Components as Components;
 
 $user = Components\Auth::getAuthUserData();
 
-$token = Helpers\Protection::showPrivateToken();
+$token = Helpers\Protection::viewPrivateToken();
 
 ?>
 

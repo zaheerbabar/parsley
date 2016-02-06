@@ -259,7 +259,7 @@ button.btn:hover {
     border-radius: 4px !important;
 }
 
-.login-panel .input-group .form-control {
+.user-panel .input-group .form-control {
     font-weight: 100;
     margin-bottom: 8px;
     border-radius: 4px !important;
@@ -321,7 +321,7 @@ button.btn:hover {
         margin-right: 3px;
     }
     
-    .login-panel .input-group .form-control {
+    .user-panel .input-group .form-control {
         width: 260px;
     }
 

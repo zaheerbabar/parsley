@@ -6,12 +6,12 @@ use Site\Components as Components;
 use Site\Handlers as Handlers;
 use Site\Objects as Objects;
 
-$handler = new Handlers\Account();
+$handler = new Handlers\User\Setting();
 $viewData = $handler->view();
 
 $user = Components\Auth::getAuthUserData();
 
-$tokenField = Helpers\Protection::showPublicTokenField();
+$tokenField = Helpers\Protection::viewPublicTokenField();
 
 $markup = <<<HTML
     <link href="/assets/plugins/validation-engine/validationEngine.jquery.css" rel="stylesheet">
@@ -30,14 +30,14 @@ Helpers\Section::add('head', $markup);
 <?php if (isset($viewData->messages[Objects\MessageType::SUCCESS])) : ?>
 <div class="alert alert-success alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <?=Helpers\Message::showSingle($viewData->messages, Objects\MessageType::SUCCESS)?>
+    <?=Helpers\Message::view($viewData->messages, Objects\MessageType::SUCCESS)?>
 </div>
 <?php endif; ?>
 
 <?php if (isset($viewData->messages[Objects\MessageType::ERROR])) : ?>
 <div class="alert alert-danger alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>Oops!</strong> <?=Helpers\Message::showSingle($viewData->messages, Objects\MessageType::ERROR)?>
+    <strong>Oops!</strong> <?=Helpers\Message::view($viewData->messages, Objects\MessageType::ERROR)?>
 </div>
 <?php endif; ?>
 
@@ -70,7 +70,7 @@ Helpers\Section::add('head', $markup);
                     </div>
                 </div>
                 
-                <form class="edit hidden" action="" method="post">
+                <form class="edit validate hidden" action="" method="post">
                     <?=$tokenField?>
                     
                     <div class="col-sm-8 input-group pull-left field">
@@ -102,7 +102,7 @@ Helpers\Section::add('head', $markup);
                     </div>
                 </div>
                 
-                <form class="edit hidden" action="" method="post">
+                <form class="edit validate hidden" action="" method="post">
                     <?=$tokenField?>
                     
                     <div class="col-sm-8 input-group pull-left field">
@@ -123,7 +123,7 @@ Helpers\Section::add('head', $markup);
                     <div class="row alert alert-danger" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                         <span class="sr-only">Error:</span>
-                        <?=Helpers\Message::showSingle($viewData->messages, 'old-pass')?>
+                        <?=Helpers\Message::view($viewData->messages, 'old-pass')?>
                     </div>
                 <?php endif; ?>
                 </form>
@@ -140,7 +140,11 @@ $markup = <<<HTML
     <script src="/assets/plugins/validation-engine/jquery.validationEngine-en.js"></script>
     <script src="/assets/plugins/validation-engine/jquery.validationEngine.js"></script>
     <script>
-        $(".edit").validationEngine();
+        $('.validate').validationEngine('attach', {
+            validateNonVisibleFields: true,
+            updatePromptsPosition:true,
+            scrollOffset: 150
+        });
     
         $(function() {
             $('.settings-group .view .action a').click(function() {

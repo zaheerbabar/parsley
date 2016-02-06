@@ -1,69 +1,19 @@
 <?php
-namespace Site\Handlers;
+namespace Site\Handlers\User;
 
+use Site\Handlers as Handlers;
 use Site\Library\Utilities as Utilities;
 use Site\Components as Components;
 use Site\Objects as Objects;
 use Site\Model as Model;
 
-class User extends Handler
+class Account extends Handlers\Handler
 {
     public function __construct() {
         parent::__construct();
         $this->_loadResource();
     }
     
-    public function viewAll() {
-        Components\Auth::redirectUnAuth();
-        
-        $this->_loadMessages();
-        
-        $model = new Model\User();
-        $profileModel = new Model\Profile();
-
-        $currentUserId = Components\Auth::getAuthUserData('id');
-
-        $result = $model->getAll($this->_currentPage($_GET), $currentUserId);
-        $total = $model->totalCount($currentUserId);
-        
-        if (empty($result)) {
-            $this->_setMessage('warning', 'error-no-record', Objects\MessageType::WARNING);
-                
-            return $this->_responseHTML();
-        }
-        
-        $users = [];
-
-        foreach($result as $user) {
-            $obj = new \stdClass();
-            
-            $obj->id = $user->getID();
-            $obj->email = $user->getEmail();
-            $obj->creation_date = $user->getCreationDate();
-            $obj->roles = $model->getRoles($user->getID());
-            
-            $profile = $profileModel->getByUserID($user->getID());
-            
-            $obj->name = $profile->getFirstName();
-            
-            $users[] = $obj;
-        }
-
-        $viewData = new \stdClass();
-        
-        $viewData->result = $users;
-        $viewData->page = $this->_requestedPage($_GET);
-        $viewData->total = $total;
-        $viewData->pages = $this->_totalPages($total);
-        $viewData->limit = PAGE_SIZE;
-        
-        return $this->_responseHTML($viewData);
-    }
-    
-    private function _loadMessages() {
-        $this->_setMessage('confirm-delete', 'confirm-delete', Objects\MessageType::CONFIRM);
-    }
-
     public function login() {
         Components\Auth::redirectAuth();
 
@@ -100,30 +50,6 @@ class User extends Handler
         Components\Path::redirect('/index.php');
     }
     
-    public function changePassword() {
-        Components\Auth::redirectUnAuth();
-
-        if ($this->_isPostBack()) {
-            if ($this->_validateChangePassword() == false) {
-                return $this->_responseHTML();
-            }
-
-            $user = new Objects\User();
-            $oldPassword = trim($_POST['old-pass']);
-            $user->setPassword($_POST['new-pass']);
-
-            $model = new Model\User();
-            
-            if (($model->changePassword($oldPassword, $user)) != false) {
-                Components\Path::redirect('/index.php');
-            }
-            
-            $this->_setMessage('old-pass', 'error-old-pass', Objects\MessageType::ERROR);
-        }
-                
-        return $this->_responseHTML();
-    }
-
     public function resetPassword() {
         Components\Auth::redirectAuth();
 
@@ -137,11 +63,14 @@ class User extends Handler
 
             $model = new Model\User();
             
-            if (($model->resetPassword($user))) {
-                Components\Path::redirect('/index.php');
-            }
+            $this->_setMessage(Objects\MessageType::SUCCESS, 'success-pass-reset', 
+                Objects\MessageType::ERROR);
+            
+            // if (($model->resetPassword($user))) {
+            //     
+            // }
         }
-                
+        
         return $this->_responseHTML();
     }
 
@@ -182,7 +111,7 @@ class User extends Handler
             $model = new Model\User();
 
             if ($model->isEmailExists($user)) {
-                $this->_setMessage('email', 'Email already exists.', 
+                $this->_setMessage('email', 'error-email-exists', 
                     Objects\MessageType::ERROR);
 
                 return $this->_responseHTML();
@@ -282,31 +211,7 @@ class User extends Handler
 
         return empty($errors) ? true : false;
     }
-
-    private function _validateChangePassword() {
-        if (!$this->_validatePublicRequest()) return false;
-
-        $errors = [];
-
-        //if (Components\Captcha::checkAnswer() == false) {
-        //    $errors['captcha'] = 'Captcha is not valid.';
-        //}
-
-        if (empty($_POST['old-pass'])) {
-            $errors['old-pass'] = ['key' => 'error-old-pass', 
-                'type' => Objects\MessageType::ERROR];
-        }
-        
-        if (empty($_POST['new-pass'])) {
-            $errors['new-pass'] = ['key' => 'error-new-pass', 
-                'type' => Objects\MessageType::ERROR];
-        }
-
-        $this->_setMessages($errors);
-
-        return empty($errors) ? true : false;
-    }
-
+    
     private function _validateResetPassword() {
         if (!$this->_validatePublicRequest()) return false;
 

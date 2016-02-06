@@ -67,7 +67,7 @@ class Project extends Handler
         if ($model->delete($_GET['id'])) {
             $this->_setFlashMessage('success-delete', 'success-delete');
             
-            Components\Path::redirect(sprintf('/project/projects.php?page=%s', 
+            Components\Path::redirect(sprintf('/project/projects.php?_page=%s', 
                 $this->_requestedPage($_GET)));
         }
         

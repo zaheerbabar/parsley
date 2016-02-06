@@ -3,7 +3,7 @@ use Site\Components as Components;
 use Site\Helpers as Helpers;
 use Site\Objects as Objects;
 
-$token = Helpers\Protection::showPrivateToken();
+$token = Helpers\Protection::viewPrivateToken();
 
 ?>
 <!-- Navbar -->
@@ -61,7 +61,7 @@ $token = Helpers\Protection::showPrivateToken();
                         <li role="separator" class="divider"></li>
                         
                         <?php if (Components\Auth::isAuth()) : ?>
-                            <li><a href="/user/account.php">My Account</a></li>
+                            <li><a href="/user/setting.php">My Account</a></li>
                             <li><a href="/user/logout.php?_token=<?=$token?>">Logout</a></li>
                         <?php else : ?>
                             <li><a href="/user/login.php">Login</a></li>

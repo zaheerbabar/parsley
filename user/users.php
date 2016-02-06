@@ -6,10 +6,10 @@ use Site\Library\Utilities as Utilities;
 use Site\Handlers as Handlers;
 use Site\Helpers as Helpers;
 
-$handler = new Handlers\User();
+$handler = new Handlers\User\User();
 $viewData = $handler->viewAll();
 
-$confirmMessage = Helpers\Message::showSingle($viewData->messages, 'confirm-delete', null);
+$confirmMessage = Helpers\Message::view($viewData->messages, 'confirm-delete', null);
 
 ?>
 
@@ -50,7 +50,7 @@ $confirmMessage = Helpers\Message::showSingle($viewData->messages, 'confirm-dele
 <?php if (isset($viewData->messages['warning'])) : ?>
 <div class="alert alert-warning alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Oops!</strong> <?=Helpers\Message::showSingle($viewData->messages, 'warning')?>
+  <strong>Oops!</strong> <?=Helpers\Message::view($viewData->messages, 'warning')?>
 </div>
 <?php endif; ?>
 

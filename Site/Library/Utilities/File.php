@@ -9,8 +9,15 @@ class File
         return pathinfo($fileName, PATHINFO_EXTENSION);
     }
 
-    public static function getWithoutExtension($fileName) {
-        return pathinfo($fileName, PATHINFO_FILENAME);
+    public static function getWithoutExtension($fileName, $keepPath = false) {
+        $output = '';
+        if ($keepPath) {
+            $path = pathinfo($fileName, PATHINFO_DIRNAME);
+            $output = $path . '/';
+        }
+        
+        $output .= pathinfo($fileName, PATHINFO_FILENAME);
+        return $output;
     }
 
 	public static function cleanName($fileName) {

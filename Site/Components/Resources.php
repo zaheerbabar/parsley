@@ -14,7 +14,7 @@ class Resources
     }
 
     public function loadFile($file, $lang = null) {
-        $file = Utilities\File::getWithoutExtension($file);
+        $file = Utilities\File::getWithoutExtension($file, true);
 
         $path = realpath(sprintf('%s%s%s.json', SITE_DIR.DS.self::_DIR.DS, $lang, $file));
 

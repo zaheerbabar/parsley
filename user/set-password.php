@@ -5,10 +5,10 @@ use Site\Components as Components;
 use Site\Helpers as Helpers;
 use Site\Handlers as Handlers;
 
-$userHandler = new Handlers\User();
+$userHandler = new Handlers\User\Account();
 $viewData = $userHandler->setPassword();
 
-$tokenField = Helpers\Protection::showPublicTokenField();
+$tokenField = Helpers\Protection::viewPublicTokenField();
 
 ?>
 
@@ -21,7 +21,7 @@ $tokenField = Helpers\Protection::showPublicTokenField();
     <h2>Change Password</h2>
     
     <div class="warning">
-        <?=Helpers\Message::showSingle($viewData->messages, 'warning')?>
+        <?=Helpers\Message::view($viewData->messages, 'warning')?>
     </div>
 
     <form action="" method="post">
@@ -31,7 +31,7 @@ $tokenField = Helpers\Protection::showPublicTokenField();
     </form>
     
     <ul>
-        <?=Helpers\Message::messageList($viewData->messages)?>
+        <?=Helpers\Message::viewList($viewData->messages)?>
     </ul>
 
 </div>

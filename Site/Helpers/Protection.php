@@ -5,13 +5,13 @@ use Site\Components as Components;
 
 class Protection extends Helper
 {
-    public static function showPrivateToken() {
+    public static function viewPrivateToken() {
         $token = Components\Token::getPrivateToken();
 
         return $token;
     }
 
-    public static function showPublicTokenField($attributes = []) {
+    public static function viewPublicTokenField($attributes = []) {
         $token = Components\Token::setPublicToken();
 
         $_attr = parent::getAttributes($attributes);
@@ -20,7 +20,7 @@ class Protection extends Helper
         return $_output;
     }
 
-    public static function showCaptcha() {
+    public static function viewCaptcha() {
         return Components\Captcha::getHTML();
     }
 }
