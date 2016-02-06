@@ -27,16 +27,24 @@ class Path
         header(sprintf('Location: %s', $location), true, $status);
         exit();
     }
-
-    public static function redirectNotFound() {
-        self::redirect('/error/404.php');
+    
+    public static function refresh() {
+        header('Refresh:0');
+        exit();
     }
 
-    public static function redirectForbidden() {
-        self::redirect('/error/403.php');
+    public static function redirectBack() {
+        if (empty($_SERVER['HTTP_REFERER'])) {
+            if(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) == $_SERVER['HTTP_HOST']) {
+                self::redirect($_SERVER['HTTP_REFERER']);
+            }
+        }
+        
+        self::refresh();
     }
 
-    public static function redirectBadRequest() {
-        self::redirect('/error/400.php');
+    public static function redirectError($code) {
+        \http_response_code($code);
+        self::redirect('/error/error.php');
     }
 }

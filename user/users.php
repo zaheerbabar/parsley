@@ -98,9 +98,8 @@ $confirmMessage = Helpers\Message::view($viewData->messages, 'confirm-delete', n
 </div>
 <?php endif; ?>
 
+<?php Helpers\Section::begin('footer'); ?>
 
-<?php 
-$markup = <<<HTML
     <script src="/assets/plugins/simple-pagination/jquery.simple-pagination.js"></script>
     <script>
         $(function() {
@@ -119,10 +118,8 @@ $markup = <<<HTML
             });
         });
     </script>
-HTML;
 
-Helpers\Section::add('footer', $markup);
-?>
+<?php Helpers\Section::end(); ?>
 
 <?php Components\Page::includes('bottom'); ?>
 <?php Components\Page::includes('footer'); ?>

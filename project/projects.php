@@ -12,15 +12,15 @@ $viewData = $handler->viewAll();
 
 $token = Helpers\Protection::viewPrivateToken();
 
-$markup = <<<HTML
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.1/css/bootstrap-datepicker3.min.css" rel="stylesheet">
-HTML;
-
-Helpers\Section::add('head', $markup);
-
 $confirmMessage = Helpers\Message::view($viewData->messages, 'confirm-delete', null);
 
 ?>
+
+<?php Helpers\Section::begin('head'); ?>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.1/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+<?php Helpers\Section::end(); ?>
 
 <?php Components\Page::setTitle('Projects'); ?>
 <?php Components\Page::setIndex('projects'); ?>
@@ -113,9 +113,8 @@ $confirmMessage = Helpers\Message::view($viewData->messages, 'confirm-delete', n
 </div>
 <?php endif; ?>
 
+<?php Helpers\Section::begin('footer'); ?>
 
-<?php 
-$markup = <<<HTML
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.1/js/bootstrap-datepicker.min.js"></script>
     <script src="/assets/plugins/simple-pagination/jquery.simple-pagination.js"></script>
     <script>
@@ -136,10 +135,8 @@ $markup = <<<HTML
             });
         });
     </script>
-HTML;
 
-Helpers\Section::add('footer', $markup);
-?>
+<?php Helpers\Section::end(); ?>
 
 <?php Components\Page::includes('bottom'); ?>
 <?php Components\Page::includes('footer'); ?>

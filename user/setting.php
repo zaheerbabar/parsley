@@ -13,13 +13,13 @@ $user = Components\Auth::getAuthUserData();
 
 $tokenField = Helpers\Protection::viewPublicTokenField();
 
-$markup = <<<HTML
-    <link href="/assets/plugins/validation-engine/validationEngine.jquery.css" rel="stylesheet">
-HTML;
-
-Helpers\Section::add('head', $markup);
-
 ?>
+
+<?php Helpers\Section::begin('head'); ?>
+
+    <link href="/assets/plugins/validation-engine/validationEngine.jquery.css" rel="stylesheet">
+
+<?php Helpers\Section::end(); ?>
 
 <?php Components\Page::setTitle('Account'); ?>
 <?php Components\Page::setIndex('account'); ?>
@@ -135,8 +135,8 @@ Helpers\Section::add('head', $markup);
 
 </div>
 
-<?php 
-$markup = <<<HTML
+<?php Helpers\Section::begin('footer'); ?>
+
     <script src="/assets/plugins/validation-engine/jquery.validationEngine-en.js"></script>
     <script src="/assets/plugins/validation-engine/jquery.validationEngine.js"></script>
     <script>
@@ -145,7 +145,7 @@ $markup = <<<HTML
             updatePromptsPosition:true,
             scrollOffset: 150
         });
-    
+
         $(function() {
             $('.settings-group .view .action a').click(function() {
                 var field = $(this).parents('.field-container');
@@ -162,10 +162,8 @@ $markup = <<<HTML
             });
         });
     </script>
-HTML;
 
-Helpers\Section::add('footer', $markup);
-?>
+<?php Helpers\Section::end(); ?>
 
 <?php Components\Page::includes('bottom'); ?>
 <?php Components\Page::includes('footer'); ?>

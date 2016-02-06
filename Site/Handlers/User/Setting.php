@@ -25,7 +25,7 @@ class Setting extends Handlers\Handler
         $profile = $model->getByUserID(Components\Auth::getAuthUserData('id'));
 
         if (empty($profile)) {
-            Components\Path::redirectNotFound();
+            Components\Path::redirectError(404);
         }
 
         return $this->_responseHTML($profile);

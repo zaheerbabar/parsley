@@ -2,7 +2,7 @@
 namespace Site\Helpers;
 
 class Helper
-{
+{    
     protected static function getAttributes(array $attributes) {
         if (empty($attributes)) return null;
 

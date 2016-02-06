@@ -89,6 +89,13 @@ abstract class Handler
         return $this->_viewData;
     }
     
+    protected function _responseJSON($data = null) {
+        if ($data != null) $this->_viewData->data = $data;
+        
+        $this->_viewData->messages = $this->_messages;
+        return json_encode($this->_viewData);
+    }
+    
     protected function _validatePublicRequest($flashMessage = false) {
         if (Components\Token::validatePublicToken() == false) {
             if ($flashMessage) {
