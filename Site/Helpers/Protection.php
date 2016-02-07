@@ -15,7 +15,7 @@ class Protection extends Helper
         $token = Components\Token::setPublicToken();
 
         $_attr = parent::getAttributes($attributes);
-        $_output = sprintf('<input type="hidden" name="_token" value="%s" %s />', $token, $_attr);
+        $_output = sprintf('<input type="hidden" name="_token" value="%s" %s>', $token, $_attr);
 
         return $_output;
     }

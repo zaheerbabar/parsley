@@ -1,11 +1,11 @@
 <?php
-namespace Site\Handlers;
+namespace Site\Controller;
 
 use Site\Library\Utilities as Utilities;
 use Site\Components as Components;
 use Site\Objects as Objects;
 
-abstract class Handler
+abstract class BaseController
 {
     protected $_resources;
     protected $_viewData;
@@ -28,7 +28,7 @@ abstract class Handler
     }
     
     protected function _isPostBack() {
-        return ($_POST || $_GET);
+        return (isset($_POST['_postback']) || isset($_GET['_postback']));
     }
     
     protected function _actionCall($object, $handler = '_requestHandler') {
@@ -73,7 +73,7 @@ abstract class Handler
             $start = false;
             for ($i = 0; $i < count($class); $i++) {
                 if ($start) $path[] = $class[$i];
-                if ($class[$i] == 'Handlers') $start = true;
+                if ($class[$i] == 'Controller') $start = true;
             }
             
             $file = implode(DS, $path);
@@ -82,11 +82,12 @@ abstract class Handler
         return $this->_resources->loadFile($file, $lang);
     }
 
-    protected function _responseHTML($data = null) {
+    protected function _responseHTML($data = null, $view) {
         if ($data != null) $this->_viewData->data = $data;
         
         $this->_viewData->messages = $this->_messages;
-        return $this->_viewData;
+        
+        return $this->_loadView($this->_viewData, $view);
     }
     
     protected function _responseJSON($data = null) {
@@ -94,6 +95,21 @@ abstract class Handler
         
         $this->_viewData->messages = $this->_messages;
         return json_encode($this->_viewData);
+    }
+
+    private function _loadView($viewData, $view) {
+        $_view = realpath(sprintf('%s/View/%s.php', SITE_DIR, $view));
+        
+        if ($_view == false) {
+            throw new \Exception(sprintf('[%s] View template path is not correct.', $view));
+        }
+        
+        ob_start();
+        require_once($_view);
+        $content = ob_get_contents();
+        ob_end_clean();
+        
+        return $content;
     }
     
     protected function _validatePublicRequest($flashMessage = false) {

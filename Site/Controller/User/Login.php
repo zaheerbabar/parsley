@@ -1,20 +1,20 @@
 <?php
-namespace Site\Handlers\User;
+namespace Site\Controller\User;
 
-use Site\Handlers as Handlers;
+use Site\Controller as Controller;
 use Site\Library\Utilities as Utilities;
 use Site\Components as Components;
 use Site\Objects as Objects;
 use Site\Model as Model;
 
-class Account extends Handlers\Handler
+class Login extends Controller\BaseController
 {
     public function __construct() {
         parent::__construct();
         $this->_loadResource();
     }
     
-    public function login() {
+    public function index() {
         Components\Auth::redirectAuth();
 
         if ($this->_isPostBack()) {
@@ -37,7 +37,7 @@ class Account extends Handlers\Handler
             $this->_setMessage('warning', 'error-invalid', Objects\MessageType::WARNING);
         }
         
-        return $this->_responseHTML();
+        return $this->_responseHTML(null, 'user/login');
     }
 
     public function logout() {
