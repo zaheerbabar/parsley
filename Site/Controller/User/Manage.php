@@ -1,24 +1,27 @@
 <?php
-namespace Site\Handlers\User;
+namespace Site\Controller\User;
 
-use Site\Handlers as Handlers;
+use Site\Controller as Controller;
 use Site\Library\Utilities as Utilities;
 use Site\Components as Components;
 use Site\Objects as Objects;
 use Site\Model as Model;
 
-class User extends Handlers\Handler
+class Manage extends Controller\BaseController
 {
     public function __construct() {
         parent::__construct();
         $this->_loadResource();
+        
+        $this->_setGlobalMessage(null, Objects\MessageType::SUCCESS, Objects\MessageType::SUCCESS, true);
+        $this->_setGlobalMessage(null, Objects\MessageType::ERROR, Objects\MessageType::ERROR, true);
+        
+        $this->_setMessage('confirm-delete', 'confirm-delete', Objects\MessageType::CONFIRM);
     }
     
-    public function viewAll() {
+    public function index() {
         Components\Auth::redirectUnAuth();
-        
-        $this->_loadMessages();
-        
+
         $model = new Model\User();
         $profileModel = new Model\Profile();
 
@@ -28,9 +31,9 @@ class User extends Handlers\Handler
         $total = $model->totalCount($currentUserId);
         
         if (empty($result)) {
-            $this->_setMessage('warning', 'error-no-record', Objects\MessageType::WARNING);
+            $this->_setGlobalMessage(null, 'error-no-record', Objects\MessageType::WARNING);
                 
-            return $this->_responseHTML();
+            return $this->_responseHTML(null, 'user/manage');
         }
         
         $users = [];
@@ -58,11 +61,7 @@ class User extends Handlers\Handler
         $viewData->pages = $this->_totalPages($total);
         $viewData->limit = PAGE_SIZE;
         
-        return $this->_responseHTML($viewData);
-    }
-    
-    private function _loadMessages() {
-        $this->_setMessage('confirm-delete', 'confirm-delete', Objects\MessageType::CONFIRM);
+        return $this->_responseHTML($viewData, 'user/manage');
     }
     
 }

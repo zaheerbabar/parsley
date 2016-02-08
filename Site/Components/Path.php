@@ -7,25 +7,27 @@ class Path
         return implode(DS, func_get_args($segments));
     }
 
-    public static function imageLink($image, $thumb = false) {
-        if (empty($image)) new InvalidArgumentException('Not a valid input.');
-
-        if ($thumb) return THUMB_URL.$image;
-
-        return IMAGE_URL.$image;
+    public static function redirect($url = '/', $query = null, $status = 302) {
+        if (empty($query) == false) {
+            $url .= '?' . http_build_query($query);
+        }
+        
+        header(sprintf('Location: %s', $url), true, $status);
+        exit();
     }
     
-    public static function link($url, $addToken = false, $query = []) {
-        if (empty($url)) new InvalidArgumentException('Not a valid input.');
-
-        $outputFormat = '%s?%s';
-
-        if (empty($query) == false) return sprintf($outputFormat, $url, http_build_query($query));
-    }
-
-    public static function redirect($location, $status = 302) {
-        header(sprintf('Location: %s', $location), true, $status);
-        exit();
+    public static function redirectRoute($route = null, $query = null, $status = 302) {
+        $url = [];
+        
+        if (empty($route) == false) {
+            $url['_route'] = $route;
+        }
+        
+        if (empty($query) == false) {
+            $url = \array_merge($url, $query);
+        }
+        
+        self::redirect('/', $url, $status);
     }
     
     public static function refresh() {
@@ -41,10 +43,5 @@ class Path
         }
         
         self::refresh();
-    }
-
-    public static function redirectError($code) {
-        \http_response_code($code);
-        self::redirect('/error/error.php');
     }
 }

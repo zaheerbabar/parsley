@@ -1,13 +1,6 @@
 <?php
-require_once realpath($_SERVER['DOCUMENT_ROOT'].'/Site/Library/Initialize.php');
-
 use Site\Helpers as Helpers;
 use Site\Components as Components;
-use Site\Handlers as Handlers;
-use Site\Objects as Objects;
-
-$handler = new Handlers\User\Setting();
-$viewData = $handler->view();
 
 $user = Components\Auth::getAuthUserData();
 
@@ -21,25 +14,10 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
 
 <?php Helpers\Section::end(); ?>
 
-<?php Components\Page::setTitle('Account'); ?>
-<?php Components\Page::setIndex('account'); ?>
-<?php Components\Page::includes('header'); ?>
-<?php Components\Page::includes('top'); ?>
-
-
-<?php if (isset($viewData->messages[Objects\MessageType::SUCCESS])) : ?>
-<div class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <?=Helpers\Message::view($viewData->messages, Objects\MessageType::SUCCESS)?>
-</div>
-<?php endif; ?>
-
-<?php if (isset($viewData->messages[Objects\MessageType::ERROR])) : ?>
-<div class="alert alert-danger alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>Oops!</strong> <?=Helpers\Message::view($viewData->messages, Objects\MessageType::ERROR)?>
-</div>
-<?php endif; ?>
+<?php Helpers\Page::setTitle('Account'); ?>
+<?php Helpers\Page::setIndex('account'); ?>
+<?php Helpers\Page::includes('header'); ?>
+<?php Helpers\Page::includes('top'); ?>
 
 <div class="panel settings-panel">
     <div class="panel-heading">
@@ -70,7 +48,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
                     </div>
                 </div>
                 
-                <form class="edit validate hidden" action="" method="post">
+                <form class="edit validate hidden" action="<?=Helpers\Link::route('user/setting/updateprofile', null, true)?>" method="post">
                     <?=$tokenField?>
                     
                     <div class="col-sm-8 input-group pull-left field">
@@ -85,7 +63,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
                     </div>
                     
                     <div class="action pull-right">
-                        <button class="btn" type="submit" name="_action" value="profile">Save</button>
+                        <button class="btn" type="submit" value="profile">Save</button>
                         <a href="#">Cancel</a>
                     </div>
                 </form>
@@ -102,7 +80,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
                     </div>
                 </div>
                 
-                <form class="edit validate hidden" action="" method="post">
+                <form class="edit validate hidden" action="<?=Helpers\Link::route('user/setting/updatepassword', null, true)?>" method="post">
                     <?=$tokenField?>
                     
                     <div class="col-sm-8 input-group pull-left field">
@@ -113,17 +91,17 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
                     </div>
                     
                     <div class="action pull-right">
-                        <button class="btn" type="submit" name="_action" value="password">Save</button>
+                        <button class="btn" type="submit" value="password">Save</button>
                         <a href="#">Cancel</a>
                     </div>
                     
                     <div class="clearfix"></div>
                 
-                <?php if (isset($viewData->messages['old-pass'])) : ?>
+                <?php if (Helpers\Message::isLocalExists('old-pass')) : ?>
                     <div class="row alert alert-danger" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                         <span class="sr-only">Error:</span>
-                        <?=Helpers\Message::view($viewData->messages, 'old-pass')?>
+                        <?=Helpers\Message::viewLocal('old-pass')?>
                     </div>
                 <?php endif; ?>
                 </form>
@@ -165,5 +143,5 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
 
 <?php Helpers\Section::end(); ?>
 
-<?php Components\Page::includes('bottom'); ?>
-<?php Components\Page::includes('footer'); ?>
+<?php Helpers\Page::includes('bottom'); ?>
+<?php Helpers\Page::includes('footer'); ?>

@@ -36,7 +36,7 @@ else {
 }
 
 define('SITE_TITLE', 'Parsley');
-define('LOGIN_URL', BASE_URL.'user/login.php');
+define('LOGIN_URL', BASE_URL.'?_route=user/login');
 define('UPLOAD_URL', BASE_URL.'uploads/');
 define('IMAGE_URL', UPLOAD_URL.'images/');
 define('THUMB_URL', IMAGE_URL.'thumbs/');

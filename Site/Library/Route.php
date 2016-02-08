@@ -6,8 +6,8 @@ class Route
     const _KEY = '_route';
     const CLASS_NS = 'Site\\Controller\\';
     const HOME_CLASS = 'Home';
-    const ERROR_CLASS = 'Error';
     const INDEX_METHOD = 'index';
+    const ERROR_METHOD = 'Error';
 
     private $_class = null;
     private $_method = null;
@@ -55,9 +55,11 @@ class Route
             echo $controller->{$this->_method}();
         }
         else {
-            $class = self::CLASS_NS . self::ERROR_CLASS;
+            \http_response_code(404);
+            
+            $class = self::CLASS_NS . self::HOME_CLASS;
             $controller = new $class();
-            echo $controller->notFound();
+            echo $controller->{self::ERROR_METHOD}();
         }
     }
 }

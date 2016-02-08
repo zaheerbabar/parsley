@@ -1,12 +1,5 @@
 <?php
-require_once ($_SERVER['DOCUMENT_ROOT'].'/Site/Library/Initialize.php');
-
-use Site\Components as Components;
 use Site\Helpers as Helpers;
-use Site\Handlers as Handlers;
-
-$userHandler = new Handlers\User\Account();
-$viewData = $userHandler->login();
 
 $tokenField = Helpers\Protection::viewPublicTokenField();
 
@@ -18,47 +11,54 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
 
 <?php Helpers\Section::end(); ?>
 
-<?php Components\Page::setTitle('Login'); ?>
-<?php Components\Page::setIndex('login'); ?>
-<?php Components\Page::includes('header'); ?>
-<?php Components\Page::includes('top'); ?>
+<?php Helpers\Page::setTitle('Register'); ?>
+<?php Helpers\Page::setIndex('register'); ?>
+<?php Helpers\Page::includes('header'); ?>
+<?php Helpers\Page::includes('top'); ?>
 
 <div class="panel user-panel">
     <div class="panel-heading">
-        <h1>Login</h1>
+        <h1>Registration (Dev Testing)</h1>
     </div>
     
     <div class="panel-body">
         <div class="col-sm-4">
             <form class="validate" action="" method="post">
                 <?=$tokenField?>
-                
+
                 <div class="input-group">
-                    <label>Email</label><br>
                     <input class="form-control validate[required,custom[email]]" 
                         type="email" name="email" placeholder="Email">
                 </div>
                 
                 <div class="input-group">
-                    <label>Password</label><br>
                     <input class="form-control validate[required,minSize[6],maxSize[60]]" 
                         type="password" name="pass" placeholder="Password">
-                        
-                    <div>
-                        <a href="/user/reset-password.php">Forgot your password?</a>
-                    </div>
                 </div>
-                
-                <br>
 
-                <button class="btn" type="submit">Login</button>
+                <div class="input-group">
+                    <input class="form-control validate[required,custom[onlyLetterSp],minSize[3],maxSize[45]]" 
+                        type="text" name="first-name" placeholder="First Name">
+                </div>
+                    
+                <div class="input-group">
+                    <input class="form-control validate[required,custom[onlyLetterSp],minSize[3],maxSize[45]]" 
+                        type="text" name="last-name" placeholder="Last Name">
+                </div>
+                    
+                <div class="input-group">
+                    <input class="form-control validate[required,custom[phone]]" 
+                        type="tel" name="phone" placeholder="Phone">
+                </div>
+
+                <button class="btn" name="_postback" value="1" type="submit">Register</button>
             
             </form>
         </div>
     </div>
     
     <ul>
-        <?=Helpers\Message::viewList($viewData->messages)?>
+        <?=Helpers\Message::viewLocalList()?>
     </ul>
 
 </div>
@@ -77,5 +77,5 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
 
 <?php Helpers\Section::end(); ?>
 
-<?php Components\Page::includes('bottom'); ?>
-<?php Components\Page::includes('footer'); ?>
+<?php Helpers\Page::includes('bottom'); ?>
+<?php Helpers\Page::includes('footer'); ?>

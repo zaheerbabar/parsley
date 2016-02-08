@@ -1,13 +1,5 @@
 <?php
-require_once ($_SERVER['DOCUMENT_ROOT'].'/Site/Library/Initialize.php');
-
-use Site\Components as Components;
 use Site\Helpers as Helpers;
-use Site\Handlers as Handlers;
-use Site\Objects as Objects;
-
-$userHandler = new Handlers\User\Account();
-$viewData = $userHandler->resetPassword();
 
 $tokenField = Helpers\Protection::viewPublicTokenField();
 
@@ -19,17 +11,10 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
 
 <?php Helpers\Section::end(); ?>
 
-<?php Components\Page::setTitle('Reset Password'); ?>
-<?php Components\Page::setIndex('reset-password'); ?>
-<?php Components\Page::includes('header'); ?>
-<?php Components\Page::includes('top'); ?>
-
-<?php if (isset($viewData->messages[Objects\MessageType::SUCCESS])) : ?>
-<div class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <?=Helpers\Message::view($viewData->messages, Objects\MessageType::SUCCESS)?>
-</div>
-<?php endif; ?>
+<?php Helpers\Page::setTitle('Reset Password'); ?>
+<?php Helpers\Page::setIndex('reset-password'); ?>
+<?php Helpers\Page::includes('header'); ?>
+<?php Helpers\Page::includes('top'); ?>
 
 <div class="panel user-panel">
     <div class="panel-heading">
@@ -47,14 +32,14 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
                         type="email" name="email" placeholder="Email">
                 </div>
 
-                <button class="btn" type="submit">Reset</button>
+                <button class="btn" name="_postback" value="1" type="submit">Reset</button>
             
             </form>
         </div>
     </div>
     
     <ul>
-        <?=Helpers\Message::viewList($viewData->messages)?>
+        <?=Helpers\Message::viewLocalList()?>
     </ul>
 
 </div>
@@ -73,5 +58,5 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
 
 <?php Helpers\Section::end(); ?>
 
-<?php Components\Page::includes('bottom'); ?>
-<?php Components\Page::includes('footer'); ?>
+<?php Helpers\Page::includes('bottom'); ?>
+<?php Helpers\Page::includes('footer'); ?>

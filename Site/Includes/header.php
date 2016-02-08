@@ -13,7 +13,7 @@ use Site\Helpers as Helpers;
         <meta name="author" content="">
         <!--<link rel="icon" href="/favicon.ico">-->
 
-        <title><?=Components\Page::title()?></title>
+        <title><?=Helpers\Page::title()?></title>
 
         <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 

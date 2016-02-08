@@ -1,48 +1,50 @@
 <?php
-namespace Site\Handlers\User;
+namespace Site\Controller\User;
 
-use Site\Handlers as Handlers;
+use Site\Controller as Controller;
 use Site\Library\Utilities as Utilities;
 use Site\Components as Components;
 use Site\Objects as Objects;
 use Site\Model as Model;
 
-class Setting extends Handlers\Handler
+class Setting extends Controller\BaseController
 {
     public function __construct() {
         parent::__construct();
         $this->_loadResource();
+        
+        $this->_setGlobalMessage(null, Objects\MessageType::SUCCESS, Objects\MessageType::SUCCESS, true);
+        $this->_setGlobalMessage(null, Objects\MessageType::ERROR, Objects\MessageType::ERROR, true);
+        
+        $this->_setMessage('first-name', 'first-name', Objects\MessageType::ERROR,  true);
+        $this->_setMessage('last-name', 'last-name', Objects\MessageType::ERROR,  true);
+        $this->_setMessage('phone', 'phone', Objects\MessageType::ERROR,  true);
+        $this->_setMessage('old-pass', 'old-pass', Objects\MessageType::ERROR,  true);
+        $this->_setMessage('new-pass', 'new-pass', Objects\MessageType::ERROR,  true);
+        
     }
 
-    public function view() {
+    public function index() {
         Components\Auth::redirectUnAuth();
         
         if ($this->_isPostBack()) {
-            $this->_actionCall($this);
+            //$this->_actionCall($this);
         }
 
         $model = new Model\Profile();
         $profile = $model->getByUserID(Components\Auth::getAuthUserData('id'));
 
         if (empty($profile)) {
-            Components\Path::redirectError(404);
+            return $this->_responseHTMLError(404);
         }
 
-        return $this->_responseHTML($profile);
-    }
-
-    protected function _requestHandler($action) {
-        switch($action) {
-            case 'profile':
-                return $this->_updateProfile();
-            case 'password':
-                return $this->_updatePassword();
-        }
+        return $this->_responseHTML($profile, 'user/setting');
     }
     
-    private function _updateProfile() {
-        if ($this->_validateUpdateProfile() == false) {
-            return false;
+    public function updateProfile() {
+        if ($this->_isPostBack() == false || $this->_validateUpdateProfile() == false) {
+            $this->_setFlashValue(Objects\MessageType::ERROR, 'error-update');
+            Components\Path::redirectRoute('user/setting');
         }
 
         $obj = new Objects\Profile();
@@ -54,22 +56,19 @@ class Setting extends Handlers\Handler
         $model = new Model\Profile();
         
         if ($model->update($obj)) {
-            
-            $this->_setMessage(Objects\MessageType::SUCCESS, 'success-update', 
-                Objects\MessageType::SUCCESS);
-
-            return true;
+            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-update');
+        }
+        else {
+            $this->_setFlashValue(Objects\MessageType::ERROR, 'error-update');
         }
         
-        $this->_setMessage(Objects\MessageType::ERROR, 'error-update', 
-            Objects\MessageType::ERROR);
-        
-        return false;
+        Components\Path::redirectRoute('user/setting');
     }
     
-    private function _updatePassword() {
-        if ($this->_validateUpdatePassword() == false) {
-            return false;
+    public function updatePassword() {
+        if ($this->_isPostBack() == false || $this->_validateUpdatePassword() == false) {
+            $this->_setFlashValue(Objects\MessageType::ERROR, 'error-update');
+            Components\Path::redirectRoute('user/setting');
         }
 
         $obj = new Objects\User();
@@ -79,16 +78,14 @@ class Setting extends Handlers\Handler
         $model = new Model\User();
         
         if (($model->changePassword($oldPass, $obj)) != false) {
-            $this->_setMessage(Objects\MessageType::SUCCESS, 'success-update', 
-                Objects\MessageType::SUCCESS);
-            
-            return true;
+            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-update');
         }
-        
-        $this->_setMessage('old-pass', 'error-old-pass', 
-            Objects\MessageType::ERROR);
-            
-        return false;
+        else {
+            $this->_setFlashValue(Objects\MessageType::ERROR, 'error-update');
+            $this->_setFlashValue('old-pass', 'error-old-pass');
+        }
+
+        Components\Path::redirectRoute('user/setting');
     }
     
     
@@ -100,21 +97,18 @@ class Setting extends Handlers\Handler
         $errors = [];
         
         if (empty($_POST['first-name'])) {
-            $errors['first-name'] = ['key' => 'error-name', 
-                'type' => Objects\MessageType::ERROR];
+            $errors['first-name'] = 'error-name';
         }
         
         if (empty($_POST['last-name'])) {
-            $errors['last-name'] = ['key' => 'error-name', 
-                'type' => Objects\MessageType::ERROR];
+            $errors['last-name'] = 'error-name';
         }
 
         if (empty($_POST['phone'])) {
-            $errors['phone'] = ['key' => 'error-phone', 
-                'type' => Objects\MessageType::ERROR];
+            $errors['phone'] = 'error-phone';
         }
 
-        $this->_setMessages($errors);
+        $this->_setFlashValues($errors);
 
         return empty($errors) ? true : false;
     }
@@ -125,19 +119,15 @@ class Setting extends Handlers\Handler
         $errors = [];
         
         if (empty($_POST['old-pass'])) {
-            $errors['old-pass'] = ['key' => 'error-old-pass', 
-                'type' => Objects\MessageType::ERROR];
+            $errors['old-pass'] = 'error-old-pass';
         }
         
         if (empty($_POST['new-pass'])) {
-            $errors['new-pass'] = ['key' => 'error-new-pass', 
-                'type' => Objects\MessageType::ERROR];
+            $errors['new-pass'] = 'error-new-pass';
         }
 
-        $this->_setMessages($errors);
+        $this->_setFlashValues($errors);
 
         return empty($errors) ? true : false;
     }
-
-
 }

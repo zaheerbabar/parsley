@@ -13,7 +13,7 @@ $token = Helpers\Protection::viewPrivateToken();
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="glyphicon glyphicon-menu-hamburger"></span>
             </button>
-            <a class="navbar-brand" href="<?=BASE_URL?>"><?=Components\Page::siteTitle()?></a>
+            <a class="navbar-brand" href="<?=Helpers\Link::route()?>"><?=Helpers\Page::siteTitle()?></a>
         </div>
         
         <div id="navbar" class="navbar-collapse collapse">
@@ -21,7 +21,7 @@ $token = Helpers\Protection::viewPrivateToken();
             <?php if (Components\Auth::isAuth()) : ?>
                 <ul class="nav navbar-nav main-navbar-nav">
                     <li class="<?=Helpers\Selection::isIndex('patterns')?>">
-                        <a href="/workflow/patterns.php">Patterns</a>
+                        <a href="<?=Helpers\Link::route('workflow/pattern')?>">Patterns</a>
                     </li>
                     <li><a href="#">Pages</a></li>
                     <li><a href="#">Activity</a></li>
@@ -40,7 +40,7 @@ $token = Helpers\Protection::viewPrivateToken();
                             <li><a href="#">New Service CRM</a></li>
                             <li><a href="#">Sports Testing System</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="/project/projects.php">View All</a></li>
+                            <li><a href="<?=Helpers\Link::route('project')?>">View All</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -50,21 +50,21 @@ $token = Helpers\Protection::viewPrivateToken();
                     <ul class="dropdown-menu">
                         
                         <?php if (Components\Permission::inRoles([Objects\Role::SUPER_ADMIN, Objects\Role::ADMIN, Objects\Role::MANAGER])) : ?>
-                            <li><a href="/user/users.php">Manage Users</a></li>
+                            <li><a href="<?=Helpers\Link::route('user/manage')?>">Manage Users</a></li>
                             <li><a href="#">Templates</a></li>
                         <?php endif; ?>
                         
                         <?php if (Components\Permission::inRoles([Objects\Role::SUPER_ADMIN, Objects\Role::ADMIN])) : ?>
-                            <li><a href="/project/projects.php">Projects</a></li>
+                            <li><a href="<?=Helpers\Link::route('project')?>">Projects</a></li>
                         <?php endif; ?>
                         
                         <li role="separator" class="divider"></li>
                         
                         <?php if (Components\Auth::isAuth()) : ?>
-                            <li><a href="/user/setting.php">My Account</a></li>
-                            <li><a href="/user/logout.php?_token=<?=$token?>">Logout</a></li>
+                            <li><a href="<?=Helpers\Link::route('user/setting')?>">My Account</a></li>
+                            <li><a href="<?=Helpers\Link::route('user/account/logout', $token, true)?>">Logout</a></li>
                         <?php else : ?>
-                            <li><a href="/user/login.php">Login</a></li>
+                            <li><a href="<?=Helpers\Link::route('user/account/login')?>">Login</a></li>
                         <?php endif; ?>
                     </ul>
                 </li>
@@ -75,3 +75,5 @@ $token = Helpers\Protection::viewPrivateToken();
 </nav>
 
 <div class="container">
+    
+<?php Helpers\Page::includes('message'); ?>

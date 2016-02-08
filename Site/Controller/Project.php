@@ -1,25 +1,24 @@
 <?php
-namespace Site\Handlers;
+namespace Site\Controller;
 
 use Site\Library\Utilities as Utilities;
 use Site\Components as Components;
 use Site\Objects as Objects;
 use Site\Model as Model;
 
-class Project extends Handler
+class Project extends BaseController
 {
     public function __construct() {
         parent::__construct();
+        
+        $this->_setGlobalMessage(null, Objects\MessageType::SUCCESS, Objects\MessageType::SUCCESS, true);
+        $this->_setGlobalMessage(null, Objects\MessageType::ERROR, Objects\MessageType::ERROR, true);
+        
+        $this->_setMessage('confirm-delete', 'confirm-delete', Objects\MessageType::CONFIRM);
     }
     
-    public function viewAll() {
+    public function index() {
         Components\Auth::redirectUnAuth();
-        
-        $this->_loadMessages();
-        
-        if ($this->_isPostBack()) {
-            $this->_actionCall($this);
-        }
         
         $model = new Model\Project();
 
@@ -27,8 +26,7 @@ class Project extends Handler
         $total = $model->totalCount();
         
         if (empty($result)) {
-            $this->_setMessage('warning', 'error-no-record', 
-                Objects\MessageType::WARNING);
+            $this->_setGlobalMessage(null, 'error-no-record', Objects\MessageType::WARNING);
         }
         
         $viewData = new \stdClass();
@@ -39,52 +37,38 @@ class Project extends Handler
         $viewData->pages = $this->_totalPages($total);
         $viewData->limit = PAGE_SIZE;
         
-        return $this->_responseHTML($viewData);
+        return $this->_responseHTML($viewData, 'project/list');
     }
     
-    protected function _requestHandler($action) {
-        switch($action) {
-            case 'delete':
-                return $this->_delete();
-            default:
-                return false;
-        }
-    }
-    
-    private function _loadMessages() {
-        $this->_setMessage('confirm-delete', 'confirm-delete', Objects\MessageType::CONFIRM);
-        $this->_setMessage('warning', $this->_getFlashMessage('error-delete'), Objects\MessageType::CONFIRM);
-        $this->_setMessage('success', $this->_getFlashMessage('success-delete'), Objects\MessageType::CONFIRM);
-    }
-    
-    private function _delete() {
-        if ($this->_validateDelete() == false) {
-            return false;
+    public function delete() {
+        if ($this->_isPostBack() == false || $this->_validateDelete() == false) {
+            $this->_setFlashValue(Objects\MessageType::ERROR, 'error-delete');
+            Components\Path::redirectRoute('project', ['_page' => $this->_requestedPage($_GET)]);
         }
         
         $model = new Model\Project();
         
         if ($model->delete($_GET['id'])) {
-            $this->_setFlashMessage('success-delete', 'success-delete');
-            
-            Components\Path::redirect(sprintf('/project/projects.php?_page=%s', 
-                $this->_requestedPage($_GET)));
+            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-delete');
+        }
+        else {
+            $this->_setFlashValue(Objects\MessageType::ERROR, 'error-delete');
         }
         
-        return false;
+        Components\Path::redirectRoute('project', ['_page' => $this->_requestedPage($_GET)]);
     }
     
     private function _validateDelete() {
         if (!$this->_validatePrivateRequest()) return false;
 
-        $errors = [];
+        $isValid = true;
         
-        if (empty($_GET['id'])) {
-            $errors['error-delete'] = 'error-delete';
+        if (!empty($_GET['id'])) {
+            $isValid = false;
+            
+            $this->_setFlashValue(Objects\MessageType::ERROR, 'error-delete');
         }
-
-        $this->_setFlashMessages($errors);
         
-        return empty($errors) ? true : false;
+        return $isValid;
     }
 }

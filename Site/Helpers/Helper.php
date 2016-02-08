@@ -2,7 +2,9 @@
 namespace Site\Helpers;
 
 class Helper
-{    
+{
+    public static $viewData;
+    
     protected static function getAttributes(array $attributes) {
         if (empty($attributes)) return null;
 

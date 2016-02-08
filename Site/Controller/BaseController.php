@@ -4,12 +4,14 @@ namespace Site\Controller;
 use Site\Library\Utilities as Utilities;
 use Site\Components as Components;
 use Site\Objects as Objects;
+use Site\Helpers as Helpers;
 
 abstract class BaseController
 {
     protected $_resources;
     protected $_viewData;
-    private $_messages;
+    private $_globalMessages;
+    private $_localMessages;
 
     const _GLOBAL_RES = '_Global';
     const _MSGS_SESSION = '_messages';
@@ -19,10 +21,12 @@ abstract class BaseController
 
         $this->_viewData->user = Components\Auth::getAuthUserData();
         $this->_viewData->data = new \stdClass();
-        $this->_viewData->messages = [];
-        $this->_viewData->flashMessages = [];
+        $this->_viewData->messages = new \stdClass();
+        $this->_viewData->messages->global = [];
+        $this->_viewData->messages->local = [];
 
-        $this->_messages = [];
+        $this->_globalMessages = [];
+        $this->_localMessages = [];
 
         $this->_resources = new Components\Resources(self::_GLOBAL_RES);
     }
@@ -82,18 +86,31 @@ abstract class BaseController
         return $this->_resources->loadFile($file, $lang);
     }
 
-    protected function _responseHTML($data = null, $view) {
+    protected function _responseHTML($data = null, $view, $code = null) {
         if ($data != null) $this->_viewData->data = $data;
         
-        $this->_viewData->messages = $this->_messages;
+        $this->_viewData->messages->global = $this->_globalMessages;
+        $this->_viewData->messages->local = $this->_localMessages;
+        
+        if (empty($code) == false) \http_response_code($code);
+        
+        Helpers\Helper::$viewData = $this->_viewData;
         
         return $this->_loadView($this->_viewData, $view);
+    }
+    
+    protected function _responseHTMLError($code, $data = null) {
+        return $this->_responseHTML($data, 'error', $code);
     }
     
     protected function _responseJSON($data = null) {
         if ($data != null) $this->_viewData->data = $data;
         
-        $this->_viewData->messages = $this->_messages;
+        $this->_viewData->messages->global = $this->_globalMessages;
+        $this->_viewData->messages->local = $this->_localMessages;
+        
+        Helpers\Helper::$viewData = $this->_viewData;
+        
         return json_encode($this->_viewData);
     }
 
@@ -142,26 +159,60 @@ abstract class BaseController
         return true;
     }
     
-    protected function _setMessage($key, $valueKey, $type) {
+    protected function _setGlobalMessage($key = null, $valueKey, $type, $isFlash = false) {
+        if ($isFlash) {
+            $valueKey = $this->_getFlashValue($valueKey);
+        }
+        
         if ($this->_resources->isExists($valueKey)) {
-            $this->_messages[$key] = ['value' => $this->_resources->get($valueKey), 
-                'type' => $type];
+            
+            $message = ['value' => $this->_resources->get($valueKey), 'type' => $type];
+            
+            if (empty($key)) {
+                $this->_globalMessages[] = $message;
+            }
+            else {
+                $this->_globalMessages[$key] = $message;
+            }
+        }
+    }
+    
+    protected function _setMessage($key, $valueKey, $type, $isFlash = false) {
+        if ($isFlash) {
+            $valueKey = $this->_getFlashValue($valueKey);
+        }
+        
+        if ($this->_resources->isExists($valueKey)) {            
+            $message = ['value' => $this->_resources->get($valueKey), 'type' => $type];
+            
+            if (empty($key)) {
+                $this->_localMessages[] = $message;
+            }
+            else {
+                $this->_localMessages[$key] = $message;
+            }
+        }
+    }
+    
+    protected function _setGlobalMessages(array $messages) {
+        foreach($messages as $key => $data) {
+            $this->_setGlobalMessage($key, $data['key'], $data['type'], $data['flash']);
         }
     }
 
     protected function _setMessages(array $messages) {
         foreach($messages as $key => $data) {
-            $this->_setMessage($key, $data['key'], $data['type']);
+            $this->_setMessage($key, $data['key'], $data['type'], $data['flash']);
         }
     }
 
-    protected function _setFlashMessage($key, $value) {
+    protected function _setFlashValue($key, $value) {
         Utilities\Session::setSessionValue(self::_MSGS_SESSION, $key, $value);
     }
-
-    protected function _setFlashMessages(array $messages) {
-        foreach($messages as $key => $value) {
-            $this->_setFlashMessage($key, $value);
+    
+    protected function _setFlashValues($values) {
+        foreach($values as $key => $value) {
+            $this->_setFlashValue($key, $value);
         }
     }
     
@@ -169,7 +220,7 @@ abstract class BaseController
         return isset($this->_messages[$key]) ? $this->_messages[$key] : null;
     }
 
-    protected function _getFlashMessage($key) {
+    protected function _getFlashValue($key) {
         return Utilities\Session::getTempValueSession(self::_MSGS_SESSION, $key);
     }
 }

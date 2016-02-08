@@ -7,19 +7,19 @@ use Site\Components as Components;
 use Site\Objects as Objects;
 use Site\Model as Model;
 
-class Login extends Controller\BaseController
+class Account extends Controller\BaseController
 {
     public function __construct() {
         parent::__construct();
         $this->_loadResource();
     }
     
-    public function index() {
+    public function login() {
         Components\Auth::redirectAuth();
 
         if ($this->_isPostBack()) {
             if ($this->_validateLogin() == false) {
-                return $this->_responseHTML();
+                return $this->_responseHTML(null, 'user/login');
             }
 
             $user = new Objects\User();
@@ -30,8 +30,8 @@ class Login extends Controller\BaseController
             
             if (($_user = $model->login($user)) != false) {
                 Components\Auth::setAuth($_user);
-
-                Components\Path::redirect('/index.php');
+                
+                Components\Path::redirectRoute();
             }
 
             $this->_setMessage('warning', 'error-invalid', Objects\MessageType::WARNING);
@@ -43,11 +43,11 @@ class Login extends Controller\BaseController
     public function logout() {
         Components\Auth::redirectUnAuth();
 
-        if ($this->_validateLogout()) {
+        if ($this->_validateLogin() == false && $this->_validateLogout()) {
             Components\Auth::unAuth();
         }
         
-        Components\Path::redirect('/index.php');
+        Components\Path::redirectRoute();
     }
     
     public function resetPassword() {
@@ -55,7 +55,7 @@ class Login extends Controller\BaseController
 
         if ($this->_isPostBack()) {
             if ($this->_validateResetPassword() == false) {
-                return $this->_responseHTML();
+                return $this->_responseHTML(null, 'user/reset-password');
             }
 
             $user = new Objects\User();
@@ -71,7 +71,7 @@ class Login extends Controller\BaseController
             // }
         }
         
-        return $this->_responseHTML();
+        return $this->_responseHTML(null, 'user/reset-password');
     }
 
     public function setPassword() {
@@ -79,7 +79,7 @@ class Login extends Controller\BaseController
 
         if ($this->_isPostBack()) {
             if ($this->_validateSetPassword() == false) {
-                return $this->_responseHTML();
+                return $this->_responseHTML(null, 'user/set-password');
             }
 
             $user = new Objects\User();
@@ -89,11 +89,11 @@ class Login extends Controller\BaseController
             $model = new Model\User();
             
             if (($model->setPassword($user))) {
-                Components\Path::redirect('/index.php');
+                Components\Path::redirectRoute();
             }
         }
                 
-        return $this->_responseHTML();
+        return $this->_responseHTML(null, 'user/set-password');
     }
 
     public function register() {
@@ -101,7 +101,7 @@ class Login extends Controller\BaseController
 
         if ($this->_isPostBack()) {
             if ($this->_validateRegister() == false) {
-                return $this->_responseHTML();
+                return $this->_responseHTML(null, 'user/register');
             }
 
             $user = new Objects\User();
@@ -114,7 +114,7 @@ class Login extends Controller\BaseController
                 $this->_setMessage('email', 'error-email-exists', 
                     Objects\MessageType::ERROR);
 
-                return $this->_responseHTML();
+                return $this->_responseHTML(null, 'user/register');
             }
 
             $userId = $model->register($user);
@@ -129,7 +129,7 @@ class Login extends Controller\BaseController
                 $profileModel = new Model\Profile();
 
                 if ($profileModel->create($profile)) {
-                    Components\Path::redirect('thanks.php');
+                    Components\Path::redirectRoute('home/thanks');
                 }
             }
 
@@ -137,7 +137,7 @@ class Login extends Controller\BaseController
             throw new Exception('Something went wrong while registration.');
         }
                 
-        return $this->_responseHTML();
+        return $this->_responseHTML(null, 'user/register');
     }
 
 
@@ -168,7 +168,7 @@ class Login extends Controller\BaseController
 
         $errors = [];
 
-        $this->_setFlashMessages($errors);
+        $this->_setFlashValues($errors);
         
         return empty($errors) ? true : false;
     }

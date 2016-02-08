@@ -4,7 +4,7 @@ namespace Site\Helpers;
 class ClientError extends Helper
 {
     public static function statusCode() {
-        return isset($_SERVER['REDIRECT_STATUS']) ? $_SERVER['REDIRECT_STATUS'] : null;
+        return isset($_SERVER['REDIRECT_STATUS']) ? $_SERVER['REDIRECT_STATUS'] : \http_response_code();
     }
     
     public static function title($code = null) {

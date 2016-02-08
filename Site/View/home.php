@@ -1,6 +1,4 @@
 <?php
-require_once realpath($_SERVER['DOCUMENT_ROOT'].'/Site/Library/Initialize.php');
-
 use Site\Helpers as Helpers;
 use Site\Components as Components;
 
@@ -10,10 +8,10 @@ $token = Helpers\Protection::viewPrivateToken();
 
 ?>
 
-<?php Components\Page::setTitle('Home'); ?>
-<?php Components\Page::setIndex('home'); ?>
-<?php Components\Page::includes('header'); ?>
-<?php Components\Page::includes('top'); ?>
+<?php Helpers\Page::setTitle('Home'); ?>
+<?php Helpers\Page::setIndex('home'); ?>
+<?php Helpers\Page::includes('header'); ?>
+<?php Helpers\Page::includes('top'); ?>
 
 <div class="row clearfix">
     
@@ -33,14 +31,14 @@ $token = Helpers\Protection::viewPrivateToken();
         <?php if (Components\Auth::isAuth()) : ?>
 
         <p>You're logged in as <?=$user->email?>. 
-            <a href="?_route=user/logout&_token=<?=$token?>"><b>Logout</b></a>
+            <a href="<?=Helpers\Link::route('user/account/logout', $token, true)?>"><b>Logout</b></a>
         </p>
         
         <?php else: ?>
 
             <p>You're not logged in.
-                <a href="?_route=user/login"><b>Login</b></a> or 
-                <a href="?_route=user/logout/register"><b>Register</b> (Dev Test)</a>
+                <a href="<?=Helpers\Link::route('user/account/login')?>"><b>Login</b></a> or 
+                <a href="<?=Helpers\Link::route('user/account/register')?>"><b>Register</b> (Dev Test)</a>
             </p>
 
         <?php endif; ?>
@@ -49,5 +47,5 @@ $token = Helpers\Protection::viewPrivateToken();
 </div>
 
 
-<?php Components\Page::includes('bottom'); ?>
-<?php Components\Page::includes('footer'); ?>
+<?php Helpers\Page::includes('bottom'); ?>
+<?php Helpers\Page::includes('footer'); ?>

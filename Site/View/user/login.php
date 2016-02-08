@@ -1,7 +1,4 @@
 <?php
-require_once ($_SERVER['DOCUMENT_ROOT'].'/Site/Library/Initialize.php');
-
-use Site\Components as Components;
 use Site\Helpers as Helpers;
 
 $tokenField = Helpers\Protection::viewPublicTokenField();
@@ -14,10 +11,10 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
 
 <?php Helpers\Section::end(); ?>
 
-<?php Components\Page::setTitle('Login'); ?>
-<?php Components\Page::setIndex('login'); ?>
-<?php Components\Page::includes('header'); ?>
-<?php Components\Page::includes('top'); ?>
+<?php Helpers\Page::setTitle('Login'); ?>
+<?php Helpers\Page::setIndex('login'); ?>
+<?php Helpers\Page::includes('header'); ?>
+<?php Helpers\Page::includes('top'); ?>
 
 <div class="panel user-panel">
     <div class="panel-heading">
@@ -41,7 +38,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
                         type="password" name="pass" placeholder="Password">
                         
                     <div>
-                        <a href="/user/reset-password.php">Forgot your password?</a>
+                        <a href="<?=Helpers\Link::route('user/account/resetpassword')?>">Forgot your password?</a>
                     </div>
                 </div>
                 
@@ -54,7 +51,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
     </div>
     
     <ul>
-        <?=Helpers\Message::viewList($viewData->messages)?>
+        <?=Helpers\Message::viewLocalList()?>
     </ul>
 
 </div>
@@ -73,5 +70,5 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
 
 <?php Helpers\Section::end(); ?>
 
-<?php Components\Page::includes('bottom'); ?>
-<?php Components\Page::includes('footer'); ?>
+<?php Helpers\Page::includes('bottom'); ?>
+<?php Helpers\Page::includes('footer'); ?>

@@ -1,27 +1,27 @@
 <?php
-require_once realpath($_SERVER['DOCUMENT_ROOT'].'/Site/Library/Initialize.php');
-
-use Site\Components as Components;
 use Site\Library\Utilities as Utilities;
-use Site\Handlers as Handlers;
+use Site\Objects as Objects;
 use Site\Helpers as Helpers;
 
-$handler = new Handlers\User\User();
-$viewData = $handler->viewAll();
-
-$confirmMessage = Helpers\Message::view($viewData->messages, 'confirm-delete', null);
+$token = Helpers\Protection::viewPrivateToken();
 
 ?>
 
-<?php Components\Page::setTitle('Users'); ?>
-<?php Components\Page::setIndex('users'); ?>
-<?php Components\Page::includes('header'); ?>
-<?php Components\Page::includes('top'); ?>
+<?php Helpers\Section::begin('head'); ?>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.1/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+<?php Helpers\Section::end(); ?>
+
+<?php Helpers\Page::setTitle('Projects'); ?>
+<?php Helpers\Page::setIndex('projects'); ?>
+<?php Helpers\Page::includes('header'); ?>
+<?php Helpers\Page::includes('top'); ?>
 
 <div class="row clearfix">
     
     <div class="col-sm-5">
-        <h1>Users</h1>
+        <h1>Projects</h1>
     </div>
     
     <div class="col-sm-7">
@@ -39,7 +39,7 @@ $confirmMessage = Helpers\Message::view($viewData->messages, 'confirm-delete', n
                     </div>
                 </form>
             
-                <a href="#" class="btn action-btn"><i class="glyphicon glyphicon-plus"></i> New User</a>
+                <a href="#" class="btn action-btn"><i class="glyphicon glyphicon-plus"></i> New Project</a>
             </div>
  
         </div>
@@ -47,33 +47,24 @@ $confirmMessage = Helpers\Message::view($viewData->messages, 'confirm-delete', n
     
 </div>
 
-<?php if (isset($viewData->messages['warning'])) : ?>
-<div class="alert alert-warning alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <strong>Oops!</strong> <?=Helpers\Message::view($viewData->messages, 'warning')?>
-</div>
-<?php endif; ?>
-
-<?php if (!empty($viewData->data->result)) : ?>
+<?php if (empty($viewData->data->result) == false) : ?>
 <div class="row clearfix">
     
     <div class="col-sm-12">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Signed Up</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Creation Date</th>
                     <th class="align-center">Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($viewData->data->result as $obj) : ?>
                 <tr>
-                    <td><a href="/project/view.php"><?=$obj->name?></a></td>
-                    <td><?=$obj->email?></td>
-                    <td><?=Helpers\Iteration::implode($obj->roles)?></td>
+                    <td><a href="#"><?=$obj->title?></a></td>
+                    <td><?=Helpers\Content::shortDesc($obj->description, 60)?></td>
                     <td><?=Utilities\DateTime::fullDateFormat($obj->creation_date)?></td>
                     <td class="align-center">
                         <a class="btn btn-xs action-btn btn-info" href="#">
@@ -82,7 +73,8 @@ $confirmMessage = Helpers\Message::view($viewData->messages, 'confirm-delete', n
                         <a class="btn btn-xs action-btn btn-warning" href="#">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a class="btn btn-xs action-btn btn-danger" href="#">
+                        <a class="btn btn-xs action-btn btn-danger" 
+                            href="<?=Helpers\Link::route('project/delete', $token, true, ['_page' => $viewData->data->page, 'id' => $obj->id])?>">
                             <span class="glyphicon glyphicon-remove confirm-action"></span>
                         </a>
                     </td>
@@ -100,26 +92,28 @@ $confirmMessage = Helpers\Message::view($viewData->messages, 'confirm-delete', n
 
 <?php Helpers\Section::begin('footer'); ?>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.1/js/bootstrap-datepicker.min.js"></script>
     <script src="/assets/plugins/simple-pagination/jquery.simple-pagination.js"></script>
     <script>
         $(function() {
+
             $('.table .confirm-action').click(function() {
-                return confirmAction('{$confirmMessage}');
+                return confirmAction('<?=Helpers\Message::viewLocal('confirm-delete', null)?>');
             });
             
             $('.paging-container').pagination({
-                items: {$viewData->data->total},
+                items: <?=$viewData->data->total?>,
                 cssStyle: '',
                 listStyle: 'pagination',
-                itemsOnPage: {$viewData->data->limit},
-                hrefTextPrefix: '?_page=',
-                currentPage: {$viewData->data->page},
-                pages: {$viewData->data->pages}
+                itemsOnPage: <?=$viewData->data->limit?>,
+                hrefTextPrefix: '<?=Helpers\Link::route('project', null, false, ['_page' => ''])?>',
+                currentPage: <?=$viewData->data->page?>,
+                pages: <?=$viewData->data->pages?>
             });
         });
     </script>
 
 <?php Helpers\Section::end(); ?>
 
-<?php Components\Page::includes('bottom'); ?>
-<?php Components\Page::includes('footer'); ?>
+<?php Helpers\Page::includes('bottom'); ?>
+<?php Helpers\Page::includes('footer'); ?>
