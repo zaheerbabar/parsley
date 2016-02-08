@@ -24,5 +24,7 @@ if (DEBUG) {
     $whoops->register();
 }
 
-$route = new Library\Route();
-$route->execute();
+if (ROUTE) {
+    $route = new Library\Route();
+    $route->execute();
+}

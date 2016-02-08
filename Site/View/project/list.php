@@ -1,22 +1,22 @@
 <?php
 use Site\Library\Utilities as Utilities;
 use Site\Objects as Objects;
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 
-$token = Helpers\Protection::viewPrivateToken();
+$token = Helper\Protection::viewPrivateToken();
 
 ?>
 
-<?php Helpers\Section::begin('head'); ?>
+<?php Helper\Section::begin('head'); ?>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.1/css/bootstrap-datepicker3.min.css" rel="stylesheet">
 
-<?php Helpers\Section::end(); ?>
+<?php Helper\Section::end(); ?>
 
-<?php Helpers\Page::setTitle('Projects'); ?>
-<?php Helpers\Page::setIndex('projects'); ?>
-<?php Helpers\Page::includes('header'); ?>
-<?php Helpers\Page::includes('top'); ?>
+<?php Helper\Page::setTitle('Projects'); ?>
+<?php Helper\Page::setIndex('projects'); ?>
+<?php Helper\Page::includes('header'); ?>
+<?php Helper\Page::includes('top'); ?>
 
 <div class="row clearfix">
     
@@ -64,7 +64,7 @@ $token = Helpers\Protection::viewPrivateToken();
                 <?php foreach ($viewData->data->result as $obj) : ?>
                 <tr>
                     <td><a href="#"><?=$obj->title?></a></td>
-                    <td><?=Helpers\Content::shortDesc($obj->description, 60)?></td>
+                    <td><?=Helper\Content::shortDesc($obj->description, 60)?></td>
                     <td><?=Utilities\DateTime::fullDateFormat($obj->creation_date)?></td>
                     <td class="align-center">
                         <a class="btn btn-xs action-btn btn-info" href="#">
@@ -74,7 +74,7 @@ $token = Helpers\Protection::viewPrivateToken();
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                         <a class="btn btn-xs action-btn btn-danger" 
-                            href="<?=Helpers\Link::route('project/delete', $token, true, ['_page' => $viewData->data->page, 'id' => $obj->id])?>">
+                            href="<?=Helper\Link::route('project/delete', $token, true, ['_page' => $viewData->data->page, 'id' => $obj->id])?>">
                             <span class="glyphicon glyphicon-remove confirm-action"></span>
                         </a>
                     </td>
@@ -90,7 +90,7 @@ $token = Helpers\Protection::viewPrivateToken();
 </div>
 <?php endif; ?>
 
-<?php Helpers\Section::begin('footer'); ?>
+<?php Helper\Section::begin('footer'); ?>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.1/js/bootstrap-datepicker.min.js"></script>
     <script src="/assets/plugins/simple-pagination/jquery.simple-pagination.js"></script>
@@ -98,7 +98,7 @@ $token = Helpers\Protection::viewPrivateToken();
         $(function() {
 
             $('.table .confirm-action').click(function() {
-                return confirmAction('<?=Helpers\Message::viewLocal('confirm-delete', null)?>');
+                return confirmAction('<?=Helper\Message::viewLocal('confirm-delete', null)?>');
             });
             
             $('.paging-container').pagination({
@@ -106,14 +106,14 @@ $token = Helpers\Protection::viewPrivateToken();
                 cssStyle: '',
                 listStyle: 'pagination',
                 itemsOnPage: <?=$viewData->data->limit?>,
-                hrefTextPrefix: '<?=Helpers\Link::route('project', null, false, ['_page' => ''])?>',
+                hrefTextPrefix: '<?=Helper\Link::route('project', null, false, ['_page' => ''])?>',
                 currentPage: <?=$viewData->data->page?>,
                 pages: <?=$viewData->data->pages?>
             });
         });
     </script>
 
-<?php Helpers\Section::end(); ?>
+<?php Helper\Section::end(); ?>
 
-<?php Helpers\Page::includes('bottom'); ?>
-<?php Helpers\Page::includes('footer'); ?>
+<?php Helper\Page::includes('bottom'); ?>
+<?php Helper\Page::includes('footer'); ?>

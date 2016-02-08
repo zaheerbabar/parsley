@@ -1,14 +1,14 @@
 <?php
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 
-$tokenField = Helpers\Protection::viewPublicTokenField();
+$tokenField = Helper\Protection::viewPublicTokenField();
 
 ?>
 
-<?php Helpers\Page::setTitle('Set Password'); ?>
-<?php Helpers\Page::setIndex('set_password'); ?>
-<?php Helpers\Page::includes('header'); ?>
-<?php Helpers\Page::includes('top'); ?>
+<?php Helper\Page::setTitle('Set Password'); ?>
+<?php Helper\Page::setIndex('set_password'); ?>
+<?php Helper\Page::includes('header'); ?>
+<?php Helper\Page::includes('top'); ?>
 
 <div>
     <h2>Change Password</h2>
@@ -21,10 +21,10 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
     </form>
     
     <ul>
-        <?=Helpers\Message::viewLocalList()?>
+        <?=Helper\Message::viewLocalList()?>
     </ul>
 
 </div>
 
-<?php Helpers\Page::includes('bottom'); ?>
-<?php Helpers\Page::includes('footer'); ?>
+<?php Helper\Page::includes('bottom'); ?>
+<?php Helper\Page::includes('footer'); ?>

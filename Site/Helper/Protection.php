@@ -1,9 +1,9 @@
 <?php
-namespace Site\Helpers;
+namespace Site\Helper;
 
 use Site\Components as Components;
 
-class Protection extends Helper
+class Protection extends BaseHelper
 {
     public static function viewPrivateToken() {
         $token = Components\Token::getPrivateToken();

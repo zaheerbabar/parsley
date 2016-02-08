@@ -35,17 +35,19 @@ else {
     define('DB_PASSWORD', 'pi2KE&UbCvkC');
 }
 
+if (defined('ROUTE') == false) define('ROUTE', true);
+define('SSL', false);
+
 define('SITE_TITLE', 'Parsley');
+define('DEFAULT_LANG', 'en-US');
+date_default_timezone_set('Asia/Karachi');
+
 define('LOGIN_URL', BASE_URL.'?_route=user/login');
 define('UPLOAD_URL', BASE_URL.'uploads/');
 define('IMAGE_URL', UPLOAD_URL.'images/');
 define('THUMB_URL', IMAGE_URL.'thumbs/');
-define('SSL', false);
 
-define('DEFAULT_LANG', 'en-US');
-date_default_timezone_set('Asia/Karachi');
-
-define('NAMESPACE_PREFIX', 'Site\\');
+define('NS_PREFIX', 'Site\\');
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_DIR', rtrim(dirname(__DIR__), DS));
 define('SITE_DIR', rtrim(__DIR__, DS));
@@ -54,7 +56,6 @@ define('IMAGE_DIR', sprintf('%simages', UPLOAD_DIR.DS));
 define('THUMB_DIR', sprintf('%sthumbs', IMAGE_DIR.DS));
 
 define('PAGE_SIZE', 6);
-
 define('IMAGE_WIDTH', 600);
 define('IMAGE_HEIGHT', 600);
 define('THUMB_WIDTH', 100);

@@ -1,9 +1,9 @@
 <?php
-namespace Site\Helpers;
+namespace Site\Helper;
 
 use Site\Components as Components;
 
-class Section extends Helper
+class Section extends BaseHelper
 {
     private static $_sections = [];
     private static $_currentKey = null;

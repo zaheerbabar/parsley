@@ -1,20 +1,20 @@
 <?php
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 
-$tokenField = Helpers\Protection::viewPublicTokenField();
+$tokenField = Helper\Protection::viewPublicTokenField();
 
 ?>
 
-<?php Helpers\Section::begin('head'); ?>
+<?php Helper\Section::begin('head'); ?>
 
     <link href="/assets/plugins/validation-engine/validationEngine.jquery.css" rel="stylesheet">
 
-<?php Helpers\Section::end(); ?>
+<?php Helper\Section::end(); ?>
 
-<?php Helpers\Page::setTitle('Register'); ?>
-<?php Helpers\Page::setIndex('register'); ?>
-<?php Helpers\Page::includes('header'); ?>
-<?php Helpers\Page::includes('top'); ?>
+<?php Helper\Page::setTitle('Register'); ?>
+<?php Helper\Page::setIndex('register'); ?>
+<?php Helper\Page::includes('header'); ?>
+<?php Helper\Page::includes('top'); ?>
 
 <div class="panel user-panel">
     <div class="panel-heading">
@@ -58,12 +58,12 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
     </div>
     
     <ul>
-        <?=Helpers\Message::viewLocalList()?>
+        <?=Helper\Message::viewLocalList()?>
     </ul>
 
 </div>
 
-<?php Helpers\Section::begin('footer'); ?>
+<?php Helper\Section::begin('footer'); ?>
 
     <script src="/assets/plugins/validation-engine/jquery.validationEngine-en.js"></script>
     <script src="/assets/plugins/validation-engine/jquery.validationEngine.js"></script>
@@ -75,7 +75,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
         });
     </script>
 
-<?php Helpers\Section::end(); ?>
+<?php Helper\Section::end(); ?>
 
-<?php Helpers\Page::includes('bottom'); ?>
-<?php Helpers\Page::includes('footer'); ?>
+<?php Helper\Page::includes('bottom'); ?>
+<?php Helper\Page::includes('footer'); ?>

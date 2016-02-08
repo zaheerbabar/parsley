@@ -1,7 +1,7 @@
 <?php
-namespace Site\Helpers;
+namespace Site\Helper;
 
-class Form extends Helper
+class Form extends BaseHelper
 {
     public static function viewPostBackField($attributes = []) {
         $_attr = parent::getAttributes($attributes);

@@ -1,5 +1,5 @@
 <?php
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="/assets/js/jquery.min.js"><\/script>')</script>
@@ -8,7 +8,7 @@ use Site\Helpers as Helpers;
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="/assets/js/ie10-viewport-bug-workaround.js"></script>
     
-    <?=Helpers\Section::view('footer')?>
+    <?=Helper\Section::view('footer')?>
     
     <script src="/assets/js/custom.js"></script>
   </body>

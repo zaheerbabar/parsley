@@ -1,12 +1,12 @@
 <?php
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 
 ?>
 
-<?php Helpers\Page::setTitle('Patterns'); ?>
-<?php Helpers\Page::setIndex('patterns'); ?>
-<?php Helpers\Page::includes('header'); ?>
-<?php Helpers\Page::includes('top'); ?>
+<?php Helper\Page::setTitle('Patterns'); ?>
+<?php Helper\Page::setIndex('patterns'); ?>
+<?php Helper\Page::includes('header'); ?>
+<?php Helper\Page::includes('top'); ?>
 
 
 <div class="row clearfix">
@@ -114,5 +114,5 @@ use Site\Helpers as Helpers;
     </div>
 </div>
 
-<?php Helpers\Page::includes('bottom'); ?>
-<?php Helpers\Page::includes('footer'); ?>
+<?php Helper\Page::includes('bottom'); ?>
+<?php Helper\Page::includes('footer'); ?>

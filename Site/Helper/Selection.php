@@ -1,7 +1,7 @@
 <?php
-namespace Site\Helpers;
+namespace Site\Helper;
 
-class Selection extends Helper
+class Selection extends BaseHelper
 {
     const ACTIVE_CLASS = 'active';
     

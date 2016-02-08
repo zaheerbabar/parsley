@@ -1,7 +1,7 @@
-<?php Helpers\Page::setTitle('Thanks'); ?>
-<?php Helpers\Page::setIndex('thanks'); ?>
-<?php Helpers\Page::includes('header'); ?>
-<?php Helpers\Page::includes('top'); ?>
+<?php Helper\Page::setTitle('Thanks'); ?>
+<?php Helper\Page::setIndex('thanks'); ?>
+<?php Helper\Page::includes('header'); ?>
+<?php Helper\Page::includes('top'); ?>
 
 <div>
     <h2>Thank You!</h2>
@@ -11,5 +11,5 @@
 
 </div>
 
-<?php Helpers\Page::includes('bottom'); ?>
-<?php Helpers\Page::includes('footer'); ?>
+<?php Helper\Page::includes('bottom'); ?>
+<?php Helper\Page::includes('footer'); ?>

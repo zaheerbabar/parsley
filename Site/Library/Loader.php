@@ -8,9 +8,9 @@ class Loader
     }
 
     public static function autoload($class) {
-        $prefixLen = strlen(NAMESPACE_PREFIX);
+        $prefixLen = strlen(NS_PREFIX);
 
-        if (strncmp(NAMESPACE_PREFIX, $class, $prefixLen) === 0) {
+        if (strncmp(NS_PREFIX, $class, $prefixLen) === 0) {
             $file = str_replace('\\', DS, substr($class, $prefixLen));
             $file = realpath(sprintf('%s/%s.php', SITE_DIR, $file));
             if ($file !== false) {

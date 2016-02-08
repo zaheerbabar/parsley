@@ -1,7 +1,7 @@
 <?php
-namespace Site\Helpers;
+namespace Site\Helper;
 
-class Message extends Helper
+class Message extends BaseHelper
 {
     public static function view($message, $outerTag = 'span', $attributes = []) {
         if (empty($outerTag)) {

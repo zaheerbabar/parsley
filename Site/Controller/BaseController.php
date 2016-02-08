@@ -4,7 +4,7 @@ namespace Site\Controller;
 use Site\Library\Utilities as Utilities;
 use Site\Components as Components;
 use Site\Objects as Objects;
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 
 abstract class BaseController
 {
@@ -94,7 +94,7 @@ abstract class BaseController
         
         if (empty($code) == false) \http_response_code($code);
         
-        Helpers\Helper::$viewData = $this->_viewData;
+        Helper\BaseHelper::$viewData = $this->_viewData;
         
         return $this->_loadView($this->_viewData, $view);
     }
@@ -109,7 +109,7 @@ abstract class BaseController
         $this->_viewData->messages->global = $this->_globalMessages;
         $this->_viewData->messages->local = $this->_localMessages;
         
-        Helpers\Helper::$viewData = $this->_viewData;
+        Helper\BaseHelper::$viewData = $this->_viewData;
         
         return json_encode($this->_viewData);
     }

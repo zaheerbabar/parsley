@@ -1,7 +1,7 @@
 <?php
-namespace Site\Helpers;
+namespace Site\Helper;
 
-class Iteration extends Helper
+class Iteration extends BaseHelper
 {
     public static function viewList($data, $attributes = []) {
         return parent::iterate($data, 'li', $attributes);

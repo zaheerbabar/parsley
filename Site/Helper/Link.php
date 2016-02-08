@@ -1,7 +1,7 @@
 <?php
-namespace Site\Helpers;
+namespace Site\Helper;
 
-class Link extends Helper
+class Link extends BaseHelper
 {    
     public static function route($route = null, $token = null, $isPostBack = false, $query = null) {
         $url = [];

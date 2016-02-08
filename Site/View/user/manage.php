@@ -1,13 +1,13 @@
 <?php
 use Site\Library\Utilities as Utilities;
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 
 ?>
 
-<?php Helpers\Page::setTitle('Users'); ?>
-<?php Helpers\Page::setIndex('users'); ?>
-<?php Helpers\Page::includes('header'); ?>
-<?php Helpers\Page::includes('top'); ?>
+<?php Helper\Page::setTitle('Users'); ?>
+<?php Helper\Page::setIndex('users'); ?>
+<?php Helper\Page::includes('header'); ?>
+<?php Helper\Page::includes('top'); ?>
 
 <div class="row clearfix">
     
@@ -57,7 +57,7 @@ use Site\Helpers as Helpers;
                 <tr>
                     <td><a href="/project/view.php"><?=$obj->name?></a></td>
                     <td><?=$obj->email?></td>
-                    <td><?=Helpers\Iteration::implode($obj->roles)?></td>
+                    <td><?=Helper\Iteration::implode($obj->roles)?></td>
                     <td><?=Utilities\DateTime::fullDateFormat($obj->creation_date)?></td>
                     <td class="align-center">
                         <a class="btn btn-xs action-btn btn-info" href="#">
@@ -82,13 +82,13 @@ use Site\Helpers as Helpers;
 </div>
 <?php endif; ?>
 
-<?php Helpers\Section::begin('footer'); ?>
+<?php Helper\Section::begin('footer'); ?>
 
     <script src="/assets/plugins/simple-pagination/jquery.simple-pagination.js"></script>
     <script>
         $(function() {
             $('.table .confirm-action').click(function() {
-                return confirmAction('<?=Helpers\Message::viewLocal('confirm-delete', null)?>');
+                return confirmAction('<?=Helper\Message::viewLocal('confirm-delete', null)?>');
             });
             
             $('.paging-container').pagination({
@@ -96,14 +96,14 @@ use Site\Helpers as Helpers;
                 cssStyle: '',
                 listStyle: 'pagination',
                 itemsOnPage: <?=$viewData->data->limit?>,
-                hrefTextPrefix: '<?=Helpers\Link::route('user/manage', null, false, ['_page' => ''])?>',
+                hrefTextPrefix: '<?=Helper\Link::route('user/manage', null, false, ['_page' => ''])?>',
                 currentPage: <?=$viewData->data->page?>,
                 pages: <?=$viewData->data->pages?>
             });
         });
     </script>
 
-<?php Helpers\Section::end(); ?>
+<?php Helper\Section::end(); ?>
 
-<?php Helpers\Page::includes('bottom'); ?>
-<?php Helpers\Page::includes('footer'); ?>
+<?php Helper\Page::includes('bottom'); ?>
+<?php Helper\Page::includes('footer'); ?>

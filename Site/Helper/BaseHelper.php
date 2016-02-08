@@ -1,7 +1,7 @@
 <?php
-namespace Site\Helpers;
+namespace Site\Helper;
 
-class Helper
+class BaseHelper
 {
     public static $viewData;
     

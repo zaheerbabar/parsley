@@ -1,20 +1,20 @@
 <?php
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 
-$tokenField = Helpers\Protection::viewPublicTokenField();
+$tokenField = Helper\Protection::viewPublicTokenField();
 
 ?>
 
-<?php Helpers\Section::begin('head'); ?>
+<?php Helper\Section::begin('head'); ?>
 
     <link href="/assets/plugins/validation-engine/validationEngine.jquery.css" rel="stylesheet">
 
-<?php Helpers\Section::end(); ?>
+<?php Helper\Section::end(); ?>
 
-<?php Helpers\Page::setTitle('Login'); ?>
-<?php Helpers\Page::setIndex('login'); ?>
-<?php Helpers\Page::includes('header'); ?>
-<?php Helpers\Page::includes('top'); ?>
+<?php Helper\Page::setTitle('Login'); ?>
+<?php Helper\Page::setIndex('login'); ?>
+<?php Helper\Page::includes('header'); ?>
+<?php Helper\Page::includes('top'); ?>
 
 <div class="panel user-panel">
     <div class="panel-heading">
@@ -24,7 +24,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
     <div class="panel-body">
         <div class="col-sm-4">
             <form class="validate" action="" method="post">
-                <?=Helpers\Protection::viewPublicTokenField()?>
+                <?=Helper\Protection::viewPublicTokenField()?>
                 
                 <div class="input-group">
                     <label>Email</label><br>
@@ -38,7 +38,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
                         type="password" name="pass" placeholder="Password">
                         
                     <div>
-                        <a href="<?=Helpers\Link::route('user/account/resetpassword')?>">Forgot your password?</a>
+                        <a href="<?=Helper\Link::route('user/account/resetpassword')?>">Forgot your password?</a>
                     </div>
                 </div>
                 
@@ -51,12 +51,12 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
     </div>
     
     <ul>
-        <?=Helpers\Message::viewLocalList()?>
+        <?=Helper\Message::viewLocalList()?>
     </ul>
 
 </div>
 
-<?php Helpers\Section::begin('footer'); ?>
+<?php Helper\Section::begin('footer'); ?>
 
     <script src="/assets/plugins/validation-engine/jquery.validationEngine-en.js"></script>
     <script src="/assets/plugins/validation-engine/jquery.validationEngine.js"></script>
@@ -68,7 +68,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
         });
     </script>
 
-<?php Helpers\Section::end(); ?>
+<?php Helper\Section::end(); ?>
 
-<?php Helpers\Page::includes('bottom'); ?>
-<?php Helpers\Page::includes('footer'); ?>
+<?php Helper\Page::includes('bottom'); ?>
+<?php Helper\Page::includes('footer'); ?>

@@ -1,9 +1,9 @@
 <?php
-namespace Site\Helpers;
+namespace Site\Helper;
 
 use Site\Components as Components;
 
-class Content extends Helper
+class Content extends BaseHelper
 {
     public static function shortDesc($data, $char, $ellipsis = true) {
         $part = trim(substr($data, 0, strpos($data, ' ', $char)), '. ');

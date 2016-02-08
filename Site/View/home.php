@@ -1,17 +1,17 @@
 <?php
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 use Site\Components as Components;
 
 $user = Components\Auth::getAuthUserData();
 
-$token = Helpers\Protection::viewPrivateToken();
+$token = Helper\Protection::viewPrivateToken();
 
 ?>
 
-<?php Helpers\Page::setTitle('Home'); ?>
-<?php Helpers\Page::setIndex('home'); ?>
-<?php Helpers\Page::includes('header'); ?>
-<?php Helpers\Page::includes('top'); ?>
+<?php Helper\Page::setTitle('Home'); ?>
+<?php Helper\Page::setIndex('home'); ?>
+<?php Helper\Page::includes('header'); ?>
+<?php Helper\Page::includes('top'); ?>
 
 <div class="row clearfix">
     
@@ -31,14 +31,14 @@ $token = Helpers\Protection::viewPrivateToken();
         <?php if (Components\Auth::isAuth()) : ?>
 
         <p>You're logged in as <?=$user->email?>. 
-            <a href="<?=Helpers\Link::route('user/account/logout', $token, true)?>"><b>Logout</b></a>
+            <a href="<?=Helper\Link::route('user/account/logout', $token, true)?>"><b>Logout</b></a>
         </p>
         
         <?php else: ?>
 
             <p>You're not logged in.
-                <a href="<?=Helpers\Link::route('user/account/login')?>"><b>Login</b></a> or 
-                <a href="<?=Helpers\Link::route('user/account/register')?>"><b>Register</b> (Dev Test)</a>
+                <a href="<?=Helper\Link::route('user/account/login')?>"><b>Login</b></a> or 
+                <a href="<?=Helper\Link::route('user/account/register')?>"><b>Register</b> (Dev Test)</a>
             </p>
 
         <?php endif; ?>
@@ -47,5 +47,5 @@ $token = Helpers\Protection::viewPrivateToken();
 </div>
 
 
-<?php Helpers\Page::includes('bottom'); ?>
-<?php Helpers\Page::includes('footer'); ?>
+<?php Helper\Page::includes('bottom'); ?>
+<?php Helper\Page::includes('footer'); ?>

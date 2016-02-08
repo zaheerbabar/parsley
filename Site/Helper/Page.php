@@ -1,9 +1,9 @@
 <?php
-namespace Site\Helpers;
+namespace Site\Helper;
 
 use Site\Library\Utilities as Utilities;
 
-class Page extends Helper
+class Page extends BaseHelper
 {
     private static $_title = SITE_TITLE;
     private static $_index;
@@ -35,7 +35,7 @@ class Page extends Helper
     public static function includes($file) {
         $viewData = self::$viewData;
         
-        $file = realpath(sprintf('%s/Includes/%s.php', SITE_DIR, $file));
+        $file = realpath(sprintf('%s/Include/%s.php', SITE_DIR, $file));
         return include_once($file);
     }
 }

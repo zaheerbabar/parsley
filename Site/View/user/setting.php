@@ -1,23 +1,23 @@
 <?php
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 use Site\Components as Components;
 
 $user = Components\Auth::getAuthUserData();
 
-$tokenField = Helpers\Protection::viewPublicTokenField();
+$tokenField = Helper\Protection::viewPublicTokenField();
 
 ?>
 
-<?php Helpers\Section::begin('head'); ?>
+<?php Helper\Section::begin('head'); ?>
 
     <link href="/assets/plugins/validation-engine/validationEngine.jquery.css" rel="stylesheet">
 
-<?php Helpers\Section::end(); ?>
+<?php Helper\Section::end(); ?>
 
-<?php Helpers\Page::setTitle('Account'); ?>
-<?php Helpers\Page::setIndex('account'); ?>
-<?php Helpers\Page::includes('header'); ?>
-<?php Helpers\Page::includes('top'); ?>
+<?php Helper\Page::setTitle('Account'); ?>
+<?php Helper\Page::setIndex('account'); ?>
+<?php Helper\Page::includes('header'); ?>
+<?php Helper\Page::includes('top'); ?>
 
 <div class="panel settings-panel">
     <div class="panel-heading">
@@ -48,7 +48,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
                     </div>
                 </div>
                 
-                <form class="edit validate hidden" action="<?=Helpers\Link::route('user/setting/updateprofile', null, true)?>" method="post">
+                <form class="edit validate hidden" action="<?=Helper\Link::route('user/setting/updateprofile', null, true)?>" method="post">
                     <?=$tokenField?>
                     
                     <div class="col-sm-8 input-group pull-left field">
@@ -80,7 +80,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
                     </div>
                 </div>
                 
-                <form class="edit validate hidden" action="<?=Helpers\Link::route('user/setting/updatepassword', null, true)?>" method="post">
+                <form class="edit validate hidden" action="<?=Helper\Link::route('user/setting/updatepassword', null, true)?>" method="post">
                     <?=$tokenField?>
                     
                     <div class="col-sm-8 input-group pull-left field">
@@ -97,11 +97,11 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
                     
                     <div class="clearfix"></div>
                 
-                <?php if (Helpers\Message::isLocalExists('old-pass')) : ?>
+                <?php if (Helper\Message::isLocalExists('old-pass')) : ?>
                     <div class="row alert alert-danger" role="alert">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                         <span class="sr-only">Error:</span>
-                        <?=Helpers\Message::viewLocal('old-pass')?>
+                        <?=Helper\Message::viewLocal('old-pass')?>
                     </div>
                 <?php endif; ?>
                 </form>
@@ -113,7 +113,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
 
 </div>
 
-<?php Helpers\Section::begin('footer'); ?>
+<?php Helper\Section::begin('footer'); ?>
 
     <script src="/assets/plugins/validation-engine/jquery.validationEngine-en.js"></script>
     <script src="/assets/plugins/validation-engine/jquery.validationEngine.js"></script>
@@ -141,7 +141,7 @@ $tokenField = Helpers\Protection::viewPublicTokenField();
         });
     </script>
 
-<?php Helpers\Section::end(); ?>
+<?php Helper\Section::end(); ?>
 
-<?php Helpers\Page::includes('bottom'); ?>
-<?php Helpers\Page::includes('footer'); ?>
+<?php Helper\Page::includes('bottom'); ?>
+<?php Helper\Page::includes('footer'); ?>

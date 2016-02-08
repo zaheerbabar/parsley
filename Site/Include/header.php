@@ -1,6 +1,6 @@
 <?php
 use Site\Components as Components;
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +13,7 @@ use Site\Helpers as Helpers;
         <meta name="author" content="">
         <!--<link rel="icon" href="/favicon.ico">-->
 
-        <title><?=Helpers\Page::title()?></title>
+        <title><?=Helper\Page::title()?></title>
 
         <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
@@ -22,7 +22,7 @@ use Site\Helpers as Helpers;
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <link href="/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
-        <?=Helpers\Section::view('head')?>
+        <?=Helper\Section::view('head')?>
 
         <link href="/assets/css/bootstrap-reset.css" rel="stylesheet">
         <link href="/assets/css/custom.css?rev=1" rel="stylesheet">

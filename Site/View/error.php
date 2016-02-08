@@ -1,18 +1,18 @@
 <?php
-use Site\Helpers as Helpers;
+use Site\Helper as Helper;
 
 ?>
 
-<?php Helpers\Page::title(Helpers\ClientError::title()); ?>
-<?php Helpers\Page::setIndex('error'); ?>
-<?php Helpers\Page::includes('header'); ?>
-<?php Helpers\Page::includes('top'); ?>
+<?php Helper\Page::title(Helper\ClientError::title()); ?>
+<?php Helper\Page::setIndex('error'); ?>
+<?php Helper\Page::includes('header'); ?>
+<?php Helper\Page::includes('top'); ?>
 
 <div>
-    <h1><?=Helpers\ClientError::title()?></h1>
+    <h1><?=Helper\ClientError::title()?></h1>
 
-    <p><?=Helpers\ClientError::message()?></p>
+    <p><?=Helper\ClientError::message()?></p>
 </div>
 
-<?php Helpers\Page::includes('bottom'); ?>
-<?php Helpers\Page::includes('footer'); ?>
+<?php Helper\Page::includes('bottom'); ?>
+<?php Helper\Page::includes('footer'); ?>

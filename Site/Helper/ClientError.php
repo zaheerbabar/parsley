@@ -1,7 +1,7 @@
 <?php
-namespace Site\Helpers;
+namespace Site\Helper;
 
-class ClientError extends Helper
+class ClientError extends BaseHelper
 {
     public static function statusCode() {
         return isset($_SERVER['REDIRECT_STATUS']) ? $_SERVER['REDIRECT_STATUS'] : \http_response_code();
