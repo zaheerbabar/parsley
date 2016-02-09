@@ -63,7 +63,7 @@ class Project extends DAL
         $values = [
             'project_title' => ':title',
             'project_description' => ':description',
-            'project_creation_date' => ':creation_date'
+            'project_creation_date' => ':creation'
             ];
 
         $this->_pdo->createQueryBuilder()
@@ -103,7 +103,7 @@ class Project extends DAL
                     'user_id' => ':user_id'   
                 ])
                 ->setParameter('project_id', (int) $projectId)
-                ->setParameter('user_id', $user)
+                ->setParameter('user_id', (int) $user)
                 ->execute();
         }
         
@@ -119,7 +119,7 @@ class Project extends DAL
                     'user_id' => ':user_id'
                 ])
                 ->setParameter('project_id', (int) $projectId)
-                ->setParameter('user_id', $user)
+                ->setParameter('user_id', (int) $user)
                 ->execute();
         }
         

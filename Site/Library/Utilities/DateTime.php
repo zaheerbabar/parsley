@@ -27,6 +27,11 @@ class DateTime
         $dateTime = new \DateTime($time);
         return $dateTime->format('M d, Y H:i');
     }
+    
+    public static function jsDateFormat($time = 'now') {
+        $dateTime = new \DateTime($time);
+        return $dateTime->format('m/d/Y');
+    }
 
     public static function shortDateFormat($time = 'now') {
         $dateTime = new \DateTime($time);

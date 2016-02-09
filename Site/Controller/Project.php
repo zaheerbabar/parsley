@@ -58,6 +58,22 @@ class Project extends BaseController
         $model = new Model\Project();
         $viewData = $model->getByID($_GET['id']);
         
+        $viewData->creation_date = Utilities\DateTime::jsDateFormat($viewData->creation_date);
+        
+        return $this->_responseJSON($viewData);
+    }
+    
+    public function update() {
+        Components\Auth::redirectUnAuth();
+        
+        if ($this->_isPostBack() == false || $this->_validateUpdate() == false) {
+            return $this->_responseJSON(null, 400);
+        }
+        
+        $model = new Model\Project();
+        //$viewData = $model->getByID($_GET['id']);
+        
+        $viewData = 'Done';
         
         return $this->_responseJSON($viewData);
     }
@@ -92,6 +108,35 @@ class Project extends BaseController
         }
         
         return $isValid;
+    }
+    
+    private function _validateUpdate() {
+        if (!$this->_validatePrivateRequest()) return false;
+        
+        $errors = [];
+        
+        if (empty($_POST['id'])) {
+             $errors['id'] = true;
+        }
+        
+        if (empty($_POST['title'])) {
+            $errors['title'] = true;
+        }
+        
+        if (empty($_POST['creation'])) {
+            $errors['creation'] = true;
+        }
+        
+        if (empty($_POST['description'])) {
+            $errors['description'] = true;
+        }
+        
+        if (empty($errors) == false) {
+            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
+            return false;
+        }
+        
+        return true;
     }
     
     private function _validateDelete() {
