@@ -60,13 +60,13 @@ use Site\Helper as Helper;
                     <td><?=Helper\Iteration::implode($obj->roles)?></td>
                     <td><?=Utilities\DateTime::fullDateFormat($obj->creation_date)?></td>
                     <td class="align-center">
-                        <a class="btn btn-xs action-btn btn-info" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a class="btn btn-xs action-btn btn-warning" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a class="btn btn-xs action-btn btn-danger" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-remove confirm-action"></span>
                         </a>
                     </td>

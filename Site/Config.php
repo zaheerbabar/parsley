@@ -42,7 +42,7 @@ define('SITE_TITLE', 'Parsley');
 define('DEFAULT_LANG', 'en-US');
 date_default_timezone_set('Asia/Karachi');
 
-define('LOGIN_URL', BASE_URL.'?_route=user/login');
+define('LOGIN_URL', BASE_URL.'?_route=user/account/login');
 define('UPLOAD_URL', BASE_URL.'uploads/');
 define('IMAGE_URL', UPLOAD_URL.'images/');
 define('THUMB_URL', IMAGE_URL.'thumbs/');

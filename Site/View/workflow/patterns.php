@@ -51,13 +51,13 @@ use Site\Helper as Helper;
                     <td>Value 1</td>
                     <td>Front-end</td>
                     <td class="align-center">
-                        <a class="btn btn-xs btn-info action-btn" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a class="btn btn-xs btn-warning action-btn" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a class="btn btn-xs btn-danger action-btn" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     </td>
@@ -68,13 +68,13 @@ use Site\Helper as Helper;
                     <td>Value 1</td>
                     <td>Front-end</td>
                     <td class="align-center">
-                        <a class="btn btn-xs btn-info action-btn" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a class="btn btn-xs btn-warning action-btn" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a class="btn btn-xs btn-danger action-btn" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     </td>
@@ -85,13 +85,13 @@ use Site\Helper as Helper;
                     <td>Value 1</td>
                     <td>Front-end</td>
                     <td class="align-center">
-                        <a class="btn btn-xs btn-info action-btn" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a class="btn btn-xs btn-warning action-btn" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a class="btn btn-xs btn-danger action-btn" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     </td>
@@ -100,7 +100,7 @@ use Site\Helper as Helper;
         </table>
         
         <nav class="paging-container clearfix">
-            <ul class="pagination pull-right">
+            <ul class="pagination">
                 <li class="disabled">
                     <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span> Prev</a>
                 </li>

@@ -10,6 +10,8 @@ use Site\Model as Model;
 class Setting extends Controller\BaseController
 {
     public function __construct() {
+        Components\Auth::redirectUnAuth();
+        
         parent::__construct();
         $this->_loadResource();
         
@@ -25,8 +27,6 @@ class Setting extends Controller\BaseController
     }
 
     public function index() {
-        Components\Auth::redirectUnAuth();
-        
         if ($this->_isPostBack()) {
             //$this->_actionCall($this);
         }

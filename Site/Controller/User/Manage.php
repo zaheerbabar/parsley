@@ -10,6 +10,8 @@ use Site\Model as Model;
 class Manage extends Controller\BaseController
 {
     public function __construct() {
+        Components\Auth::redirectUnAuth();
+        
         parent::__construct();
         $this->_loadResource();
         
@@ -20,8 +22,6 @@ class Manage extends Controller\BaseController
     }
     
     public function index() {
-        Components\Auth::redirectUnAuth();
-
         $model = new Model\User();
         $profileModel = new Model\Profile();
 

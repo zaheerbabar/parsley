@@ -23,7 +23,7 @@ $tokenField = Helper\Protection::viewPublicTokenField();
     
     <div class="panel-body">
         <div class="col-sm-4">
-            <form class="validate" action="" method="post">
+            <form class="validate" action="<?=Helper\Link::route('user/account/login')?>" method="post">
                 <?=Helper\Protection::viewPublicTokenField()?>
                 
                 <div class="input-group">

@@ -67,13 +67,13 @@ $token = Helper\Protection::viewPrivateToken();
                     <td><?=Helper\Content::shortDesc($obj->description, 60)?></td>
                     <td><?=Utilities\DateTime::fullDateFormat($obj->creation_date)?></td>
                     <td class="align-center">
-                        <a class="btn btn-xs action-btn btn-info" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a class="btn btn-xs action-btn btn-warning" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                        <a class="btn btn-xs action-btn btn-danger" 
+                        <a class="btn btn-xs action-btn" 
                             href="<?=Helper\Link::route('project/delete', $token, true, ['_page' => $viewData->data->page, 'id' => $obj->id])?>">
                             <span class="glyphicon glyphicon-remove confirm-action"></span>
                         </a>

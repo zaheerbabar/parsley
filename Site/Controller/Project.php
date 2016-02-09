@@ -63,7 +63,7 @@ class Project extends BaseController
 
         $isValid = true;
         
-        if (!empty($_GET['id'])) {
+        if (empty($_GET['id'])) {
             $isValid = false;
             
             $this->_setFlashValue(Objects\MessageType::ERROR, 'error-delete');
