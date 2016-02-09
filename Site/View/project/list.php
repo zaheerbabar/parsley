@@ -70,7 +70,7 @@ $token = Helper\Protection::viewPrivateToken();
                         <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a class="btn btn-xs action-btn" href="#">
+                        <a class="btn btn-xs action-btn" data-toggle="modal" data-target="#editModal" data-id="<?=$obj->id?>" href="#">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                         <a class="btn btn-xs action-btn" 
@@ -88,6 +88,41 @@ $token = Helper\Protection::viewPrivateToken();
         
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalLabel">Project</h4>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="form-group">
+            <label for="title" class="control-label">Project Title</label>
+            <input type="text" class="form-control" id="title">
+          </div>
+          <div class="form-group">
+            <label for="creation-date" class="control-label">Creation</label>
+            <input type="text" class="form-control" id="creation-date">
+          </div>
+          <div class="form-group">
+            <label for="description" class="control-label">Description</label>
+            <textarea rows="6" class="form-control" id="description"></textarea>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <?php endif; ?>
 
 <?php Helper\Section::begin('footer'); ?>
@@ -110,6 +145,36 @@ $token = Helper\Protection::viewPrivateToken();
                 currentPage: <?=$viewData->data->page?>,
                 pages: <?=$viewData->data->pages?>
             });
+            
+            $('#editModal').on('show.bs.modal', function (event) {
+                var link = $(event.relatedTarget);
+                var id = link.data('id');
+                
+                var modal = $(this);
+                
+                getAJAX(
+                    '?_route=project/get', 
+                    '<?=$token?>',
+                    {id: id},
+                    function (response) {
+                        modal.find('.modal-body #title').val(response.data.title);
+                        modal.find('.modal-body #creation-date').val(response.data.creation_date);
+                        modal.find('.modal-body #description').text(response.data.description);
+                    }
+                );
+                  
+            });
+            
+            $('#editModal').on('hide.bs.modal', function (event) {
+                var modal = $(this);
+                
+                modal.find('.modal-body #title').val('');
+                modal.find('.modal-body #creation-date').val('');
+                modal.find('.modal-body #description').text('');
+            });
+            
+
+
         });
     </script>
 

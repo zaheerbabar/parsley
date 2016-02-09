@@ -13,12 +13,13 @@ class Project extends BaseController
         
         $this->_setGlobalMessage(null, Objects\MessageType::SUCCESS, Objects\MessageType::SUCCESS, true);
         $this->_setGlobalMessage(null, Objects\MessageType::ERROR, Objects\MessageType::ERROR, true);
-        
-        $this->_setMessage('confirm-delete', 'confirm-delete', Objects\MessageType::CONFIRM);
+        $this->_setGlobalMessage(null, Objects\MessageType::WARNING, Objects\MessageType::WARNING, true);
     }
     
     public function index() {
         Components\Auth::redirectUnAuth();
+        
+        $this->_loadMessages();
         
         $model = new Model\Project();
 
@@ -40,6 +41,27 @@ class Project extends BaseController
         return $this->_responseHTML($viewData, 'project/list');
     }
     
+    private function _loadMessages() {
+        $this->_setGlobalMessage(null, Objects\MessageType::SUCCESS, Objects\MessageType::SUCCESS, true);
+        $this->_setGlobalMessage(null, Objects\MessageType::ERROR, Objects\MessageType::ERROR, true);
+        
+        $this->_setMessage('confirm-delete', 'confirm-delete', Objects\MessageType::CONFIRM);
+    }
+    
+    public function get() {
+        Components\Auth::redirectUnAuth();
+        
+        if ($this->_isPostBack() == false || $this->_validateGet() == false) {
+            return $this->_responseJSON(null, 400);
+        }
+        
+        $model = new Model\Project();
+        $viewData = $model->getByID($_GET['id']);
+        
+        
+        return $this->_responseJSON($viewData);
+    }
+    
     public function delete() {
         if ($this->_isPostBack() == false || $this->_validateDelete() == false) {
             $this->_setFlashValue(Objects\MessageType::ERROR, 'error-delete');
@@ -58,8 +80,22 @@ class Project extends BaseController
         Components\Path::redirectRoute('project', ['_page' => $this->_requestedPage($_GET)]);
     }
     
-    private function _validateDelete() {
+    private function _validateGet() {
         if (!$this->_validatePrivateRequest()) return false;
+
+        $isValid = true;
+        
+        if (empty($_GET['id'])) {
+            $isValid = false;
+            
+            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
+        }
+        
+        return $isValid;
+    }
+    
+    private function _validateDelete() {
+        if (!$this->_validatePrivateRequest(true)) return false;
 
         $isValid = true;
         

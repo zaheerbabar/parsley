@@ -30,6 +30,25 @@ class Project extends DAL
         return $result;
     }
     
+    public function getByID($id) {
+        $record = $this->_pdo->createQueryBuilder()
+            ->select('project_id', 'project_title', 'project_description', 'project_creation_date')
+            ->from('project')
+            ->where('project_id = :id')
+            ->setParameter('id', (int) $id)
+            ->execute()
+            ->fetch();
+
+            $result = (object) [
+                'id' => $record['project_id'],
+                'title' => $record['project_title'],
+                'description' => $record['project_description'],
+                'creation_date' => $record['project_creation_date']
+            ];
+        
+        return $result;
+    }
+    
     public function totalCount() {
         $count = $this->_pdo->createQueryBuilder()
             ->select('project_id')

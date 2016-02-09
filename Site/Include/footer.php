@@ -11,5 +11,6 @@ use Site\Helper as Helper;
     <?=Helper\Section::view('footer')?>
     
     <script src="/assets/js/custom.js"></script>
+    <script src="/assets/js/helper.js"></script>
   </body>
 </html>

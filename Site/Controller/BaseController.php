@@ -19,7 +19,6 @@ abstract class BaseController
     public function __construct() {
         $this->_viewData = new \stdClass();
 
-        $this->_viewData->user = Components\Auth::getAuthUserData();
         $this->_viewData->data = new \stdClass();
         $this->_viewData->messages = new \stdClass();
         $this->_viewData->messages->global = [];
@@ -89,6 +88,7 @@ abstract class BaseController
     protected function _responseHTML($data = null, $view, $code = null) {
         if ($data != null) $this->_viewData->data = $data;
         
+        $this->_viewData->user = Components\Auth::getAuthUserData();
         $this->_viewData->messages->global = $this->_globalMessages;
         $this->_viewData->messages->local = $this->_localMessages;
         
@@ -103,11 +103,13 @@ abstract class BaseController
         return $this->_responseHTML($data, 'error', $code);
     }
     
-    protected function _responseJSON($data = null) {
+    protected function _responseJSON($data = null, $code = null) {
         if ($data != null) $this->_viewData->data = $data;
         
         $this->_viewData->messages->global = $this->_globalMessages;
         $this->_viewData->messages->local = $this->_localMessages;
+        
+        if (empty($code) == false) \http_response_code($code);
         
         Helper\BaseHelper::$viewData = $this->_viewData;
         
@@ -138,6 +140,8 @@ abstract class BaseController
             $this->_setMessage('warning', 'error-request', 
                     Objects\MessageType::WARNING);
             
+            \http_response_code(400);
+            
             return false;
         }
 
@@ -147,11 +151,13 @@ abstract class BaseController
     protected function _validatePrivateRequest($flashMessage = false) {
         if (Components\Token::validatePrivateToken() == false) {
             if ($flashMessage) {
-                $this->_setFlashMessage('warning', 'error-request');
+                $this->_setFlashMessage(Objects\MessageType::WARNING, 'error-request');
             }
             
-            $this->_setMessage('warning', 'error-request', 
+            $this->_setMessage(Objects\MessageType::WARNING, 'error-request', 
                     Objects\MessageType::WARNING);
+            
+            \http_response_code(400);
             
             return false;
         }
