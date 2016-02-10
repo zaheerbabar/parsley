@@ -2,8 +2,8 @@
 namespace Site\Helper;
 
 class Link extends BaseHelper
-{    
-    public static function route($route = null, $token = null, $isPostBack = false, $query = null) {
+{
+    public static function routePlain($route = null, $token = null, $isPostBack = false, $query = null) {
         $url = [];
         
         if (empty($route) == false) {
@@ -26,7 +26,12 @@ class Link extends BaseHelper
             return BASE_URL;
         }
         
-        return '?' . htmlentities(http_build_query($url));
+        return '?' . http_build_query($url);
+    }
+    
+    public static function route($route = null, $token = null, $isPostBack = false, $query = null) {
+        $output = self::routePlain($route, $token, $isPostBack, $query);
+        return htmlentities($output);
     }
     
     public static function image($image = null, $thumb = false) {

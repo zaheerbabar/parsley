@@ -74,13 +74,17 @@ class User extends DAL
         return $this->_pdo->lastInsertId();
     }
     
-    public function getAll($page = 1, $currentUserId) {
-        $records = $this->_pdo->createQueryBuilder()
+    public function getAll($page = 1, $skipUserId = null, $keyword = null) {
+        $query = $this->_pdo->createQueryBuilder()
             ->select('user_id', 'user_email', 'user_creation_date')
-            ->from('user')
-            ->where('user_id != :id')
-            ->setParameter('id', $currentUserId)
-            ->setFirstResult($page)
+            ->from('user');
+
+        if (empty($skipUserId) == false) {
+            $query->where('user_id != :id')
+                ->setParameter('id', $skipUserId);
+        }
+        
+        $records = $query->setFirstResult($page)
             ->setMaxResults(PAGE_SIZE)
             ->execute()
             ->fetchAll();
@@ -94,16 +98,43 @@ class User extends DAL
         return $result;
     }
     
-    public function totalCount($currentUserId) {
-        $count = $this->_pdo->createQueryBuilder()
+    public function totalCount($skipUserId = null) {
+        $query = $this->_pdo->createQueryBuilder()
             ->select('user_id')
-            ->from('user')
-            ->where('user_id != :id')
-            ->setParameter('id', $currentUserId)
-            ->execute()
-            ->rowCount();
+            ->from('user');
+
+        if (empty($skipUserId) == false) {
+            $query->where('user_id != :id')
+                ->setParameter('id', $skipUserId);
+        }
         
-        return $count;
+        return $query->execute()->rowCount();
+    }
+    
+    public function getFiltered($keyword = null) {
+        $query = $this->_pdo->createQueryBuilder()
+            ->select('user_id', 'user_email', 'user_creation_date')
+            ->from('user');
+            
+        if (empty($keyword) == false) {
+            $query->where(
+                        $this->_pdo->createQueryBuilder()->expr()
+                            ->like('user_email', ':email')
+                )
+                ->setParameter('email', '%'.$keyword.'%');
+        }
+        
+        $records = $query->setMaxResults(PAGE_SIZE)
+            ->execute()
+            ->fetchAll();
+            
+        $result = [];
+
+        foreach($records as $row) {
+            $result[] = $this->_objectMapper($row);
+        }
+        
+        return $result;
     }
 
     public function getRoles($userId) {

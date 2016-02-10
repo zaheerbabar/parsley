@@ -152,6 +152,19 @@ button.btn:hover {
     background-color: #3686be;
 }
 
+
+button.btn-primary {
+    color: #fff;
+}
+
+.select2-selection.select2-selection--multiple {
+    border: 1px solid #757575;
+}
+
+.select2-selection.select2-selection--multiple:focus {
+    border: 1px solid #555;
+}
+
 .page-action .search-form {
     display: inline;
     padding: 0;
@@ -280,7 +293,6 @@ button.btn:hover {
     margin-bottom: 8px;
     border-radius: 4px !important;
 }
-
 
 
 @media (min-width: 768px) {

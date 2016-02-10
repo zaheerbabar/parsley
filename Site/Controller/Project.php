@@ -56,11 +56,66 @@ class Project extends BaseController
         }
         
         $model = new Model\Project();
-        $viewData = $model->getByID($_GET['id']);
-        
-        $viewData->creation_date = Utilities\DateTime::jsDateFormat($viewData->creation_date);
+        if ($viewData = $model->getByID($_GET['id'])) {
+            $users = $model->getUsers($viewData->id);
+            
+            $viewData->users = [];
+            foreach ($users as $user) {
+                $viewData->users[] = [
+                    'id' => $user->id,
+                    'text' => $user->email
+                ];
+            }
+            
+            $viewData->creation_date = Utilities\DateTime::jsDateFormat($viewData->creation_date);
+        }
         
         return $this->_responseJSON($viewData);
+    }
+    
+    public function users() {
+        Components\Auth::redirectUnAuth();
+        
+        if ($this->_isPostBack() == false || $this->_validateUsers() == false) {
+            return $this->_responseJSON(null, 400);
+        }
+        
+        $model = new Model\User();
+        if ($users = $model->getFiltered($_GET['term'])) {
+            
+            $viewData = [];
+            foreach ($users as $user) {
+                $viewData[] = [
+                    'id' => $user->getID(),
+                    'text' => $user->getEmail()
+                ];
+            }
+            
+            return $this->_responseJSON($viewData);
+        }
+        
+        return $this->_responseJSON(null, 400);
+    }
+    
+    public function add() {
+        Components\Auth::redirectUnAuth();
+        
+        if ($this->_isPostBack() == false || $this->_validateAdd() == false) {
+            return $this->_responseJSON(null, 400);
+        }
+        
+        $model = new Model\Project();
+        
+        $project = (object) [
+            'title' => $_POST['title'],
+            'description' => $_POST['description']
+        ];
+        
+        if ($model->create($project, $_POST['users'])) {
+            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-add');
+        }
+
+        return $this->_responseJSON();
     }
     
     public function update() {
@@ -71,11 +126,19 @@ class Project extends BaseController
         }
         
         $model = new Model\Project();
-        //$viewData = $model->getByID($_GET['id']);
         
-        $viewData = 'Done';
+        $project = (object) [
+            'id' => $_POST['id'],
+            'title' => $_POST['title'],
+            'description' => $_POST['description'],
+            'creation' => $_POST['creation']
+        ];
         
-        return $this->_responseJSON($viewData);
+        if ($model->update($project, $_POST['users'])) {
+            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-update');
+        }
+
+        return $this->_responseJSON();
     }
     
     public function delete() {
@@ -110,6 +173,20 @@ class Project extends BaseController
         return $isValid;
     }
     
+    private function _validateUsers() {
+        if (!$this->_validatePrivateRequest()) return false;
+
+        $isValid = true;
+        
+        if (empty($_GET['term'])) {
+            $isValid = false;
+            
+            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
+        }
+        
+        return $isValid;
+    }
+    
     private function _validateUpdate() {
         if (!$this->_validatePrivateRequest()) return false;
         
@@ -130,7 +207,28 @@ class Project extends BaseController
         if (empty($_POST['description'])) {
             $errors['description'] = true;
         }
+ 
+        if (empty($errors) == false) {
+            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
+            return false;
+        }
         
+        return true;
+    }
+    
+    private function _validateAdd() {
+        if (!$this->_validatePrivateRequest()) return false;
+        
+        $errors = [];
+
+        if (empty($_POST['title'])) {
+            $errors['title'] = true;
+        }
+        
+        if (empty($_POST['description'])) {
+            $errors['description'] = true;
+        }
+
         if (empty($errors) == false) {
             $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
             return false;

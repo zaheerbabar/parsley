@@ -1,0 +1,10 @@
+#loading-indicator {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    left: 5px;
+    top: 5px;
+    z-index: 5000;
+    opacity: .6;
+}
+

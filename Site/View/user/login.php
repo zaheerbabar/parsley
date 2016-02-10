@@ -2,7 +2,6 @@
 use Site\Helper as Helper;
 
 $tokenField = Helper\Protection::viewPublicTokenField();
-
 ?>
 
 <?php Helper\Section::begin('head'); ?>

@@ -6,6 +6,14 @@ function isDefined(input) {
     return false;
 }
 
+$(document).ajaxSend(function(event, request, settings) {
+    $('#loading-indicator').show();
+});
+
+$(document).ajaxComplete(function(event, request, settings) {
+    $('#loading-indicator').hide();
+});
+
 function getAJAX(url, token, data, doneCallback, failCallback) {
     requestAJAX(url, 'GET', 'json', token, data, doneCallback, failCallback);
 }

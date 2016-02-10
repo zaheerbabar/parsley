@@ -5,14 +5,16 @@ use Site\Components as Components;
 
 class Content extends BaseHelper
 {
-    public static function shortDesc($data, $char, $ellipsis = true) {
-        $part = trim(substr($data, 0, strpos($data, ' ', $char)), '. ');
-        if (!empty($part)) {
-            if ($ellipsis) return sprintf('%s...', $part);
-            return $part;
+    public static function shortDesc($data, $length, $ellipsis = true) {
+        if (strlen($data) < $length) {
+            return trim($data);
         }
 
-        return $data;
+        $part = trim(substr($data, 0, strpos($data, ' ', $length)), '., \r\n');
+        
+        if ($ellipsis) return sprintf('%s...', $part);
+            
+        return $part;
     }
     
     public static function shortLenDesc($data, $len = 150, $ellipsis = true) {
