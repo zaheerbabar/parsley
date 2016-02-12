@@ -12,7 +12,7 @@ class Loader
 
         if (strncmp(NS_PREFIX, $class, $prefixLen) === 0) {
             $file = str_replace('\\', DS, substr($class, $prefixLen));
-            $file = realpath(sprintf('%s/%s.php', SITE_DIR, $file));
+            $file = \realpathi(sprintf('%s/%s.php', SITE_DIR, $file));
             if ($file !== false) {
                 require_once $file;
             }
