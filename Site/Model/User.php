@@ -38,10 +38,24 @@ class User extends DAL
         $_user = $this->_objectMapper($_user);
         
         if (Components\Auth::validatePassHash($user->getPassword(), $_user->getPassword())) {
-            return $this->_sessionObject($_user);
+            return $this->_onOnline($_user);
         }
 
         return false;
+    }
+    
+    private function _onOnline($_user) {
+
+        $this->_pdo->createQueryBuilder()
+            ->update('user')
+            ->set('user_last_online', 'NOW()')
+            ->where('user_id = :id')
+            ->setParameter('id', $_user->getID())
+            ->execute();
+        
+        $this->_sessionObject($_user);
+        
+        return true;
     }
 
     private function _sessionObject($user) {
@@ -55,13 +69,35 @@ class User extends DAL
 
         $_user->permissions = $this->getPermissions($roles);
 
-        return $_user;
+        Components\Auth::setAuth($_user);
+    }
+    
+    public function refreshAuth() {
+        $user = $this->getCurrent();
+        $this->_sessionObject($user);
+        
+        return true;
+    }
+    
+    public function getCurrent() {
+        $userId = Components\Auth::getAuthUserData('id');
+        
+        $result = $this->_pdo->createQueryBuilder()
+        ->select('user_id', 'user_email', 'user_last_online', 'user_creation_date')
+        ->from('user')
+        ->where('user_id = :id')
+        ->setParameter('id', $userId)
+        ->execute()
+        ->fetch();
+        
+        return $this->_objectMapper($result);
     }
 
     public function register($user) {
         $values = [
             'user_email' => ':email',
-            'user_password' => ':password'
+            'user_password' => ':password',
+            'user_creation_date' => 'CURDATE()',
             ];
 
         $this->_pdo->createQueryBuilder()
@@ -76,7 +112,7 @@ class User extends DAL
     
     public function getAll($page = 1, $skipUserId = null, $keyword = null) {
         $query = $this->_pdo->createQueryBuilder()
-            ->select('user_id', 'user_email', 'user_creation_date')
+            ->select('user_id', 'user_email', 'user_last_online', 'user_creation_date')
             ->from('user');
 
         if (empty($skipUserId) == false) {
@@ -113,7 +149,7 @@ class User extends DAL
     
     public function getFiltered($keyword = null) {
         $query = $this->_pdo->createQueryBuilder()
-            ->select('user_id', 'user_email', 'user_creation_date')
+            ->select('user_id', 'user_email', 'user_last_online', 'user_creation_date')
             ->from('user');
             
         if (empty($keyword) == false) {
@@ -168,12 +204,12 @@ class User extends DAL
     }
 
     public function changePassword($oldPassword, $user) {
-        $accId = Components\Auth::getAuthUserData('id');
+        $userId = Components\Auth::getAuthUserData('id');
         $passHash = $this->_pdo->createQueryBuilder()
             ->select('user_password')
             ->from('user')
             ->where('user_id = :id')
-            ->setParameter('id', $accId)
+            ->setParameter('id', $userId)
             ->execute()
             ->fetchColumn();
 
@@ -272,6 +308,9 @@ class User extends DAL
             
         if (isset($data['user_verification_token']))
             $obj->setVerificationToken($data['user_verification_token']);
+
+        if (isset($data['user_last_online']))
+            $obj->setLastOnline($data['user_last_online']);
             
         if (isset($data['user_creation_date']))
             $obj->setCreationDate($data['user_creation_date']);

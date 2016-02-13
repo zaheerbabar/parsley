@@ -28,9 +28,7 @@ class Account extends Controller\BaseController
             
             $model = new Model\User();
             
-            if (($_user = $model->login($user)) != false) {
-                Components\Auth::setAuth($_user);
-                
+            if (($model->login($user)) != false) {                
                 Components\Path::redirectRoute('workflow/pattern');
             }
 

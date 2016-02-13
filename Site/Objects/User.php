@@ -8,6 +8,7 @@ class User
     private $_password;
     private $_resetToken;
     private $_verificationToken;
+    private $_lastOnline;
     private $_creationDate;
 
     public function getID() {
@@ -28,6 +29,10 @@ class User
     
     public function getVerificationToken() {
         return $this->_verificationToken;
+    }
+
+    public function getLastOnline() {
+        return $this->_lastOnline;
     }
     
     public function getCreationDate() {
@@ -52,6 +57,10 @@ class User
     
     public function setVerificationToken($token) {
         $this->_verificationToken = (string) trim($token);
+    }
+    
+    public function setLastOnline($dateTime) {
+        $this->_lastOnline = trim($dateTime);
     }
     
     public function setCreationDate($date) {

@@ -48,6 +48,7 @@ use Site\Helper as Helper;
                     <th>Name</th>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>Last Online</th>
                     <th>Signed Up</th>
                     <th class="align-center">Action</th>
                 </tr>
@@ -58,6 +59,7 @@ use Site\Helper as Helper;
                     <td><a href="/project/view.php"><?=$obj->name?></a></td>
                     <td><?=$obj->email?></td>
                     <td><?=Helper\Iteration::implode($obj->roles)?></td>
+                    <td><?=Utilities\DateTime::fullTimeFormat($obj->last_online)?></td>
                     <td><?=Utilities\DateTime::fullDateFormat($obj->creation_date)?></td>
                     <td class="align-center">
                         <a class="btn btn-xs action-btn" href="#">

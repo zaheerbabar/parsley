@@ -43,6 +43,7 @@ class Manage extends Controller\BaseController
             
             $obj->id = $user->getID();
             $obj->email = $user->getEmail();
+            $obj->last_online = $user->getLastOnline();
             $obj->creation_date = $user->getCreationDate();
             $obj->roles = $model->getRoles($user->getID());
             
