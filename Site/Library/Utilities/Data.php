@@ -10,6 +10,17 @@ class Data
 
         return \in_array($needle, $haystack, $strict);
     }
+    
+    public static function arrayObjColumn($array, $column) {
+        $_array = [];
+        foreach ($array as $object) {
+            if (isset($object->{$column})) {
+                $_array[] = $object->{$column};
+            }
+        }
+        
+        return $_array;
+    }
 
     public static function base64URLEncode($data) {
         return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');

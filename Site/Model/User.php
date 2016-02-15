@@ -172,35 +172,63 @@ class User extends DAL
         
         return $result;
     }
-
+    
     public function getRoles($userId) {
         $roles = $this->_pdo->createQueryBuilder()
-            ->select('role_key')
-            ->from('user_role')
-            ->where('user_id = :id')
+            ->select('r.role_id', 'r.role_title', 'r.role_key')
+            ->from('role', 'r')
+            ->innerJoin('r', 'user_role', 'ur', 'r.role_id = ur.user_role_id')
+            ->where('ur.user_id = :id')
             ->setParameter('id', $userId)
             ->execute()
             ->fetchAll();
+            
+        $_roles = [];
+        foreach ($roles as $role) {
+            $_roles[] = (object) [
+                'id' => $role['role_id'],
+                'title' => $role['role_title'],
+                'key' => $role['role_key']
+            ];
+        }
 
-        return array_column($roles, 'role_key');
+        return $_roles;
     }
 
     public function getPermissions($roles) {
-        $roles = (is_array($roles)) ? $roles : [$roles];
+        
+        if (is_array($roles)) {
+            if ($roleKeys = Utilities\Data::arrayObjColumn($roles, 'key')) {
+                $roles = $roleKeys;
+            }
+        }
+        else {
+            $roles = [$roles];
+        }
 
         $permissions = $this->_pdo->createQueryBuilder()
-            ->select('permission_key')
-            ->from('role_permission')
+            ->select('p.permission_id', 'p.permission_title', 'p.permission_key')
+            ->from('permission', 'p')
+            ->innerJoin('p', 'role_permission', 'rp', 'p.permission_key = rp.permission_key')
             ->where(
                 $this->_pdo->createQueryBuilder()->expr()
-                    ->in('role_key', ':roles')
+                    ->in('rp.role_key', ':roles')
             )
-            ->groupBy('permission_key')
+            ->groupBy('p.permission_key')
             ->setParameter('roles', $roles, DBAL\Connection::PARAM_STR_ARRAY)
             ->execute()
             ->fetchAll();
+            
+        $_permissions = [];
+        foreach ($permissions as $permission) {
+            $_permissions[] = (object) [
+                'id' => $permission['permission_id'],
+                'title' => $permission['permission_title'],
+                'key' => $permission['permission_key']
+            ];
+        }
 
-        return array_column($permissions, 'permission_key');
+        return $_permissions;
     }
 
     public function changePassword($oldPassword, $user) {
