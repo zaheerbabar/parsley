@@ -32,9 +32,14 @@ class Message extends BaseHelper
         return self::_viewByKey($messages, $key, $outerTag, $attributes);
     }
 
-    public static function viewLocalList($attributes = []) {
+    public static function viewLocalList($type = null, $attributes = []) {
         $messages = self::$viewData->messages->local;
-        return parent::iterate(\array_column($messages, 'value'), 'li', $attributes);
+        return self::_viewList($messages, $type, $attributes);
+    }
+    
+    public static function viewGlobalList($type = null, $attributes = []) {
+        $messages = self::$viewData->messages->global;
+        return self::_viewList($messages, $type, $attributes);
     }
     
     private static function _viewByKey($messages, $key, $outerTag = 'span', $attributes = []) {
@@ -54,6 +59,22 @@ class Message extends BaseHelper
         }
 
         return null;
+    }
+    
+    private static function _viewList($messages, $type = null, $attributes = []) {
+        if (empty($type)) {
+            $values = \array_column($messages, 'value');
+        }
+        else {
+            $values = [];
+            foreach($messages as $message) {
+                if ($message['type'] == $type) {
+                    $values[] = $message['value'];
+                }
+            }
+        }
+        
+        return parent::iterate($values, 'li', $attributes);
     }
 
 }

@@ -1,5 +1,6 @@
 <?php
 use Site\Helper as Helper;
+use Site\Objects as Objects;
 
 $tokenField = Helper\Protection::viewPublicTokenField();
 
@@ -58,7 +59,7 @@ $tokenField = Helper\Protection::viewPublicTokenField();
     </div>
     
     <ul>
-        <?=Helper\Message::viewLocalList()?>
+        <?=Helper\Message::viewLocalList(Objects\MessageType::ERROR)?>
     </ul>
 
 </div>

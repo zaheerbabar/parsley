@@ -32,7 +32,7 @@ class Account extends Controller\BaseController
                 Components\Path::redirectRoute('workflow/pattern');
             }
 
-            $this->_setMessage('warning', 'error-invalid', Objects\MessageType::WARNING);
+            $this->_setMessage('warning', 'error-invalid', Objects\MessageType::ERROR);
         }
         
         return $this->_responseHTML(null, 'user/login');
@@ -62,7 +62,7 @@ class Account extends Controller\BaseController
             $model = new Model\User();
             
             $this->_setMessage(Objects\MessageType::SUCCESS, 'success-pass-reset', 
-                Objects\MessageType::ERROR);
+                Objects\MessageType::SUCCESS);
             
             // if (($model->resetPassword($user))) {
             //     
