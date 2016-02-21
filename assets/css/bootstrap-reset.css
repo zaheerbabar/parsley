@@ -348,7 +348,7 @@ ul {
 /*alert*/
 
 .alert-success, .alert-danger, .alert-info, .alert-warning {
-    border: none;
+    background-color: transparent;
 }
 
 /*table*/

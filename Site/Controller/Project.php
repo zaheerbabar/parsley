@@ -33,7 +33,7 @@ class Project extends BaseController
         $viewData = new \stdClass();
         
         $viewData->result = $result;
-        $viewData->page = $this->_requestedPage($_GET);
+        $viewData->page = $this->_requestedPage();
         $viewData->total = $total;
         $viewData->pages = $this->_totalPages($total);
         $viewData->limit = PAGE_SIZE;
@@ -144,7 +144,7 @@ class Project extends BaseController
     public function delete() {
         if ($this->_isPostBack() == false || $this->_validateDelete() == false) {
             $this->_setFlashValue(Objects\MessageType::ERROR, 'error-delete');
-            Components\Path::redirectRoute('project', ['_page' => $this->_requestedPage($_GET)]);
+            Components\Path::redirectRoute('project', ['_page' => $this->_requestedPage()]);
         }
         
         $model = new Model\Project();
@@ -156,7 +156,7 @@ class Project extends BaseController
             $this->_setFlashValue(Objects\MessageType::ERROR, 'error-delete');
         }
         
-        Components\Path::redirectRoute('project', ['_page' => $this->_requestedPage($_GET)]);
+        Components\Path::redirectRoute('project', ['_page' => $this->_requestedPage()]);
     }
     
     private function _validateGet() {

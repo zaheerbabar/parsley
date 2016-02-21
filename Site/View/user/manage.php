@@ -93,6 +93,7 @@ use Site\Helper as Helper;
                 return confirmAction('<?=Helper\Message::viewLocal('confirm-delete', null)?>');
             });
             
+       <?php if ($viewData->data->pages > 1) : ?>
             $('.paging-container').pagination({
                 items: <?=$viewData->data->total?>,
                 cssStyle: '',
@@ -102,6 +103,8 @@ use Site\Helper as Helper;
                 currentPage: <?=$viewData->data->page?>,
                 pages: <?=$viewData->data->pages?>
             });
+        <?php endif; ?>
+
         });
     </script>
 

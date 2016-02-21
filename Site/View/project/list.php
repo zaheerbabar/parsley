@@ -104,15 +104,17 @@ $token = Helper\Protection::viewPrivateToken();
             return confirmAction('<?=Helper\Message::viewLocal('confirm-delete', null)?>');
         });
        
-        $('.paging-container').pagination({
-            items: <?=$viewData->data->total?>,
-            cssStyle: '',
-            listStyle: 'pagination',
-            itemsOnPage: <?=$viewData->data->limit?>,
-            hrefTextPrefix: '<?=Helper\Link::route('project', null, false, ['_page' => ''])?>',
-            currentPage: <?=$viewData->data->page?>,
-            pages: <?=$viewData->data->pages?>
-        });
+       <?php if ($viewData->data->pages > 1) : ?>
+            $('.paging-container').pagination({
+                items: <?=$viewData->data->total?>,
+                cssStyle: '',
+                listStyle: 'pagination',
+                itemsOnPage: <?=$viewData->data->limit?>,
+                hrefTextPrefix: '<?=Helper\Link::route('project', null, false, ['_page' => ''])?>',
+                currentPage: <?=$viewData->data->page?>,
+                pages: <?=$viewData->data->pages?>
+            });
+        <?php endif; ?>
     </script>
     
     <?php Helper\Page::includes('project/modal-script'); ?>

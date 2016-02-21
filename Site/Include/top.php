@@ -51,7 +51,7 @@ $token = Helper\Protection::viewPrivateToken();
                         
                         <?php if (Components\Permission::inRoles([Objects\Role::SUPER_ADMIN, Objects\Role::ADMIN, Objects\Role::MANAGER])) : ?>
                             <li><a href="<?=Helper\Link::route('user/manage')?>">Manage Users</a></li>
-                            <li><a href="<?=Helper\Link::route('template/add')?>">Templates</a></li>
+                            <li><a href="<?=Helper\Link::route('template/manage')?>">Templates</a></li>
                         <?php endif; ?>
                         
                         <?php if (Components\Permission::inRoles([Objects\Role::SUPER_ADMIN, Objects\Role::ADMIN])) : ?>

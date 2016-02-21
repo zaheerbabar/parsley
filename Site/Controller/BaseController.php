@@ -49,10 +49,22 @@ abstract class BaseController
         }
     }
     
-    protected function _requestedPage($request, $key = '_page') {
+    protected function _requestedPage($request = null, $key = '_page') {
+        if (empty($request)) {
+            if (empty($_GET[$key]) == false) {
+                $page = (int)trim($_GET[$key]);
+                return $page;
+            }
+            else if (empty($_POST[$key]) == false) {
+                $page = (int)trim($_GET[$key]);
+                return $page;
+            }
+            
+            return 1;
+        }
+        
         if (!empty($request[$key])) {
             $page = (int)trim($request[$key]);
-            
             return $page;
         }
         
