@@ -153,9 +153,6 @@ use Site\Helper as Helper;
                 {id: id},
                 function (response) {
                     modalId = modal.attr('id');
-
-                    var creation = modal.find('.modal-body .creation-date');
-                    var desc = modal.find('.modal-body .description');
                     
                     if (modalId == 'view-modal') {
                         populateViewModal(modal, response);

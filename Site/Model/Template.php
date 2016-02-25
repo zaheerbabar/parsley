@@ -30,7 +30,7 @@ class Template extends DAL
     }
     
     public function getByID($id) {
-        $record = $this->_pdo->createQueryBuilder()
+        $result = $this->_pdo->createQueryBuilder()
             ->select('template_id', 'template_title', 'template_is_default', 'template_creation_date')
             ->from('template')
             ->where('template_id = :id')
@@ -38,12 +38,14 @@ class Template extends DAL
             ->execute()
             ->fetch();
 
+        if ($result) {
             $result = (object) [
-                'id' => $record['template_id'],
-                'title' => $record['template_title'],
-                'is_default' => $record['template_is_default'],
-                'creation_date' => $record['template_creation_date']
+                'id' => $result['template_id'],
+                'title' => $result['template_title'],
+                'is_default' => $result['template_is_default'],
+                'creation_date' => $result['template_creation_date']
             ];
+        }
         
         return $result;
     }
@@ -58,11 +60,25 @@ class Template extends DAL
         return $count;
     }
     
-    public function delete($templateId) {
+    public function update($template) {
+        $this->_pdo->createQueryBuilder()
+            ->update('template')
+            ->set('template_title', ':title')
+            ->set('template_is_default', ':is_default')
+            ->where('template_id = :id')
+            ->setParameter('title', $template->title)
+            ->setParameter('is_default', $project->is_default)
+            ->setParameter('id', (int) $template->id)
+            ->execute();
+
+        return true;
+    }
+    
+    public function delete($id) {
         $this->_pdo->createQueryBuilder()
             ->delete('template')
             ->where('template_id = :template_id')
-            ->setParameter('template_id', (int) $templateId)
+            ->setParameter('template_id', (int) $id)
             ->execute();
         
         return true;

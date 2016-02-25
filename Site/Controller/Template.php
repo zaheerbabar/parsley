@@ -16,6 +16,42 @@ class Template extends BaseController
         $this->_setGlobalMessage(null, Objects\MessageType::WARNING, Objects\MessageType::WARNING, true);
     }
     
+    public function index() {
+        Components\Auth::redirectUnAuth();
+        
+        if ($this->_isPostBack() == false || $this->_validateGet() == false) {
+            $this->_setGlobalMessage(null, 'error-request', Objects\MessageType::ERROR);
+            return $this->_responseHTMLError(400);
+        }
+        
+        $model = new Model\Template();
+        if ($viewData = $model->getByID($_GET['id'])) {
+            $viewData->creation_date = Utilities\DateTime::jsDateFormat($viewData->creation_date);
+            
+            return $this->_responseHTML($viewData, 'template/view');
+        }
+        
+        return $this->_responseHTMLError(404);
+    }
+    
+    public function get() {
+        Components\Auth::redirectUnAuth();
+        
+        if ($this->_isPostBack() == false || $this->_validateGet() == false) {
+            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::ERROR);
+            return $this->_responseJSON(null, 400);
+        }
+        
+        $model = new Model\Template();
+        if ($viewData = $model->getByID($_GET['id'])) {
+            $viewData->creation_date = Utilities\DateTime::jsDateFormat($viewData->creation_date);
+            
+            return $this->_responseJSON($viewData);
+        }
+        
+        return $this->_responseJSON(null, 404);
+    }
+    
     public function manage() {
         Components\Auth::redirectUnAuth();
         
@@ -41,6 +77,29 @@ class Template extends BaseController
         return $this->_responseHTML($viewData, 'template/list');
     }
     
+    public function update() {
+        Components\Auth::redirectUnAuth();
+        
+        if ($this->_isPostBack() == false || $this->_validateUpdate() == false) {
+            $this->_setGlobalMessage(null, 'error-request', Objects\MessageType::ERROR);
+            Components\Path::redirectRoute('template/manage', ['_page' => $this->_requestedPage()]);
+        }
+        
+        $model = new Model\Template();
+        
+        $template = (object) [
+            'id' => $_POST['id'],
+            'title' => $_POST['title'],
+            'is_default' => $_POST['is-default']
+        ];
+        
+        if ($model->update($template)) {
+            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-update');
+        }
+
+        Components\Path::redirectRoute('template/manage', ['_page' => $this->_requestedPage()]);
+    }
+    
     public function delete() {
         if ($this->_isPostBack() == false || $this->_validateDelete() == false) {
             $this->_setFlashValue(Objects\MessageType::ERROR, 'error-delete');
@@ -59,6 +118,16 @@ class Template extends BaseController
         Components\Path::redirectRoute('template/manage', ['_page' => $this->_requestedPage()]);
     }
     
+    
+    private function _validateGet() {
+        $isValid = true;
+        
+        if (empty($_GET['id'])) {
+            $isValid = false;
+        }
+        
+        return $isValid;
+    }
     
     private function _validateDelete() {
         if (!$this->_validatePrivateRequest(true)) return false;

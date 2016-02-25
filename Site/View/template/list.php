@@ -7,6 +7,12 @@ $token = Helper\Protection::viewPrivateToken();
 
 ?>
 
+<?php Helper\Section::begin('head'); ?>
+
+    <?php Helper\Page::includes('template/modal-style'); ?>
+    
+<?php Helper\Section::end(); ?>
+
 <?php Helper\Page::setTitle('Templates'); ?>
 <?php Helper\Page::setIndex('templates'); ?>
 <?php Helper\Page::includes('header'); ?>
@@ -57,11 +63,11 @@ $token = Helper\Protection::viewPrivateToken();
             <tbody>
                 <?php foreach ($viewData->data->result as $obj) : ?>
                 <tr>
-                    <td><a href="#" data-toggle="modal" data-target="#view-modal" data-id="<?=$obj->id?>"><?=$obj->title?></a></td>
+                    <td><a href="<?=Helper\Link::route('template', null, true, ['id' => $obj->id])?>"><?=$obj->title?></a></td>
                     <td><?=Helper\Content::getYesNo($obj->is_default)?></td>
                     <td><?=Utilities\DateTime::fullDateFormat($obj->creation_date)?></td>
                     <td class="align-center">
-                        <a class="btn btn-xs action-btn" data-toggle="modal" data-target="#view-modal" data-id="<?=$obj->id?>" href="#">
+                        <a class="btn btn-xs action-btn" href="#">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
                         <a class="btn btn-xs action-btn" data-toggle="modal" data-target="#edit-modal" data-id="<?=$obj->id?>" href="#">
@@ -82,6 +88,8 @@ $token = Helper\Protection::viewPrivateToken();
         
     </div>
 </div>
+
+<?php Helper\Page::includes('template/modal'); ?>
 
 <?php endif; ?>
 
@@ -105,6 +113,8 @@ $token = Helper\Protection::viewPrivateToken();
             });
         <?php endif; ?>
     </script>
+    
+    <?php Helper\Page::includes('template/modal-script'); ?>
     
 <?php Helper\Section::end(); ?>
 
