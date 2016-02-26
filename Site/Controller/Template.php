@@ -77,12 +77,33 @@ class Template extends BaseController
         return $this->_responseHTML($viewData, 'template/list');
     }
     
+    public function add() {
+        Components\Auth::redirectUnAuth();
+        
+        if ($this->_isPostBack() == false || $this->_validateAdd() == false) {
+            return $this->_responseJSON(null, 400);
+        }
+        
+        $model = new Model\Template();
+        
+        $template = (object) [
+            'title' => $_POST['title'],
+            'is_default' => ($_POST['is_default'] == "true")
+        ];
+        
+        if ($model->create($template)) {
+            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-add');
+        }
+
+        return $this->_responseJSON();
+    }
+    
     public function update() {
         Components\Auth::redirectUnAuth();
         
         if ($this->_isPostBack() == false || $this->_validateUpdate() == false) {
             $this->_setGlobalMessage(null, 'error-request', Objects\MessageType::ERROR);
-            Components\Path::redirectRoute('template/manage', ['_page' => $this->_requestedPage()]);
+            return $this->_responseJSON(null, 400);
         }
         
         $model = new Model\Template();
@@ -90,14 +111,14 @@ class Template extends BaseController
         $template = (object) [
             'id' => $_POST['id'],
             'title' => $_POST['title'],
-            'is_default' => $_POST['is-default']
+            'is_default' => ($_POST['is_default'] == "true")
         ];
         
         if ($model->update($template)) {
             $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-update');
         }
 
-        Components\Path::redirectRoute('template/manage', ['_page' => $this->_requestedPage()]);
+        return $this->_responseJSON();
     }
     
     public function delete() {
@@ -127,6 +148,44 @@ class Template extends BaseController
         }
         
         return $isValid;
+    }
+    
+    private function _validateAdd() {
+        if (!$this->_validatePrivateRequest()) return false;
+        
+        $errors = [];
+        
+        if (empty($_POST['title'])) {
+            $errors['title'] = true;
+        }
+ 
+        if (empty($errors) == false) {
+            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private function _validateUpdate() {
+        if (!$this->_validatePrivateRequest()) return false;
+        
+        $errors = [];
+        
+        if (empty($_POST['id'])) {
+             $errors['id'] = true;
+        }
+        
+        if (empty($_POST['title'])) {
+            $errors['title'] = true;
+        }
+ 
+        if (empty($errors) == false) {
+            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
+            return false;
+        }
+        
+        return true;
     }
     
     private function _validateDelete() {

@@ -39,7 +39,7 @@ $token = Helper\Protection::viewPrivateToken();
                     </div>
                 </form>
             
-                <a href="#" class="btn action-btn"><i class="glyphicon glyphicon-plus"></i> New Template</a>
+                <a href="#" class="btn action-btn" data-toggle="modal" data-target="#new-modal"><i class="glyphicon glyphicon-plus"></i> New Template</a>
             </div>
  
         </div>
@@ -67,7 +67,7 @@ $token = Helper\Protection::viewPrivateToken();
                     <td><?=Helper\Content::getYesNo($obj->is_default)?></td>
                     <td><?=Utilities\DateTime::fullDateFormat($obj->creation_date)?></td>
                     <td class="align-center">
-                        <a class="btn btn-xs action-btn" href="#">
+                        <a class="btn btn-xs action-btn" href="<?=Helper\Link::route('template', null, true, ['id' => $obj->id])?>">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
                         <a class="btn btn-xs action-btn" data-toggle="modal" data-target="#edit-modal" data-id="<?=$obj->id?>" href="#">

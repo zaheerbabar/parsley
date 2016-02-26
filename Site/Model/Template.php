@@ -60,6 +60,25 @@ class Template extends DAL
         return $count;
     }
     
+    
+    public function create($template) {
+        $values = [
+            'template_title' => ':title',
+            'template_is_default' => ':is_default',
+            'template_creation_date' => ':creation_date'
+            ];
+
+        $this->_pdo->createQueryBuilder()
+            ->insert('template')
+            ->values($values)
+            ->setParameter('title', $template->title)
+            ->setParameter('is_default', (bool) $template->is_default)
+            ->setParameter('creation_date', Utilities\DateTime::dbDateFormat())
+            ->execute();
+        
+        return true;
+    }
+    
     public function update($template) {
         $this->_pdo->createQueryBuilder()
             ->update('template')
@@ -67,7 +86,7 @@ class Template extends DAL
             ->set('template_is_default', ':is_default')
             ->where('template_id = :id')
             ->setParameter('title', $template->title)
-            ->setParameter('is_default', $project->is_default)
+            ->setParameter('is_default', $template->is_default)
             ->setParameter('id', (int) $template->id)
             ->execute();
 

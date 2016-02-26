@@ -15,6 +15,10 @@ use Site\Helper as Helper;
             scrollOffset: 150
         });
         
+        $('#new-modal').on('hidden.bs.modal', function (event) {
+            disableModalForm($(this), false, true);
+        });
+        
         $('#edit-modal').on('show.bs.modal', function (event) {
             var link = $(event.relatedTarget);
             var id = link.data('id');
@@ -23,6 +27,79 @@ use Site\Helper as Helper;
             
             disableModalForm(modal, true, true);
             fetchData(id, modal);  
+        });
+        
+        $('#new-modal .submit').click(function () {
+            if ($("#new-modal form").validationEngine('validate') != true) {
+                return false;
+            }
+            
+            $(this).text('Saving...');
+            $(this).prop('disabled', true);
+            
+            var modal = $('#new-modal');
+            modal.data('bs.modal').isShown = false;
+            
+            disableModalForm(modal, false, false);
+            
+            postAJAX(
+                '<?=Helper\Link::routePlain('template/add')?>', 
+                '<?=Helper\Protection::viewPrivateToken()?>',
+                {
+                    title: modal.find('.modal-body #title').val(),
+                    is_default: modal.find('.modal-body #is-default').prop('checked')
+                },
+                function (response) {
+                    location.reload();
+                },
+                function (jqXHR, status) {
+                    // show error
+                    
+                    enableModalForm(modal, false);
+                    
+                    $(this).text('Save');
+                    $(this).prop('disabled', false);
+                    modal.data('bs.modal').isShown = true;
+                    console.log(status);
+                }
+            );
+        });
+        
+        $('#edit-modal .submit').click(function () {
+            if ($("#edit-modal form").validationEngine('validate') != true) {
+                return false;
+            }
+            
+            $(this).text('Saving...');
+            $(this).prop('disabled', true);
+            
+            var modal = $('#edit-modal');
+            modal.data('bs.modal').isShown = false;
+            
+            disableModalForm(modal, true, false);
+            
+            postAJAX(
+                '<?=Helper\Link::routePlain('template/update')?>', 
+                '<?=Helper\Protection::viewPrivateToken()?>',
+                {
+                    id: modal.find('.modal-body #id').val(),
+                    title: modal.find('.modal-body #title').val(),
+                    is_default: modal.find('.modal-body #is-default').prop('checked')
+                },
+                function (response) {
+                    location.reload();
+                },
+                function (jqXHR, status) {
+                    // show error
+                    
+                    enableModalForm(modal, true);
+                    
+                    $(this).text('Update');
+                    $(this).prop('disabled', false);
+                    modal.data('bs.modal').isShown = true;
+                    console.log(status);
+                }
+            );
         });
         
         function fetchData(id, modal) {
