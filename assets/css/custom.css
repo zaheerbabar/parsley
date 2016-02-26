@@ -295,6 +295,22 @@ button.btn-primary {
     border-radius: 4px !important;
 }
 
+#phase-list {
+    margin-top: 20px;
+}
+
+#phase-list li {
+    background-color: #fafafa;
+    border-radius: 0;
+    border: 0 none;
+    border-bottom: .1em solid #ccc;
+    margin-bottom: 15px;
+}
+
+#phase-list .sortable-ghost {
+    opacity: 0.4;
+    background-color: #ccc;
+}
 
 @media (min-width: 768px) {
     .navbar-static .navbar-brand {

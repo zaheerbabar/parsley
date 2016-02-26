@@ -12,14 +12,46 @@ $tokenField = Helper\Protection::viewPublicTokenField();
 
 <div class="panel template-panel">
     <div class="panel-heading">
-        <h1>Template</h1>
+        <h1>Template: <?=$viewData->data->title?></h1>
     </div>
     
     <div class="panel-body">
-        <div class="col-sm-4">
-            <h3><?=$viewData->data->title?></h3>
+        <div class="row">
+            <div class="col-sm-8">
+                <h3>Phases</h3>
+ 
+                <ul id="phase-list" class="list-group">
+                    <?php foreach ($viewData->data->phases as $phase) : ?>
+                        <li class="list-group-item">
+                            <?=$phase->title?>
+                            <input type="hidden" name="phases[]" value="<?=$phase->id?>">
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
                 
+                <?php if (empty($viewData->data->phases)) : ?>
+                    <div class="alert alert-info col-sm-12" role="alert">
+                        <p>No phases added.</p>
+                    </div>
+                <?php endif; ?>
+                
+                <a href="#">Add a new phase</a>
 
+            </div>
+            
+            <div class="col-sm-4">
+                <h4>Settings</h4>
+                <br>
+                <br>
+                <h4>Keywords</h4>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-sm-8">
+                <br>
+                <button class="btn btn-primary col-sm-12" type="submit">Save Template</button>
+            </div>
         </div>
     </div>
 
@@ -35,6 +67,14 @@ $tokenField = Helper\Protection::viewPublicTokenField();
             updatePromptsPosition:true,
             scrollOffset: 150
         });
+        
+        var el = document.getElementById('phase-list');
+        var sortable = Sortable.create(el, {
+            draggable: '.list-group-item',
+            ghostClass: 'sortable-ghost',
+            animation: 200
+        });
+        
     </script>
 
 <?php Helper\Section::end(); ?>

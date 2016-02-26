@@ -28,11 +28,15 @@ class Template extends BaseController
         if ($viewData = $model->getByID($_GET['id'])) {
             $viewData->creation_date = Utilities\DateTime::jsDateFormat($viewData->creation_date);
             
+            $phaseModel = new Model\Phase();
+            $viewData->phases = $phaseModel->getTemplatePhases($viewData->id);
+            
             return $this->_responseHTML($viewData, 'template/view');
         }
         
         return $this->_responseHTMLError(404);
     }
+
     
     public function get() {
         Components\Auth::redirectUnAuth();
