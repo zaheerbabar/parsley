@@ -60,7 +60,6 @@ class Template extends DAL
         return $count;
     }
     
-    
     public function create($template) {
         $values = [
             'template_title' => ':title',

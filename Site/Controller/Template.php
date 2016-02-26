@@ -25,7 +25,7 @@ class Template extends BaseController
         }
         
         $model = new Model\Template();
-        if ($viewData = $model->getByID($_GET['id'])) {
+        if ($viewData = $model->getByID($this->_requestParam($_GET, 'id'))) {
             $viewData->creation_date = Utilities\DateTime::jsDateFormat($viewData->creation_date);
             
             $phaseModel = new Model\Phase();
@@ -36,7 +36,27 @@ class Template extends BaseController
         
         return $this->_responseHTMLError(404);
     }
+    
+    public function save() {
+        Components\Auth::redirectUnAuth();
+        
+        if ($this->_isPostBack() == false || $this->_validateSave() == false) {
+            $this->_setGlobalMessage(null, 'error-request', Objects\MessageType::ERROR);
+            Components\Path::redirectRoute('template', ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);
+        }
+        
+        $model = new Model\Template();
+        $phaseModel = new Model\Phase();
+        
+        $templateId = $this->_requestParam($_GET, 'id');
+        $phases = $this->_requestParam($_POST, 'phases');
+        
+        if ($phaseModel->addTemplatePhases($phases, $templateId)) {
+            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-update');
+        }
 
+        Components\Path::redirectRoute('template', ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);
+    }
     
     public function get() {
         Components\Auth::redirectUnAuth();
@@ -91,8 +111,8 @@ class Template extends BaseController
         $model = new Model\Template();
         
         $template = (object) [
-            'title' => $_POST['title'],
-            'is_default' => ($_POST['is_default'] == "true")
+            'title' => $this->_requestParam($_POST, 'title'),
+            'is_default' => ($this->_requestParam($_POST, 'is_default') == "true")
         ];
         
         if ($model->create($template)) {
@@ -113,9 +133,9 @@ class Template extends BaseController
         $model = new Model\Template();
         
         $template = (object) [
-            'id' => $_POST['id'],
-            'title' => $_POST['title'],
-            'is_default' => ($_POST['is_default'] == "true")
+            'id' => $this->_requestParam($_POST, 'id'),
+            'title' => $this->_requestParam($_POST, 'title'),
+            'is_default' => ($this->_requestParam($_POST, 'is_default') == "true")
         ];
         
         if ($model->update($template)) {
@@ -133,7 +153,7 @@ class Template extends BaseController
         
         $model = new Model\Template();
         
-        if ($model->delete($_GET['id'])) {
+        if ($model->delete($this->_requestParam($_GET, 'id'))) {
             $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-delete');
         }
         else {
@@ -165,6 +185,23 @@ class Template extends BaseController
  
         if (empty($errors) == false) {
             $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private function _validateSave() {
+        if (!$this->_validatePublicRequest()) return false;
+        
+        $errors = [];
+        
+        if (empty($_GET['id'])) {
+             $errors['id'] = true;
+        }
+
+        if (empty($errors) == false) {
+            $this->_setFlashValue(Objects\MessageType::ERROR, 'error-save');
             return false;
         }
         

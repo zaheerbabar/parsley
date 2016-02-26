@@ -4,6 +4,7 @@
     "success-update": "Record has been updated successfully.",
     "success-delete": "Record has been deleted successfully.",
     "error-delete": "There was an error deleting the record.",
+    "error-save": "Unable to save the record.",
     "error-request": "Invalid request. Please try again.",
     "error-json": "Server is unable to fulfill your request.",
     "error-no-record": "No data record available."

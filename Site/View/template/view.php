@@ -15,44 +15,49 @@ $tokenField = Helper\Protection::viewPublicTokenField();
         <h1>Template: <?=$viewData->data->title?></h1>
     </div>
     
+    
     <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-8">
-                <h3>Phases</h3>
- 
-                <ul id="phase-list" class="list-group">
-                    <?php foreach ($viewData->data->phases as $phase) : ?>
-                        <li class="list-group-item">
-                            <?=$phase->title?>
-                            <input type="hidden" name="phases[]" value="<?=$phase->id?>">
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-                
-                <?php if (empty($viewData->data->phases)) : ?>
-                    <div class="alert alert-info col-sm-12" role="alert">
-                        <p>No phases added.</p>
-                    </div>
-                <?php endif; ?>
-                
-                <a href="#">Add a new phase</a>
+        <form action="<?=Helper\Link::route('template/save', null, true, ['id' => $viewData->data->id])?>" method="post">
+            <?=Helper\Protection::viewPublicTokenField()?>
+            
+            <div class="row">
+                <div class="col-sm-8">
+                    <h3>Phases</h3>
+    
+                    <ul id="phase-list" class="list-group">
+                        <?php foreach ($viewData->data->phases as $phase) : ?>
+                            <li class="list-group-item">
+                                <?=$phase->title?>
+                                <input type="hidden" name="phases[]" value="<?=$phase->id?>">
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    
+                    <?php if (empty($viewData->data->phases)) : ?>
+                        <div class="alert alert-info col-sm-12" role="alert">
+                            <p>No phases added.</p>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <a href="#">Add a new phase</a>
 
+                </div>
+                
+                <div class="col-sm-4">
+                    <h4>Settings</h4>
+                    <br>
+                    <br>
+                    <h4>Keywords</h4>
+                </div>
             </div>
             
-            <div class="col-sm-4">
-                <h4>Settings</h4>
-                <br>
-                <br>
-                <h4>Keywords</h4>
+            <div class="row">
+                <div class="col-sm-8">
+                    <br>
+                    <button class="btn btn-primary col-sm-12" type="submit">Save Template</button>
+                </div>
             </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-sm-8">
-                <br>
-                <button class="btn btn-primary col-sm-12" type="submit">Save Template</button>
-            </div>
-        </div>
+        </form>
     </div>
 
 </div>

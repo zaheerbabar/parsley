@@ -49,6 +49,28 @@ abstract class BaseController
         }
     }
     
+    protected function _requestParam($request, $key) {
+        if (isset($request)) {
+            if (isset($request[$key])) {
+                return $this->_cleanParam($request[$key]);
+            }
+        }
+        
+        return null;
+    }
+    
+    private function _cleanParam($data) {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $data[$this->_cleanParam($key)] = $this->_cleanParam($value);
+            }
+        } else {
+            $data = trim(htmlspecialchars($data, ENT_COMPAT, 'UTF-8'));
+        }
+
+        return $data;
+    }
+    
     protected function _requestedPage($request = null, $key = '_page') {
         if (empty($request)) {
             if (empty($_GET[$key]) == false) {

@@ -16,9 +16,9 @@ class Phase extends DAL
             ->select('phase_id', 'phase_title', 'phase_is_custom', 'phase_parent_id', 'phase_order')
             ->from('phase')
             ->where('phase_is_custom = :is_custom')
-            ->andWhere('phase_parent_id = :id')
-            ->setParameter('id', (int) $parentId)
+            ->andWhere('phase_parent_id = :parent_id')
             ->setParameter('is_custom', (bool) $isCustom)
+            ->setParameter('parent_id', (int) $parentId)
             ->orderBy('phase_order', 'ASC')
             ->execute()
             ->fetchAll();
@@ -36,5 +36,26 @@ class Phase extends DAL
         }
         
         return $result;
+    }
+
+    public function addTemplatePhases($phases, $templateId) {
+        return $this->addPhases($phases, false, $templateId);
+    }
+    
+    public function addPhases($phases = [], $isCustom, $parentId) {
+        for ($i = 0; $i < count($phases); $i++) {
+            $this->_pdo->createQueryBuilder()
+                ->update('phase')
+                ->set('phase_order', $i)
+                ->where('phase_id = :phase_id')
+                ->andWhere('phase_is_custom = :is_custom')
+                ->andWhere('phase_parent_id = :parent_id')
+                ->setParameter('phase_id', (int) $phases[$i])
+                ->setParameter('is_custom', (bool) $isCustom)
+                ->setParameter('parent_id', (int) $parentId)
+                ->execute();
+        }
+
+        return true;
     }
 }
