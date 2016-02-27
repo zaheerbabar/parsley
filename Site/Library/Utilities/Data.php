@@ -11,11 +11,16 @@ class Data
         return \in_array($needle, $haystack, $strict);
     }
     
-    public static function arrayObjColumn($array, $column) {
+    public static function arrayObjColumn($array, $column, $index = null) {
         $_array = [];
         foreach ($array as $object) {
             if (isset($object->{$column})) {
-                $_array[] = $object->{$column};
+                if (isset($index)) {
+                    $_array[$object->{$index}] = $object->{$column};
+                }
+                else {
+                    $_array[] = $object->{$column};
+                }
             }
         }
         

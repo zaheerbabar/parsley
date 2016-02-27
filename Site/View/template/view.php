@@ -5,6 +5,12 @@ use Site\Objects as Objects;
 $tokenField = Helper\Protection::viewPublicTokenField();
 ?>
 
+<?php Helper\Section::begin('head'); ?>
+
+    <?php Helper\Page::includes('template/phase-modal-style'); ?>
+    
+<?php Helper\Section::end(); ?>
+
 <?php Helper\Page::setTitle('Template'); ?>
 <?php Helper\Page::setIndex('template'); ?>
 <?php Helper\Page::includes('header'); ?>
@@ -39,7 +45,7 @@ $tokenField = Helper\Protection::viewPublicTokenField();
                         </div>
                     <?php endif; ?>
                     
-                    <a href="#">Add a new phase</a>
+                    <a href="#" data-toggle="modal" data-target="#new-phase-modal">Add a new phase</a>
 
                 </div>
                 
@@ -62,6 +68,8 @@ $tokenField = Helper\Protection::viewPublicTokenField();
 
 </div>
 
+<?php Helper\Page::includes('template/phase-modal'); ?>
+
 <?php Helper\Section::begin('footer'); ?>
     <script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js"></script>
     <script src="/assets/plugins/validation-engine/jquery.validationEngine-en.js"></script>
@@ -81,6 +89,8 @@ $tokenField = Helper\Protection::viewPublicTokenField();
         });
         
     </script>
+    
+    <?php Helper\Page::includes('template/phase-modal-script'); ?>
 
 <?php Helper\Section::end(); ?>
 

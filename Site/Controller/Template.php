@@ -30,6 +30,7 @@ class Template extends BaseController
             
             $phaseModel = new Model\Phase();
             $viewData->phases = $phaseModel->getTemplatePhases($viewData->id);
+            $viewData->content_types = $phaseModel->getContentTypes();
             
             return $this->_responseHTML($viewData, 'template/view');
         }
