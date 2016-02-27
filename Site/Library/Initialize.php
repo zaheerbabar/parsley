@@ -5,7 +5,7 @@ Note: Consider the require order
 **/
 
 if (version_compare(phpversion(), '5.3.0', '<') == true) {
-	exit('PHP 5.3+ Required');
+    exit('PHP 5.3+ Required');
 }
 
 use Site\Library as Library;
@@ -21,6 +21,7 @@ require_once realpath(SITE_DIR.'/Library/Packages/vendor/autoload.php');
 if (DEBUG) {
     $whoops = new \Whoops\Run;
     $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+    $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler);
     $whoops->register();
 }
 

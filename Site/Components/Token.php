@@ -9,11 +9,23 @@ class Token
 {
     const _KEY = '_token';
 
-    public static function setPublicToken() {
-        $token = Cryptography\Random::genToken();
-        Utilities\Cookie::setCookie(self::_KEY, $token, strtotime('+5 min'));
+    public static function setPublicToken($alreadySet = false) {
+        if ($alreadySet == false) {
+            $token = Cryptography\Random::genToken();
+            Utilities\Cookie::setCookie(self::_KEY, $token, strtotime('+5 min'));
+            
+            return $token;
+        }
+        
+        return self::getPublicToken();
+    }
+    
+    public static function getPublicToken() {
+        if (($cookieToken = Utilities\Cookie::getCookie(self::_KEY)) != null) {
+            return $cookieToken;
+        }
 
-        return $token;
+        return false;
     }
 
     public static function validatePublicToken($method = 'POST') {
@@ -21,8 +33,8 @@ class Token
 
         $reqToken = $_POST[self::_KEY];
         
-        if (($cookieToken = Utilities\Cookie::getCookie(self::_KEY)) != null) {
-            return ($reqToken == $cookieToken);
+        if ($cookieToken = self::getPublicToken()) {
+            return ($reqToken === $cookieToken);
         }
 
         return false;
@@ -46,7 +58,7 @@ class Token
         $reqToken = empty($_GET[self::_KEY]) ? $_POST[self::_KEY] : $_GET[self::_KEY];
         
         if ($userToken = self::getPrivateToken()) {
-            return ($reqToken == $userToken);
+            return ($reqToken === $userToken);
         }
 
         return false;

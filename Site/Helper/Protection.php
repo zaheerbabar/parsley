@@ -11,8 +11,8 @@ class Protection extends BaseHelper
         return $token;
     }
 
-    public static function viewPublicTokenField($attributes = []) {
-        $token = Components\Token::setPublicToken();
+    public static function viewPublicTokenField($alreadySet = false, $attributes = []) {
+        $token = Components\Token::setPublicToken($alreadySet);
 
         $_attr = parent::getAttributes($attributes);
         $_output = sprintf('<input type="hidden" name="_token" value="%s" %s>', $token, $_attr);

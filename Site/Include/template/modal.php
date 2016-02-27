@@ -45,7 +45,7 @@ use Site\Helper as Helper;
       <div class="modal-body">
         
         <form class="validate">
-            <?=Helper\Protection::viewPublicTokenField()?>
+            <?=Helper\Protection::viewPublicTokenField(true)?>
             
             <div class="form-group">
                 <label for="title" class="control-label">Template Title</label>

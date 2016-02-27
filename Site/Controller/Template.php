@@ -10,6 +10,7 @@ class Template extends BaseController
 {
     public function __construct() {
         parent::__construct();
+        $this->_loadResource();
         
         $this->_setGlobalMessage(null, Objects\MessageType::SUCCESS, Objects\MessageType::SUCCESS, true);
         $this->_setGlobalMessage(null, Objects\MessageType::ERROR, Objects\MessageType::ERROR, true);
@@ -57,6 +58,35 @@ class Template extends BaseController
         }
 
         Components\Path::redirectRoute('template', ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);
+    }
+    
+    public function addPhase() {
+        Components\Auth::redirectUnAuth();
+        
+       if ($this->_isPostBack() == false || $this->_validateAddPhase() == false) {
+            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::ERROR);
+            return $this->_responseJSON(null, 400);
+        }
+        
+        $templateId = $this->_requestParam($_POST, 'template_id');
+        
+        $phase = (object) [
+            'title' => $this->_requestParam($_POST, 'title')
+        ];
+        
+        $contentTypes = [];
+        foreach($this->_requestParam($_POST, 'content_types') as $contentType) {
+            $contentTypes[] = (object) $contentType;
+        }
+        
+        $model = new Model\Phase();
+        if ($viewData = $model->createTemplatePhase($phase, $contentTypes, $templateId)) {
+            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'phase-added');
+            return $this->_responseJSON($viewData);
+        }
+        
+        return $this->_responseJSON(null, 404);
+        
     }
     
     public function get() {
@@ -192,8 +222,29 @@ class Template extends BaseController
         return true;
     }
     
+    private function _validateAddPhase() {
+        if (!$this->_validatePrivateRequest()) return false;
+        
+        $errors = [];
+        
+        if (empty($_POST['title'])) {
+            $errors['title'] = true;
+        }
+        
+        if (empty($_POST['content_types'])) {
+            $errors['content_types'] = true;
+        }
+ 
+        if (empty($errors) == false) {
+            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
+            return false;
+        }
+        
+        return true;
+    }
+    
     private function _validateSave() {
-        if (!$this->_validatePublicRequest()) return false;
+        if ($this->_validatePublicRequest() == false) return false;
         
         $errors = [];
         

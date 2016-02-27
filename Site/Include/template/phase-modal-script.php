@@ -28,12 +28,25 @@ use Site\Helper as Helper;
             modal.data('bs.modal').isShown = false;
             disableModalForm(modal, false, false);
             
+            var contentTypes = [];
+            modal.find('.modal-body .content').each(function(index) {
+                var contentType = {
+                    name: $(this).find('.content-name').val(),
+                    type_id: $(this).find('.content-type').val()                    
+                };
+                
+                contentTypes.push(contentType);
+            })
+            
+            console.log(contentTypes);
+
             postAJAX(
                 '<?=Helper\Link::routePlain('template/addphase')?>', 
                 '<?=Helper\Protection::viewPrivateToken()?>',
                 {
+                    template_id: modal.find('.modal-body #template-id').val(),
                     title: modal.find('.modal-body #title').val(),
-                    is_default: modal.find('.modal-body #is-default').prop('checked')
+                    content_types: contentTypes
                 },
                 function (response) {
                     location.reload();

@@ -1,6 +1,6 @@
 <?php
-define('DEBUG', true);
-define('LOCAL', true);
+define('DEBUG', false);
+define('LOCAL', false);
 
 // Development / Debug
 if (DEBUG) {

@@ -4,6 +4,7 @@ use Site\Objects as Objects;
 use Site\Helper as Helper;
 
 $token = Helper\Protection::viewPrivateToken();
+$tokenField = Helper\Protection::viewPublicTokenField();
 
 ?>
 

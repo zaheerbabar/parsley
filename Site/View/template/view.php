@@ -2,7 +2,6 @@
 use Site\Helper as Helper;
 use Site\Objects as Objects;
 
-$tokenField = Helper\Protection::viewPublicTokenField();
 ?>
 
 <?php Helper\Section::begin('head'); ?>
@@ -29,7 +28,7 @@ $tokenField = Helper\Protection::viewPublicTokenField();
             <div class="row">
                 <div class="col-sm-8">
                     <h3>Phases</h3>
-    
+                    
                     <ul id="phase-list" class="list-group">
                         <?php foreach ($viewData->data->phases as $phase) : ?>
                             <li class="list-group-item">

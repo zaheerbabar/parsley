@@ -7,8 +7,8 @@ use Site\Library\Debug as Debug;
 
 class Phase extends DAL
 {
-    public function getTemplatePhases($id) {
-        return $this->getPhases(false, $id);
+    public function getTemplatePhases($templateId) {
+        return $this->getPhases(false, $templateId);
     }
     
     public function getPhases($isCustom, $parentId) {
@@ -59,11 +59,64 @@ class Phase extends DAL
         return true;
     }
     
+    public function createTemplatePhase($phase, $contentTypes, $templateId) {
+        return $this->create($phase, $contentTypes, false, $templateId);
+    }
+    
+    public function create($phase, $contentTypes, $isCustom, $parentId) {
+        $order = $this->_pdo->createQueryBuilder()
+            ->select('(MAX(phase_order) + 1)')
+            ->from('phase')
+            ->execute()
+            ->fetchColumn();
+        
+        $values = [
+            'phase_title' => ':title',
+            'phase_is_custom' => ':is_custom',
+            'phase_parent_id ' => ':parent_id',
+            'phase_order' => (int) $order
+            ];
+
+        $this->_pdo->createQueryBuilder()
+            ->insert('phase')
+            ->values($values)
+            ->setParameter('title', $phase->title)
+            ->setParameter('is_custom', (bool) $isCustom)
+            ->setParameter('parent_id', (int) $parentId)
+            ->execute();
+            
+        if (empty($contentTypes) == false) {
+            $this->addContentTypes($contentTypes, $this->_pdo->lastInsertId());
+        }
+        
+        return true;
+    }
+    
+    public function addContentTypes($contentTypes, $phaseId) {
+        $values = [
+            'phase_id ' => ':phase_id',
+            'content_type_name' => ':name',
+            'content_type_id' => ':type_id'
+            ];
+        
+        foreach($contentTypes as $contentType) {
+            $this->_pdo->createQueryBuilder()
+                ->insert('phase_content')
+                ->values($values)
+                ->setParameter('phase_id', (int) $phaseId)
+                ->setParameter('name', $contentType->name)
+                ->setParameter('type_id', (int) $contentType->type_id)
+                ->execute();
+        }
+
+        return true;
+    }
+    
     public function getContentTypes() {
         $records = $this->_pdo->createQueryBuilder()
-            ->select('content_type_id', 'content_type_title', 'content_type_key')
+            ->select('content_type_id', 'content_type_name', 'content_type_key')
             ->from('content_type')
-            ->orderBy('content_type_title', 'ASC')
+            ->orderBy('content_type_name', 'ASC')
             ->execute()
             ->fetchAll();
             
@@ -72,7 +125,7 @@ class Phase extends DAL
         foreach($records as $row) {
             $result[] = (object) [
                 'id' => $row['content_type_id'],
-                'title' => $row['content_type_title'],
+                'name' => $row['content_type_name'],
                 'key' => $row['content_type_key']
             ];
         }

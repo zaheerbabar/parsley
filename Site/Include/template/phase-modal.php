@@ -2,7 +2,7 @@
 use Site\Helper as Helper;
 use Site\Library\Utilities as Utilities;
 
-$contentTypes = Utilities\Data::arrayObjColumn($viewData->data->content_types, 'title', 'id');
+$contentTypes = Utilities\Data::arrayObjColumn($viewData->data->content_types, 'name', 'id');
 
 ?>
 <div class="modal fade" id="new-phase-modal" tabindex="-1" role="dialog" aria-labelledby="newPhaseModalLabel">
@@ -15,7 +15,7 @@ $contentTypes = Utilities\Data::arrayObjColumn($viewData->data->content_types, '
       <div class="modal-body">
         
         <form class="validate">
-            <?=Helper\Protection::viewPublicTokenField()?>
+            <?=Helper\Protection::viewPublicTokenField(true)?>
             
             <div class="row">
                 <div class="col-sm-12">
@@ -32,11 +32,11 @@ $contentTypes = Utilities\Data::arrayObjColumn($viewData->data->content_types, '
                         
                         <div class="row content">
                             <div class="col-sm-6">
-                                <input type="text" class="form-control validate[required,maxSize[45]]" maxlength="45" name="content-names[]" placeholder="Content Name">
+                                <input type="text" class="form-control validate[required,maxSize[45]] content-name" maxlength="45" name="content-names[]" placeholder="Content Name">
                             </div>
                             
                             <div class="col-sm-5">
-                                <select class="form-control validate[required]" name="content-types[]">
+                                <select class="form-control validate[required] content-type"  name="content-types[]">
                                     <?=Helper\Iteration::viewOptions($contentTypes)?>
                                 </select>
                             </div>
@@ -60,12 +60,12 @@ $contentTypes = Utilities\Data::arrayObjColumn($viewData->data->content_types, '
                     <br>
                     <div class="form-group">
                         <label for="title" class="control-label">Phase Title</label>
-                        <input type="text" class="form-control validate[required,maxSize[45]]" maxlength="45" name="title" id="title"  placeholder="Phase Title">
+                        <input type="text" class="form-control validate[required,maxSize[45]]" maxlength="45" id="title"  placeholder="Phase Title">
                     </div>
                 </div>
             </div>
             
-            <input type="hidden" name="id" value="<?=$viewData->data->id?>">
+            <input type="hidden" id="template-id" value="<?=$viewData->data->id?>">
         </form>
 
       </div>
