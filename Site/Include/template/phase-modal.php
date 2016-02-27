@@ -17,29 +17,55 @@ $contentTypes = Utilities\Data::arrayObjColumn($viewData->data->content_types, '
         <form class="validate">
             <?=Helper\Protection::viewPublicTokenField()?>
             
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label for="content-name" class="control-label">Content Name</label>
-                    <input type="text" class="form-control validate[required,maxSize[45]]" maxlength="45" name="content-name" id="content-name"  placeholder="Content Name">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="contents" class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="control-label">Content Name</label>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <label class="control-label">Content Type</label>
+                            </div>
+                        </div>
+                        
+                        <div class="row content">
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control validate[required,maxSize[45]]" maxlength="45" name="content-names[]" placeholder="Content Name">
+                            </div>
+                            
+                            <div class="col-sm-5">
+                                <select class="form-control validate[required]" name="content-types[]">
+                                    <?=Helper\Iteration::viewOptions($contentTypes)?>
+                                </select>
+                            </div>
+                            
+                            <div class="col-sm-1 action">
+                                <a href="#" class="remove-content hidden"><span class="glyphicon glyphicon-remove"></span></a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="col-sm-12">
+                    <a href="#" class="add-content">Add another content type</a>
                 </div>
             </div>
             
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label for="content-type" class="control-label">Content Type</label>
-                    <select id="content-type" class="form-control validate[required]" name="content-type">
-                        <?=Helper\Iteration::viewOptions($contentTypes)?>
-                    </select>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <br>
+                    <div class="form-group">
+                        <label for="title" class="control-label">Phase Title</label>
+                        <input type="text" class="form-control validate[required,maxSize[45]]" maxlength="45" name="title" id="title"  placeholder="Phase Title">
+                    </div>
                 </div>
             </div>
             
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label for="title" class="control-label">Phase Title</label>
-                    <input type="text" class="form-control validate[required,maxSize[45]]" maxlength="45" name="title" id="title"  placeholder="Phase Title">
-                </div>
-            </div>
-            
+            <input type="hidden" name="id" value="<?=$viewData->data->id?>">
         </form>
 
       </div>

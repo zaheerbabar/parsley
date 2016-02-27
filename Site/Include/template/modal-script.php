@@ -15,10 +15,6 @@ use Site\Helper as Helper;
             scrollOffset: 150
         });
         
-        $('#new-modal').on('hidden.bs.modal', function (event) {
-            disableModalForm($(this), false, true);
-        });
-        
         $('#edit-modal').on('show.bs.modal', function (event) {
             var link = $(event.relatedTarget);
             var id = link.data('id');

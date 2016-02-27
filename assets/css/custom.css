@@ -312,6 +312,14 @@ button.btn-primary {
     background-color: #ccc;
 }
 
+#new-phase-modal .content {
+    margin-bottom: 10px;
+}
+
+#new-phase-modal .content .action {
+    line-height: 25px;
+}
+
 @media (min-width: 768px) {
     .navbar-static .navbar-brand {
         padding-top: 18px;
