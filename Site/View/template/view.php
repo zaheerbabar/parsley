@@ -48,16 +48,18 @@ use Site\Objects as Objects;
 
                 </div>
                 
-                <div class="col-sm-4">
-                    <h4>Settings</h4>
-                    <br>
-                    <br>
-                    <h4>Keywords</h4>
+                <div class="col-sm-4 settings">
+                    <section>
+                        <h4>Settings</h4>
+                        <?=Helper\Form::viewCheckbox($viewData->data->is_default, 
+                            ['id' => 'is-default', 'name' => 'is-default', 'value' => 1])?>
+                        <label for="is-default" class="control-label">Default template</label>
+                    </section>
                 </div>
             </div>
             
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-sm-12">
                     <br>
                     <button class="btn btn-primary col-sm-12" type="submit">Save Template</button>
                 </div>

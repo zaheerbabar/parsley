@@ -320,6 +320,10 @@ button.btn-primary {
     line-height: 25px;
 }
 
+.template-panel .settings label {
+    font-weight: normal;
+}
+
 @media (min-width: 768px) {
     .navbar-static .navbar-brand {
         padding-top: 18px;

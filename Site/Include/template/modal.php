@@ -53,7 +53,7 @@ use Site\Helper as Helper;
             </div>
             
             <div class="form-group">
-                <input type="checkbox" class="" name="is-default" value="0" id="is-default">
+                <input type="checkbox" name="is-default" id="is-default">
                 <label for="is-default" class="control-label">Is default?</label>
             </div>
 

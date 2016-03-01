@@ -37,4 +37,14 @@ class BaseHelper
 
         return $_output;
     }
+    
+    protected static function isTrue($data) {
+        $_data = strtolower(trim($data));
+        
+        if ($_data == true || $_data == 1 || $_data == "true" || $_data == "on" || $_data == "yes") {
+            return true;
+        }
+        
+        return false;
+    }
 }
