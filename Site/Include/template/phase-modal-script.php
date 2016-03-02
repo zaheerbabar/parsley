@@ -47,6 +47,7 @@ use Site\Helper as Helper;
             
             $('#phase-list').append(phaseItem);
             
+            $('.phase-alert').addClass('hidden');
             modal.modal('hide');
             reset(modal);
         });

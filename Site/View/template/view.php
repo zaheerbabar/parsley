@@ -56,11 +56,16 @@ use Site\Objects as Objects;
                         <?php endfor; ?>
                     </ul>
                     
-                    <?php if (empty($viewData->data->phases)) : ?>
-                        <div class="alert alert-info col-sm-12" role="alert">
-                            <p>No phases added.</p>
-                        </div>
-                    <?php endif; ?>
+                    <?php 
+                        $alertClass = '';
+                        if (empty($viewData->data->phases) == false) {
+                            $alertClass = ' hidden';
+                        }
+                    ?>
+
+                    <div class="alert alert-info col-sm-12 phase-alert<?=$alertClass?>" role="alert">
+                        <p>No phases added.</p>
+                    </div>
                     
                     <a href="#" data-toggle="modal" data-target="#new-phase-modal">Add a new phase</a>
 
@@ -143,6 +148,10 @@ use Site\Objects as Objects;
         
         $('#phase-list').on('click', '.remove', function(event) {
             $(this).closest('.phase-item').remove();
+            
+            if ($('#phase-list').find('.phase-item').length <= 0) {
+                $('.phase-alert').removeClass('hidden');
+            }
         });
     </script>
     

@@ -7,11 +7,11 @@ use Site\Library\Debug as Debug;
 
 class Phase extends DAL
 {
-    public function getTemplatePhases($templateId) {
-        return $this->getPhases(false, $templateId);
+    public function getTemplatePhases($templateId, $getContentTypes = false) {
+        return $this->getPhases(false, $templateId, $getContentTypes);
     }
     
-    public function getPhases($isCustom, $parentId) {
+    public function getPhases($isCustom, $parentId, $getContentTypes = false) {
         $records = $this->_pdo->createQueryBuilder()
             ->select('phase_id', 'phase_title', 'phase_is_custom', 'phase_parent_id', 'phase_order')
             ->from('phase')
@@ -24,14 +24,43 @@ class Phase extends DAL
             ->fetchAll();
             
         $result = [];
+        $contentTypes = [];
 
         foreach($records as $row) {
+            if ($getContentTypes) {
+                $contentTypes = $this->getPhaseContentTypes($row['phase_id']);
+            }
+            
             $result[] = (object) [
                 'id' => $row['phase_id'],
                 'title' => $row['phase_title'],
                 'is_custom' => $row['phase_is_custom'],
                 'parent_id' => $row['phase_parent_id'],
-                'order' => $row['phase_order']
+                'order' => $row['phase_order'],
+                'content_types' => $contentTypes
+            ];
+        }
+        
+        return $result;
+    }
+    
+    public function getPhaseContentTypes($phaseId) {
+        $records = $this->_pdo->createQueryBuilder()
+            ->select('phase_content_id', 'phase_id', 'content_type_name', 'content_type_id')
+            ->from('phase_content')
+            ->where('phase_id = :phase_id')
+            ->setParameter('phase_id', (int) $phaseId)
+            ->execute()
+            ->fetchAll();
+            
+        $result = [];
+
+        foreach($records as $row) {
+            $result[] = (object) [
+                'id' => $row['phase_content_id'],
+                'phase_id' => $row['phase_id'],
+                'name' => $row['content_type_name'],
+                'type_id' => $row['content_type_id']
             ];
         }
         
@@ -90,14 +119,14 @@ class Phase extends DAL
             ->setParameter('order', (int) $phase->order)
             ->execute();
             
-        if (empty($contentTypes) == false) {
-            $this->addContentTypes($phase->content_types, $this->_pdo->lastInsertId());
+        if (empty($phase->content_types) == false) {
+            $this->addPhaseContentTypes($phase->content_types, $this->_pdo->lastInsertId());
         }
         
         return true;
     }
     
-    public function addContentTypes($contentTypes, $phaseId) {
+    public function addPhaseContentTypes($contentTypes, $phaseId) {
         $values = [
             'phase_id ' => ':phase_id',
             'content_type_name' => ':name',

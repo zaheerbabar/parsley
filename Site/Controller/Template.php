@@ -30,14 +30,24 @@ class Template extends BaseController
             $viewData->creation_date = Utilities\DateTime::jsDateFormat($viewData->creation_date);
             
             $phaseModel = new Model\Phase();
-            $viewData->phases = $phaseModel->getTemplatePhases($viewData->id);
+            $viewData->phases = $phaseModel->getTemplatePhases($viewData->id, true);
 
             $viewData->json_phases = [];
             foreach($viewData->phases as $phase) {
+                
+                $contentTypes = [];
+                foreach ($phase->content_types as $contentType) {
+                    $contentTypes[] = (object) [
+                        'id' => $contentType->id,
+                        'name' => $contentType->name,
+                        'type_id' => $contentType->type_id
+                    ];
+                }
+                
                 $jsonPhase = [
                     'id' => $phase->id,
                     'title' => $phase->title,
-                    'content_types' => []
+                    'content_types' => $contentTypes
                 ];
                 
                 $viewData->json_phases[] = rawurlencode(json_encode($jsonPhase));
