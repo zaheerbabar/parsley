@@ -30,10 +30,16 @@ use Site\Objects as Objects;
                     <h3>Phases</h3>
                     
                     <ul id="phase-list" class="list-group">
-                        <?php foreach ($viewData->data->phases as $phase) : ?>
+                        <?php for ($i = 0; $i < count($viewData->data->phases); $i++) : ?>
+                            <?php 
+                                $phase = $viewData->data->phases[$i];
+                                $jsonPhase = $viewData->data->json_phases[$i];
+                            ?>
+                            
                             <li class="list-group-item phase-item">
                                 <?=$phase->title?>
-                                <input type="hidden" name="phases[]" value="<?=$phase->id?>">
+                                
+                                <input type="hidden" name="phase[]" value="<?=$jsonPhase?>">
                                 
                                 <ul class="nav navbar-nav navbar-right options">
                                     <li class="dropdown">
@@ -47,7 +53,7 @@ use Site\Objects as Objects;
                                 </ul>
                                 
                             </li>
-                        <?php endforeach; ?>
+                        <?php endfor; ?>
                     </ul>
                     
                     <?php if (empty($viewData->data->phases)) : ?>
@@ -81,6 +87,24 @@ use Site\Objects as Objects;
 
 </div>
 
+<aside id="views" class="hidden">
+    <li class="list-group-item phase-item">
+        <span class="title"></span>
+        <input type="hidden" name="phase[]" value="">
+        
+        <ul class="nav navbar-nav navbar-right options">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-option-vertical"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="move-up">Move Up</a></li>
+                    <li><a href="#" class="move-down">Move Down</a></li>
+                    <li><a href="#" class="remove">Remove</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</aside>
+
 <?php Helper\Page::includes('template/phase-modal'); ?>
 
 <?php Helper\Section::begin('footer'); ?>
@@ -101,7 +125,7 @@ use Site\Objects as Objects;
             animation: 200
         });
         
-        $('#phase-list .move-up').click(function() {
+        $('#phase-list').on('click', '.move-up', function(event) {
             var phase = $(this).closest('.phase-item');
 
             if ($(this).prev()) {
@@ -109,7 +133,7 @@ use Site\Objects as Objects;
             }
         });
         
-        $('#phase-list .move-down').click(function() {
+        $('#phase-list').on('click', '.move-down', function(event) {
             var phase = $(this).closest('.phase-item');
 
             if ($(this).next()) {
@@ -117,10 +141,9 @@ use Site\Objects as Objects;
             }
         });
         
-        $('#phase-list .remove').click(function() {
+        $('#phase-list').on('click', '.remove', function(event) {
             $(this).closest('.phase-item').remove();
         });
-   
     </script>
     
     <?php Helper\Page::includes('template/phase-modal-script'); ?>

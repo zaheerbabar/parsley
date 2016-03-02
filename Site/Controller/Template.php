@@ -31,6 +31,18 @@ class Template extends BaseController
             
             $phaseModel = new Model\Phase();
             $viewData->phases = $phaseModel->getTemplatePhases($viewData->id);
+
+            $viewData->json_phases = [];
+            foreach($viewData->phases as $phase) {
+                $jsonPhase = [
+                    'id' => $phase->id,
+                    'title' => $phase->title,
+                    'content_types' => []
+                ];
+                
+                $viewData->json_phases[] = rawurlencode(json_encode($jsonPhase));
+            }
+
             $viewData->content_types = $phaseModel->getContentTypes();
             
             return $this->_responseHTML($viewData, 'template/view');
@@ -51,49 +63,27 @@ class Template extends BaseController
         $phaseModel = new Model\Phase();
         
         $templateId = $this->_requestParam($_GET, 'id');
-        $phases = $this->_requestParam($_POST, 'phases');
+        $phases = $this->_requestParam($_POST, 'phase');
         
+        $_phases = [];
+        if (empty($phases) == false) {
+            foreach($phases as $phase) {
+                $_phases[] = json_decode(rawurldecode($phase));
+            }
+        }
+
         $template = (object) [
             'id' => $templateId,
-            'is_default' => (!empty($this->_requestParam($_POST, 'is-default')))
+            'is_default' => ($this->_requestParam($_POST, 'is-default') == true)
         ];
         
         if ($model->update($template)) {
-            if ($phaseModel->addTemplatePhases($phases, $templateId)) {
+            if ($phaseModel->saveTemplatePhases($_phases, $templateId)) {
                 $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-update');
             }
         }
 
         Components\Path::redirectRoute('template', ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);
-    }
-    
-    public function addPhase() {
-        Components\Auth::redirectUnAuth();
-        
-       if ($this->_isPostBack() == false || $this->_validateAddPhase() == false) {
-            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::ERROR);
-            return $this->_responseJSON(null, 400);
-        }
-        
-        $templateId = $this->_requestParam($_POST, 'template_id');
-        
-        $phase = (object) [
-            'title' => $this->_requestParam($_POST, 'title')
-        ];
-        
-        $contentTypes = [];
-        foreach($this->_requestParam($_POST, 'content_types') as $contentType) {
-            $contentTypes[] = (object) $contentType;
-        }
-        
-        $model = new Model\Phase();
-        if ($viewData = $model->createTemplatePhase($phase, $contentTypes, $templateId)) {
-            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'phase-added');
-            return $this->_responseJSON($viewData);
-        }
-        
-        return $this->_responseJSON(null, 404);
-        
     }
     
     public function get() {

@@ -38,43 +38,47 @@ class Phase extends DAL
         return $result;
     }
 
-    public function addTemplatePhases($phases, $templateId) {
-        return $this->addPhases($phases, false, $templateId);
+    public function saveTemplatePhases($phases, $templateId) {
+        return $this->savePhases($phases, false, $templateId);
     }
     
-    public function addPhases($phases = [], $isCustom, $parentId) {
+    public function savePhases($phases, $isCustom, $parentId) {
+        $this->_pdo->createQueryBuilder()
+            ->delete('phase')
+            ->where('phase_parent_id = :parent_id')
+            ->setParameter('parent_id', (int) $parentId)
+            ->execute();
+        
         for ($i = 0; $i < count($phases); $i++) {
-            $this->_pdo->createQueryBuilder()
-                ->update('phase')
-                ->set('phase_order', $i)
-                ->where('phase_id = :phase_id')
-                ->andWhere('phase_is_custom = :is_custom')
-                ->andWhere('phase_parent_id = :parent_id')
-                ->setParameter('phase_id', (int) $phases[$i])
-                ->setParameter('is_custom', (bool) $isCustom)
-                ->setParameter('parent_id', (int) $parentId)
-                ->execute();
+            $phase = $phases[$i];
+            $phase->order = $i;
+            
+            // if (empty($phase->id) == false) {
+            //     $query = $this->_pdo->createQueryBuilder()
+            //         ->update('phase')
+            //         ->set('phase_order', $i)
+            //         ->where('phase_id = :phase_id')
+            //         ->andWhere('phase_is_custom = :is_custom')
+            //         ->setParameter('phase_id', (int) $phase->id)
+            //         ->setParameter('is_custom', (bool) $isCustom)
+            //         ->execute();
+            // }
+            // else {
+            //     $this->create($phase, $isCustom, $parentId);
+            // }
+            
+            $this->create($phase, $isCustom, $parentId);
         }
 
         return true;
     }
-    
-    public function createTemplatePhase($phase, $contentTypes, $templateId) {
-        return $this->create($phase, $contentTypes, false, $templateId);
-    }
-    
-    public function create($phase, $contentTypes, $isCustom, $parentId) {
-        $order = $this->_pdo->createQueryBuilder()
-            ->select('(MAX(phase_order) + 1)')
-            ->from('phase')
-            ->execute()
-            ->fetchColumn();
-        
+
+    public function create($phase, $isCustom, $parentId) {
         $values = [
             'phase_title' => ':title',
             'phase_is_custom' => ':is_custom',
             'phase_parent_id ' => ':parent_id',
-            'phase_order' => (int) $order
+            'phase_order' => ':order'
             ];
 
         $this->_pdo->createQueryBuilder()
@@ -83,10 +87,11 @@ class Phase extends DAL
             ->setParameter('title', $phase->title)
             ->setParameter('is_custom', (bool) $isCustom)
             ->setParameter('parent_id', (int) $parentId)
+            ->setParameter('order', (int) $phase->order)
             ->execute();
             
         if (empty($contentTypes) == false) {
-            $this->addContentTypes($contentTypes, $this->_pdo->lastInsertId());
+            $this->addContentTypes($phase->content_types, $this->_pdo->lastInsertId());
         }
         
         return true;

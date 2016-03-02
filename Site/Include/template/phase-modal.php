@@ -71,7 +71,7 @@ $contentTypes = Utilities\Data::arrayObjColumn($viewData->data->content_types, '
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary submit">Save</button>
+        <button type="button" class="btn btn-primary submit">Add</button>
       </div>
     </div>
   </div>

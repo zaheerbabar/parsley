@@ -56,7 +56,7 @@ use Site\Helper as Helper;
                     $(this).text('Save');
                     $(this).prop('disabled', false);
                     modal.data('bs.modal').isShown = true;
-                    console.log(status);
+                    console.log(jqXHR);
                 }
             );
         });
@@ -93,7 +93,7 @@ use Site\Helper as Helper;
                     $(this).text('Update');
                     $(this).prop('disabled', false);
                     modal.data('bs.modal').isShown = true;
-                    console.log(status);
+                    console.log(jqXHR);
                 }
             );
         });
@@ -104,7 +104,6 @@ use Site\Helper as Helper;
                 '<?=Helper\Protection::viewPrivateToken()?>',
                 {id: id},
                 function (response) {
-                    console.log(response);
                     enableModalForm(modal, true);
                     populateEditModal(modal, response);
                 }

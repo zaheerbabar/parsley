@@ -18,15 +18,13 @@ use Site\Helper as Helper;
         
         $('#new-phase-modal .submit').click(function () {
             var modal = $('#new-phase-modal');
-            if (modal.find('form').validationEngine('validate') != true) {
+            var form = modal.find('form');
+            
+            if (form.validationEngine('validate') != true) {
                 return false;
             }
             
-            $(this).text('Saving...');
-            $(this).prop('disabled', true);
-
-            modal.data('bs.modal').isShown = false;
-            disableModalForm(modal, false, false);
+            var title = form.find('#title').val();
             
             var contentTypes = [];
             modal.find('.modal-body .content').each(function(index) {
@@ -36,59 +34,29 @@ use Site\Helper as Helper;
                 };
                 
                 contentTypes.push(contentType);
-            })
+            });
             
-            console.log(contentTypes);
-
-            postAJAX(
-                '<?=Helper\Link::routePlain('template/addphase')?>', 
-                '<?=Helper\Protection::viewPrivateToken()?>',
-                {
-                    template_id: modal.find('.modal-body #template-id').val(),
-                    title: modal.find('.modal-body #title').val(),
-                    content_types: contentTypes
-                },
-                function (response) {
-                    location.reload();
-                },
-                function (jqXHR, status) {
-                    // show error
-                    
-                    enableModalForm(modal, false);
-                    
-                    $(this).text('Save');
-                    $(this).prop('disabled', false);
-                    modal.data('bs.modal').isShown = true;
-                    console.log(status);
-                }
-            );
+            var phase = {
+                title: title,
+                content_types: contentTypes
+            };
+            
+            var phaseItem = $('#views .phase-item').first().clone(true);
+            phaseItem.find('.title').text(title);
+            phaseItem.find('input[name="phase[]"]').first().val(encodeURIComponent(JSON.stringify(phase)));
+            
+            $('#phase-list').append(phaseItem);
+            
+            modal.modal('hide');
+            reset(modal);
         });
         
-        function disableModalForm(modal, isUpdate, clear) {
-            var title = modal.find('.modal-body #title');
-            var contentName = modal.find('.modal-body #content-name');
-            var contentType = modal.find('.modal-body #content-type');
-            
-            if (clear) {
-                title.val('');
-                contentName.val('');
-                contentType.val('');
-            }
-
-            title.prop('disabled', true);
-            contentName.prop('disabled', true);
-            contentType.prop('disabled', true);            
-            
-            if (isUpdate) {
-                
-            }
+        function reset(modal) {
+            modal.find('#contents > .content:not(:first)').remove();
+            modal.find('.content-name').val('');
+            modal.find('.content-type').prop('selectedIndex', 0);
+            modal.find('#title').val('');
         }
         
-        function enableModalForm(modal, isUpdate) {
-            modal.find('.modal-body #title').prop('disabled', false);
-            modal.find('.modal-body #content-name').prop('disabled', false);
-            modal.find('.modal-body #content-type').prop('disabled', false);
-        }
-    
     });
 </script>

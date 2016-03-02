@@ -20,8 +20,8 @@ require_once realpath(SITE_DIR.'/Library/Packages/vendor/autoload.php');
 
 if (DEBUG) {
     $whoops = new \Whoops\Run;
-    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
     $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler);
+    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
     $whoops->register();
 }
 
