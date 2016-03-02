@@ -53,8 +53,15 @@ class Template extends BaseController
         $templateId = $this->_requestParam($_GET, 'id');
         $phases = $this->_requestParam($_POST, 'phases');
         
-        if ($phaseModel->addTemplatePhases($phases, $templateId)) {
-            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-update');
+        $template = (object) [
+            'id' => $templateId,
+            'is_default' => (!empty($this->_requestParam($_POST, 'is-default')))
+        ];
+        
+        if ($model->update($template)) {
+            if ($phaseModel->addTemplatePhases($phases, $templateId)) {
+                $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-update');
+            }
         }
 
         Components\Path::redirectRoute('template', ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);

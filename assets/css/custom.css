@@ -299,12 +299,22 @@ button.btn-primary {
     margin-top: 20px;
 }
 
-#phase-list li {
+#phase-list > li {
     background-color: #fafafa;
     border-radius: 0;
     border: 0 none;
     border-bottom: .1em solid #ccc;
     margin-bottom: 15px;
+}
+
+#phase-list .options > li > a {
+    color: #555 !important;
+    padding: 0;
+    margin: 0px 10px;
+}
+
+#phase-list .options > li > a:hover {
+    background-color: transparent;
 }
 
 #phase-list .sortable-ghost {

@@ -31,9 +31,21 @@ use Site\Objects as Objects;
                     
                     <ul id="phase-list" class="list-group">
                         <?php foreach ($viewData->data->phases as $phase) : ?>
-                            <li class="list-group-item">
+                            <li class="list-group-item phase-item">
                                 <?=$phase->title?>
                                 <input type="hidden" name="phases[]" value="<?=$phase->id?>">
+                                
+                                <ul class="nav navbar-nav navbar-right options">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-option-vertical"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" class="move-up">Move Up</a></li>
+                                            <li><a href="#" class="move-down">Move Down</a></li>
+                                            <li><a href="#" class="remove">Remove</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -89,6 +101,26 @@ use Site\Objects as Objects;
             animation: 200
         });
         
+        $('#phase-list .move-up').click(function() {
+            var phase = $(this).closest('.phase-item');
+
+            if ($(this).prev()) {
+                phase.insertBefore(phase.prev());
+            }
+        });
+        
+        $('#phase-list .move-down').click(function() {
+            var phase = $(this).closest('.phase-item');
+
+            if ($(this).next()) {
+                phase.insertAfter(phase.next());
+            }
+        });
+        
+        $('#phase-list .remove').click(function() {
+            $(this).closest('.phase-item').remove();
+        });
+   
     </script>
     
     <?php Helper\Page::includes('template/phase-modal-script'); ?>

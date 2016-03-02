@@ -79,12 +79,16 @@ class Template extends DAL
     }
     
     public function update($template) {
-        $this->_pdo->createQueryBuilder()
+        $query = $this->_pdo->createQueryBuilder()
             ->update('template')
-            ->set('template_title', ':title')
-            ->set('template_is_default', ':is_default')
-            ->where('template_id = :id')
-            ->setParameter('title', $template->title)
+            ->set('template_is_default', ':is_default');
+            
+        if (empty($template->title) == false) {
+            $query->set('template_title', ':title')
+                ->setParameter('title', $template->title);
+        }
+            
+        $query->where('template_id = :id')
             ->setParameter('is_default', $template->is_default)
             ->setParameter('id', (int) $template->id)
             ->execute();
