@@ -75,20 +75,16 @@ class Template extends DAL
             ->setParameter('creation_date', Utilities\DateTime::dbDateFormat())
             ->execute();
         
-        return true;
+        return $this->_pdo->lastInsertId();
     }
     
     public function update($template) {
-        $query = $this->_pdo->createQueryBuilder()
+        $this->_pdo->createQueryBuilder()
             ->update('template')
-            ->set('template_is_default', ':is_default');
-            
-        if (empty($template->title) == false) {
-            $query->set('template_title', ':title')
-                ->setParameter('title', $template->title);
-        }
-            
-        $query->where('template_id = :id')
+            ->set('template_is_default', ':is_default')
+            ->set('template_title', ':title')
+            ->where('template_id = :id')
+            ->setParameter('title', $template->title)
             ->setParameter('is_default', $template->is_default)
             ->setParameter('id', (int) $template->id)
             ->execute();

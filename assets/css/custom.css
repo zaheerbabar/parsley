@@ -334,6 +334,15 @@ button.btn-primary {
     font-weight: normal;
 }
 
+.template-panel .settings .container .glyphicon {
+    font-size: 1.3em;
+}
+
+.template-panel .settings .container span {
+    vertical-align: middle;
+    margin-right: 3px;
+}
+
 @media (min-width: 768px) {
     .navbar-static .navbar-brand {
         padding-top: 18px;

@@ -27,7 +27,7 @@ use Site\Helper as Helper;
         <link href="/assets/css/bootstrap-reset.css" rel="stylesheet">
         
         <link href="/assets/css/common.css" rel="stylesheet">
-        <link href="/assets/css/custom.css?rev=5" rel="stylesheet">
+        <link href="/assets/css/custom.css?rev=6" rel="stylesheet">
         
 
         <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->

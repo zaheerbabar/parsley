@@ -65,7 +65,6 @@ $contentTypes = Utilities\Data::arrayObjColumn($viewData->data->content_types, '
                 </div>
             </div>
             
-            <input type="hidden" id="template-id" value="<?=$viewData->data->id?>">
         </form>
 
       </div>

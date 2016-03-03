@@ -1,6 +1,7 @@
 {
     "confirm-delete": "Are you sure you want to delete?",
     "success-add": "Record has been added successfully.",
+    "success-save": "Record has been saved successfully.",
     "success-update": "Record has been updated successfully.",
     "success-delete": "Record has been deleted successfully.",
     "error-delete": "There was an error deleting the record.",

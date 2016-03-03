@@ -40,7 +40,7 @@ $tokenField = Helper\Protection::viewPublicTokenField();
                     </div>
                 </form>
             
-                <a href="#" class="btn action-btn" data-toggle="modal" data-target="#new-modal"><i class="glyphicon glyphicon-plus"></i> New Template</a>
+                <a href="<?=Helper\Link::route('template/create')?>" class="btn action-btn"><i class="glyphicon glyphicon-plus"></i> New Template</a>
             </div>
  
         </div>
@@ -71,7 +71,7 @@ $tokenField = Helper\Protection::viewPublicTokenField();
                         <a class="btn btn-xs action-btn" href="<?=Helper\Link::route('template', null, true, ['id' => $obj->id])?>">
                             <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-                        <a class="btn btn-xs action-btn" data-toggle="modal" data-target="#edit-modal" data-id="<?=$obj->id?>" href="#">
+                        <a class="btn btn-xs action-btn" href="<?=Helper\Link::route('template/edit', null, true, ['id' => $obj->id])?>">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                         <a class="btn btn-xs action-btn" 

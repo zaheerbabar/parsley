@@ -31,6 +31,27 @@ class Template extends BaseController
             
             $phaseModel = new Model\Phase();
             $viewData->phases = $phaseModel->getTemplatePhases($viewData->id, true);
+            
+            return $this->_responseHTML($viewData, 'template/view');
+        }
+        
+        return $this->_responseHTMLError(404);
+    }
+    
+    public function edit() {
+        Components\Auth::redirectUnAuth();
+        
+        if ($this->_isPostBack() == false || $this->_validateGet() == false) {
+            $this->_setGlobalMessage(null, 'error-request', Objects\MessageType::ERROR);
+            return $this->_responseHTMLError(400);
+        }
+        
+        $model = new Model\Template();
+        if ($viewData = $model->getByID($this->_requestParam($_GET, 'id'))) {
+            $viewData->creation_date = Utilities\DateTime::jsDateFormat($viewData->creation_date);
+            
+            $phaseModel = new Model\Phase();
+            $viewData->phases = $phaseModel->getTemplatePhases($viewData->id, true);
 
             $viewData->json_phases = [];
             foreach($viewData->phases as $phase) {
@@ -55,10 +76,21 @@ class Template extends BaseController
 
             $viewData->content_types = $phaseModel->getContentTypes();
             
-            return $this->_responseHTML($viewData, 'template/view');
+            return $this->_responseHTML($viewData, 'template/edit');
         }
         
         return $this->_responseHTMLError(404);
+    }
+    
+    public function create() {
+        Components\Auth::redirectUnAuth();
+        
+        $phaseModel = new Model\Phase();
+        
+        $viewData = new \stdClass();
+        $viewData->content_types = $phaseModel->getContentTypes();
+            
+        return $this->_responseHTML($viewData, 'template/new');
     }
     
     public function save() {
@@ -66,7 +98,41 @@ class Template extends BaseController
         
         if ($this->_isPostBack() == false || $this->_validateSave() == false) {
             $this->_setGlobalMessage(null, 'error-request', Objects\MessageType::ERROR);
-            Components\Path::redirectRoute('template', ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);
+            Components\Path::redirectRoute('template/new');
+        }
+        
+        $model = new Model\Template();
+        $phaseModel = new Model\Phase();
+        
+        $phases = $this->_requestParam($_POST, 'phase');
+        
+        $_phases = [];
+        if (empty($phases) == false) {
+            foreach($phases as $phase) {
+                $_phases[] = json_decode(rawurldecode($phase));
+            }
+        }
+
+        $template = (object) [
+            'title' => $this->_requestParam($_POST, 'title'),
+            'is_default' => ($this->_requestParam($_POST, 'is-default') == true)
+        ];
+        
+        if ($templateId = $model->create($template)) {
+            if ($phaseModel->saveTemplatePhases($_phases, $templateId)) {
+                $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-save');
+            }
+        }
+
+        Components\Path::redirectRoute('template/manage');
+    }
+
+    public function update() {
+        Components\Auth::redirectUnAuth();
+        
+        if ($this->_isPostBack() == false || $this->_validateUpdate() == false) {
+            $this->_setGlobalMessage(null, 'error-request', Objects\MessageType::ERROR);
+            Components\Path::redirectRoute('template/edit', ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);
         }
         
         $model = new Model\Template();
@@ -84,6 +150,7 @@ class Template extends BaseController
 
         $template = (object) [
             'id' => $templateId,
+            'title' => $this->_requestParam($_POST, 'title'),
             'is_default' => ($this->_requestParam($_POST, 'is-default') == true)
         ];
         
@@ -95,25 +162,7 @@ class Template extends BaseController
 
         Components\Path::redirectRoute('template', ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);
     }
-    
-    public function get() {
-        Components\Auth::redirectUnAuth();
-        
-        if ($this->_isPostBack() == false || $this->_validateGet() == false) {
-            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::ERROR);
-            return $this->_responseJSON(null, 400);
-        }
-        
-        $model = new Model\Template();
-        if ($viewData = $model->getByID($_GET['id'])) {
-            $viewData->creation_date = Utilities\DateTime::jsDateFormat($viewData->creation_date);
-            
-            return $this->_responseJSON($viewData);
-        }
-        
-        return $this->_responseJSON(null, 404);
-    }
-    
+   
     public function manage() {
         Components\Auth::redirectUnAuth();
         
@@ -139,50 +188,6 @@ class Template extends BaseController
         return $this->_responseHTML($viewData, 'template/list');
     }
     
-    public function add() {
-        Components\Auth::redirectUnAuth();
-        
-        if ($this->_isPostBack() == false || $this->_validateAdd() == false) {
-            return $this->_responseJSON(null, 400);
-        }
-        
-        $model = new Model\Template();
-        
-        $template = (object) [
-            'title' => $this->_requestParam($_POST, 'title'),
-            'is_default' => ($this->_requestParam($_POST, 'is_default') == "true")
-        ];
-        
-        if ($model->create($template)) {
-            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-add');
-        }
-
-        return $this->_responseJSON();
-    }
-    
-    public function update() {
-        Components\Auth::redirectUnAuth();
-        
-        if ($this->_isPostBack() == false || $this->_validateUpdate() == false) {
-            $this->_setGlobalMessage(null, 'error-request', Objects\MessageType::ERROR);
-            return $this->_responseJSON(null, 400);
-        }
-        
-        $model = new Model\Template();
-        
-        $template = (object) [
-            'id' => $this->_requestParam($_POST, 'id'),
-            'title' => $this->_requestParam($_POST, 'title'),
-            'is_default' => ($this->_requestParam($_POST, 'is_default') == "true")
-        ];
-        
-        if ($model->update($template)) {
-            $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-update');
-        }
-
-        return $this->_responseJSON();
-    }
-    
     public function delete() {
         if ($this->_isPostBack() == false || $this->_validateDelete() == false) {
             $this->_setFlashValue(Objects\MessageType::ERROR, 'error-delete');
@@ -201,7 +206,6 @@ class Template extends BaseController
         Components\Path::redirectRoute('template/manage', ['_page' => $this->_requestedPage()]);
     }
     
-    
     private function _validateGet() {
         $isValid = true;
         
@@ -212,38 +216,21 @@ class Template extends BaseController
         return $isValid;
     }
     
-    private function _validateAdd() {
-        if (!$this->_validatePrivateRequest()) return false;
+    private function _validateUpdate() {
+        if ($this->_validatePublicRequest() == false) return false;
         
         $errors = [];
         
+        if (empty($_GET['id'])) {
+             $errors['id'] = true;
+        }
+                
         if (empty($_POST['title'])) {
             $errors['title'] = true;
         }
- 
+
         if (empty($errors) == false) {
-            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
-            return false;
-        }
-        
-        return true;
-    }
-    
-    private function _validateAddPhase() {
-        if (!$this->_validatePrivateRequest()) return false;
-        
-        $errors = [];
-        
-        if (empty($_POST['title'])) {
-            $errors['title'] = true;
-        }
-        
-        if (empty($_POST['content_types'])) {
-            $errors['content_types'] = true;
-        }
- 
-        if (empty($errors) == false) {
-            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
+            $this->_setFlashValue(Objects\MessageType::ERROR, 'error-save');
             return false;
         }
         
@@ -255,33 +242,12 @@ class Template extends BaseController
         
         $errors = [];
         
-        if (empty($_GET['id'])) {
-             $errors['id'] = true;
+        if (empty($_POST['title'])) {
+            $errors['title'] = true;
         }
 
         if (empty($errors) == false) {
             $this->_setFlashValue(Objects\MessageType::ERROR, 'error-save');
-            return false;
-        }
-        
-        return true;
-    }
-    
-    private function _validateUpdate() {
-        if (!$this->_validatePrivateRequest()) return false;
-        
-        $errors = [];
-        
-        if (empty($_POST['id'])) {
-             $errors['id'] = true;
-        }
-        
-        if (empty($_POST['title'])) {
-            $errors['title'] = true;
-        }
- 
-        if (empty($errors) == false) {
-            $this->_setGlobalMessage(null, 'error-json', Objects\MessageType::WARNING);
             return false;
         }
         
