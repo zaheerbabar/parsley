@@ -8,12 +8,6 @@ $tokenField = Helper\Protection::viewPublicTokenField();
 
 ?>
 
-<?php Helper\Section::begin('head'); ?>
-
-    <?php Helper\Page::includes('template/modal-style'); ?>
-    
-<?php Helper\Section::end(); ?>
-
 <?php Helper\Page::setTitle('Templates'); ?>
 <?php Helper\Page::setIndex('templates'); ?>
 <?php Helper\Page::includes('header'); ?>
@@ -90,8 +84,6 @@ $tokenField = Helper\Protection::viewPublicTokenField();
     </div>
 </div>
 
-<?php Helper\Page::includes('template/modal'); ?>
-
 <?php endif; ?>
 
 <?php Helper\Section::begin('footer'); ?>
@@ -114,8 +106,6 @@ $tokenField = Helper\Protection::viewPublicTokenField();
             });
         <?php endif; ?>
     </script>
-    
-    <?php Helper\Page::includes('template/modal-script'); ?>
     
 <?php Helper\Section::end(); ?>
 

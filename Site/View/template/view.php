@@ -62,12 +62,5 @@ use Site\Objects as Objects;
 
 </div>
 
-<?php Helper\Section::begin('footer'); ?>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.4.2/Sortable.min.js"></script>
-    <script src="/assets/plugins/validation-engine/jquery.validationEngine-en.js"></script>
-    <script src="/assets/plugins/validation-engine/jquery.validationEngine.js"></script>
-
-<?php Helper\Section::end(); ?>
-
 <?php Helper\Page::includes('bottom'); ?>
 <?php Helper\Page::includes('footer'); ?>
