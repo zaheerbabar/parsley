@@ -120,7 +120,7 @@ class Template extends BaseController
         
         if ($templateId = $model->create($template)) {
             if ($phaseModel->saveTemplatePhases($_phases, $templateId)) {
-                $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-save');
+                $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-create');
             }
         }
 
@@ -195,8 +195,13 @@ class Template extends BaseController
         }
         
         $model = new Model\Template();
+        $phaseModel = new Model\Phase();
         
-        if ($model->delete($this->_requestParam($_GET, 'id'))) {
+        $templateId = $this->_requestParam($_GET, 'id');
+        
+        if ($model->delete($templateId)) {
+            $phaseModel->deleteTemplatePhases($templateId);
+            
             $this->_setFlashValue(Objects\MessageType::SUCCESS, 'success-delete');
         }
         else {

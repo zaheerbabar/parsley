@@ -166,4 +166,20 @@ class Phase extends DAL
         
         return $result;
     }
+    
+    public function deleteTemplatePhases($templateId) {
+        return $this->deletePhases(false, $templateId);
+    }
+    
+    public function deletePhases($isCustom, $parentId) {
+        $this->_pdo->createQueryBuilder()
+            ->delete('phase')
+            ->where('phase_is_custom = :is_custom')
+            ->andWhere('phase_parent_id = :parent_id')
+            ->setParameter('is_custom', (bool) $isCustom)
+            ->setParameter('parent_id', (int) $parentId)
+            ->execute();
+        
+        return true;
+    }
 }
