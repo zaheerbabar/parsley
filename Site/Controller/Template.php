@@ -132,7 +132,8 @@ class Template extends BaseController
         
         if ($this->_isPostBack() == false || $this->_validateUpdate() == false) {
             $this->_setGlobalMessage(null, 'error-request', Objects\MessageType::ERROR);
-            Components\Path::redirectRoute('template/edit', ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);
+            Components\Path::redirectRoute('template/edit', 
+                ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);
         }
         
         $model = new Model\Template();
@@ -160,7 +161,8 @@ class Template extends BaseController
             }
         }
 
-        Components\Path::redirectRoute('template', ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);
+        Components\Path::redirectRoute('template', 
+            ['_postback' => 1, 'id' => $this->_requestParam($_GET, 'id')]);
     }
    
     public function manage() {

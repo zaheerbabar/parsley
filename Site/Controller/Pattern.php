@@ -1,10 +1,9 @@
 <?php
-namespace Site\Controller\Workflow;
+namespace Site\Controller;
 
-use Site\Controller as Controller;
 use Site\Components as Components;
 
-class Pattern extends Controller\BaseController
+class Pattern extends BaseController
 {
     public function index() {
         Components\Auth::redirectUnAuth();

@@ -29,7 +29,7 @@ class Account extends Controller\BaseController
             $model = new Model\User();
             
             if (($model->login($user)) != false) {                
-                Components\Path::redirectRoute('workflow/pattern');
+                Components\Path::redirectRoute('pattern');
             }
 
             $this->_setMessage('warning', 'error-invalid', Objects\MessageType::ERROR);
