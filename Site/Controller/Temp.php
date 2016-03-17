@@ -1,6 +1,8 @@
 <?php
 namespace Site\Controller;
 
+use Site\Model as Model;
+
 class Temp extends BaseController
 {
     public function __construct() {
@@ -9,13 +11,18 @@ class Temp extends BaseController
     
     public function index() {
         
-        $viewData = "Hellow World!";
+        $model = new Model\Temp();
+        
+        $viewData = $model->getPatterns();
         
         return $this->_responseHTML($viewData, 'temp');
     }
     
     public function something() {
-        return "Something...";
+        
+        $viewData = "some data";
+        
+        return $this->_responseJSON($viewData);
     }
     
 }
