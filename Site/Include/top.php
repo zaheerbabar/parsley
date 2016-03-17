@@ -21,7 +21,7 @@ $token = Helper\Protection::viewPrivateToken();
             <?php if (Components\Auth::isAuth()) : ?>
                 <ul class="nav navbar-nav main-navbar-nav">
                     <li class="<?=Helper\Selection::isIndex('patterns')?>">
-                        <a href="<?=Helper\Link::route('pattern')?>">Patterns</a>
+                        <a href="<?=Helper\Link::route('pattern/manage')?>">Patterns</a>
                     </li>
                     <li><a href="#">Pages</a></li>
                     <li><a href="#">Activity</a></li>

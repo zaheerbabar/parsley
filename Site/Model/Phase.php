@@ -11,6 +11,10 @@ class Phase extends DAL
         return $this->getPhases(false, $templateId, $getContentTypes);
     }
     
+    public function getPatternPhases($templateId, $getContentTypes = false) {
+        return $this->getPhases(true, $templateId, $getContentTypes);
+    }
+    
     public function getPhases($isCustom, $parentId, $getContentTypes = false) {
         $records = $this->_pdo->createQueryBuilder()
             ->select('phase_id', 'phase_title', 'phase_is_custom', 'phase_parent_id', 'phase_order')
@@ -70,8 +74,12 @@ class Phase extends DAL
     public function saveTemplatePhases($phases, $templateId) {
         return $this->savePhases($phases, false, $templateId);
     }
+
+    public function savePatternPhases($phases, $templateId) {
+        return $this->savePhases($phases, true, $templateId);
+    }
     
-    public function savePhases($phases, $isCustom, $parentId) {
+    private function savePhases($phases, $isCustom, $parentId) {
         $this->_pdo->createQueryBuilder()
             ->delete('phase')
             ->where('phase_parent_id = :parent_id')
@@ -171,7 +179,11 @@ class Phase extends DAL
         return $this->deletePhases(false, $templateId);
     }
     
-    public function deletePhases($isCustom, $parentId) {
+    public function deletePatternPhases($templateId) {
+        return $this->deletePhases(true, $templateId);
+    }
+    
+    private function deletePhases($isCustom, $parentId) {
         $this->_pdo->createQueryBuilder()
             ->delete('phase')
             ->where('phase_is_custom = :is_custom')
